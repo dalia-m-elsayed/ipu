@@ -1,0 +1,8 @@
+
+body {
+    direction: rtl;
+}
+
+th {
+    text-align: right;
+}
