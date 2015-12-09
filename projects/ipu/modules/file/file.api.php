@@ -26,11 +26,10 @@
  *
  * @see hook_field_access().
  */
-function hook_file_download_access($file_item, $entity_type, $entity)
-{
-    if ($entity_type == 'node') {
-        return node_access('view', $entity);
-    }
+function hook_file_download_access($file_item, $entity_type, $entity) {
+  if ($entity_type == 'node') {
+    return node_access('view', $entity);
+  }
 }
 
 /**
@@ -53,10 +52,9 @@ function hook_file_download_access($file_item, $entity_type, $entity)
  * @param $entity
  *   The $entity to which $file is referenced.
  */
-function hook_file_download_access_alter(&$grants, $file_item, $entity_type, $entity)
-{
-    // For our example module, we always enforce the rules set by node module.
-    if (isset($grants['node'])) {
-        $grants = array('node' => $grants['node']);
-    }
+function hook_file_download_access_alter(&$grants, $file_item, $entity_type, $entity) {
+  // For our example module, we always enforce the rules set by node module.
+  if (isset($grants['node'])) {
+    $grants = array('node' => $grants['node']);
+  }
 }

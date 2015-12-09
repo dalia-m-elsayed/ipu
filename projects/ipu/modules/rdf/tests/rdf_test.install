@@ -8,19 +8,18 @@
 /**
  * Implements hook_install().
  */
-function rdf_test_install()
-{
-    $rdf_mappings = array(
-        array(
-            'type' => 'node',
-            'bundle' => 'test_bundle_hook_install',
-            'mapping' => array(
-                'rdftype' => array('foo:mapping_install1', 'bar:mapping_install2'),
-            ),
-        ),
-    );
+function rdf_test_install() {
+  $rdf_mappings = array(
+    array(
+      'type' => 'node',
+      'bundle' => 'test_bundle_hook_install',
+      'mapping' => array(
+        'rdftype' => array('foo:mapping_install1', 'bar:mapping_install2'),
+      ),
+    ),
+  );
 
-    foreach ($rdf_mappings as $rdf_mapping) {
-        rdf_mapping_save($rdf_mapping);
-    }
+  foreach ($rdf_mappings as $rdf_mapping) {
+    rdf_mapping_save($rdf_mapping);
+  }
 }

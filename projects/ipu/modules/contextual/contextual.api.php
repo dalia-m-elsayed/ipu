@@ -29,11 +29,10 @@
  * @see contextual_pre_render_links()
  * @see contextual_element_info()
  */
-function hook_contextual_links_view_alter(&$element, $items)
-{
-    // Add another class to all contextual link lists to facilitate custom
-    // styling.
-    $element['#attributes']['class'][] = 'custom-class';
+function hook_contextual_links_view_alter(&$element, $items) {
+  // Add another class to all contextual link lists to facilitate custom
+  // styling.
+  $element['#attributes']['class'][] = 'custom-class';
 }
 
 /**

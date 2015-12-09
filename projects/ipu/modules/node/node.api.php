@@ -194,13 +194,12 @@
  *
  * @ingroup node_access
  */
-function hook_node_grants($account, $op)
-{
-    if (user_access('access private content', $account)) {
-        $grants['example'] = array(1);
-    }
-    $grants['example_author'] = array($account->uid);
-    return $grants;
+function hook_node_grants($account, $op) {
+  if (user_access('access private content', $account)) {
+    $grants['example'] = array(1);
+  }
+  $grants['example_author'] = array($account->uid);
+  return $grants;
 }
 
 /**
@@ -269,39 +268,38 @@ function hook_node_grants($account, $op)
  * @see hook_node_access_records_alter()
  * @ingroup node_access
  */
-function hook_node_access_records($node)
-{
-    // We only care about the node if it has been marked private. If not, it is
-    // treated just like any other node and we completely ignore it.
-    if ($node->private) {
-        $grants = array();
-        // Only published nodes should be viewable to all users. If we allow access
-        // blindly here, then all users could view an unpublished node.
-        if ($node->status) {
-            $grants[] = array(
-                'realm' => 'example',
-                'gid' => 1,
-                'grant_view' => 1,
-                'grant_update' => 0,
-                'grant_delete' => 0,
-                'priority' => 0,
-            );
-        }
-        // For the example_author array, the GID is equivalent to a UID, which
-        // means there are many groups of just 1 user.
-        // Note that an author can always view his or her nodes, even if they
-        // have status unpublished.
-        $grants[] = array(
-            'realm' => 'example_author',
-            'gid' => $node->uid,
-            'grant_view' => 1,
-            'grant_update' => 1,
-            'grant_delete' => 1,
-            'priority' => 0,
-        );
-
-        return $grants;
+function hook_node_access_records($node) {
+  // We only care about the node if it has been marked private. If not, it is
+  // treated just like any other node and we completely ignore it.
+  if ($node->private) {
+    $grants = array();
+    // Only published nodes should be viewable to all users. If we allow access
+    // blindly here, then all users could view an unpublished node.
+    if ($node->status) {
+      $grants[] = array(
+        'realm' => 'example',
+        'gid' => 1,
+        'grant_view' => 1,
+        'grant_update' => 0,
+        'grant_delete' => 0,
+        'priority' => 0,
+      );
     }
+    // For the example_author array, the GID is equivalent to a UID, which
+    // means there are many groups of just 1 user.
+    // Note that an author can always view his or her nodes, even if they
+    // have status unpublished.
+    $grants[] = array(
+      'realm' => 'example_author',
+      'gid' => $node->uid,
+      'grant_view' => 1,
+      'grant_update' => 1,
+      'grant_delete' => 1,
+      'priority' => 0,
+    );
+
+    return $grants;
+  }
 }
 
 /**
@@ -337,18 +335,17 @@ function hook_node_access_records($node)
  *
  * @ingroup node_access
  */
-function hook_node_access_records_alter(&$grants, $node)
-{
-    // Our module allows editors to mark specific articles with the 'is_preview'
-    // field. If the node being saved has a TRUE value for that field, then only
-    // our grants are retained, and other grants are removed. Doing so ensures
-    // that our rules are enforced no matter what priority other grants are given.
-    if ($node->is_preview) {
-        // Our module grants are set in $grants['example'].
-        $temp = $grants['example'];
-        // Now remove all module grants but our own.
-        $grants = array('example' => $temp);
-    }
+function hook_node_access_records_alter(&$grants, $node) {
+  // Our module allows editors to mark specific articles with the 'is_preview'
+  // field. If the node being saved has a TRUE value for that field, then only
+  // our grants are retained, and other grants are removed. Doing so ensures
+  // that our rules are enforced no matter what priority other grants are given.
+  if ($node->is_preview) {
+    // Our module grants are set in $grants['example'].
+    $temp = $grants['example'];
+    // Now remove all module grants but our own.
+    $grants = array('example' => $temp);
+  }
 }
 
 /**
@@ -385,24 +382,23 @@ function hook_node_access_records_alter(&$grants, $node)
  *
  * @ingroup node_access
  */
-function hook_node_grants_alter(&$grants, $account, $op)
-{
-    // Our sample module never allows certain roles to edit or delete
-    // content. Since some other node access modules might allow this
-    // permission, we expressly remove it by returning an empty $grants
-    // array for roles specified in our variable setting.
+function hook_node_grants_alter(&$grants, $account, $op) {
+  // Our sample module never allows certain roles to edit or delete
+  // content. Since some other node access modules might allow this
+  // permission, we expressly remove it by returning an empty $grants
+  // array for roles specified in our variable setting.
 
-    // Get our list of banned roles.
-    $restricted = variable_get('example_restricted_roles', array());
+  // Get our list of banned roles.
+  $restricted = variable_get('example_restricted_roles', array());
 
-    if ($op != 'view' && !empty($restricted)) {
-        // Now check the roles for this account against the restrictions.
-        foreach ($restricted as $role_id) {
-            if (isset($account->roles[$role_id])) {
-                $grants = array();
-            }
-        }
+  if ($op != 'view' && !empty($restricted)) {
+    // Now check the roles for this account against the restrictions.
+    foreach ($restricted as $role_id) {
+      if (isset($account->roles[$role_id])) {
+        $grants = array();
+      }
     }
+  }
 }
 
 /**
@@ -423,45 +419,44 @@ function hook_node_grants_alter(&$grants, $account, $op)
  *   - callback arguments: (optional) An array of additional arguments to pass
  *     to the callback function.
  */
-function hook_node_operations()
-{
-    $operations = array(
-        'publish' => array(
-            'label' => t('Publish selected content'),
-            'callback' => 'node_mass_update',
-            'callback arguments' => array('updates' => array('status' => NODE_PUBLISHED)),
-        ),
-        'unpublish' => array(
-            'label' => t('Unpublish selected content'),
-            'callback' => 'node_mass_update',
-            'callback arguments' => array('updates' => array('status' => NODE_NOT_PUBLISHED)),
-        ),
-        'promote' => array(
-            'label' => t('Promote selected content to front page'),
-            'callback' => 'node_mass_update',
-            'callback arguments' => array('updates' => array('status' => NODE_PUBLISHED, 'promote' => NODE_PROMOTED)),
-        ),
-        'demote' => array(
-            'label' => t('Demote selected content from front page'),
-            'callback' => 'node_mass_update',
-            'callback arguments' => array('updates' => array('promote' => NODE_NOT_PROMOTED)),
-        ),
-        'sticky' => array(
-            'label' => t('Make selected content sticky'),
-            'callback' => 'node_mass_update',
-            'callback arguments' => array('updates' => array('status' => NODE_PUBLISHED, 'sticky' => NODE_STICKY)),
-        ),
-        'unsticky' => array(
-            'label' => t('Make selected content not sticky'),
-            'callback' => 'node_mass_update',
-            'callback arguments' => array('updates' => array('sticky' => NODE_NOT_STICKY)),
-        ),
-        'delete' => array(
-            'label' => t('Delete selected content'),
-            'callback' => NULL,
-        ),
-    );
-    return $operations;
+function hook_node_operations() {
+  $operations = array(
+    'publish' => array(
+      'label' => t('Publish selected content'),
+      'callback' => 'node_mass_update',
+      'callback arguments' => array('updates' => array('status' => NODE_PUBLISHED)),
+    ),
+    'unpublish' => array(
+      'label' => t('Unpublish selected content'),
+      'callback' => 'node_mass_update',
+      'callback arguments' => array('updates' => array('status' => NODE_NOT_PUBLISHED)),
+    ),
+    'promote' => array(
+      'label' => t('Promote selected content to front page'),
+      'callback' => 'node_mass_update',
+      'callback arguments' => array('updates' => array('status' => NODE_PUBLISHED, 'promote' => NODE_PROMOTED)),
+    ),
+    'demote' => array(
+      'label' => t('Demote selected content from front page'),
+      'callback' => 'node_mass_update',
+      'callback arguments' => array('updates' => array('promote' => NODE_NOT_PROMOTED)),
+    ),
+    'sticky' => array(
+      'label' => t('Make selected content sticky'),
+      'callback' => 'node_mass_update',
+      'callback arguments' => array('updates' => array('status' => NODE_PUBLISHED, 'sticky' => NODE_STICKY)),
+    ),
+    'unsticky' => array(
+      'label' => t('Make selected content not sticky'),
+      'callback' => 'node_mass_update',
+      'callback arguments' => array('updates' => array('sticky' => NODE_NOT_STICKY)),
+    ),
+    'delete' => array(
+      'label' => t('Delete selected content'),
+      'callback' => NULL,
+    ),
+  );
+  return $operations;
 }
 
 /**
@@ -477,11 +472,10 @@ function hook_node_operations()
  *
  * @ingroup node_api_hooks
  */
-function hook_node_delete($node)
-{
-    db_delete('mytable')
-        ->condition('nid', $node->nid)
-        ->execute();
+function hook_node_delete($node) {
+  db_delete('mytable')
+    ->condition('nid', $node->nid)
+    ->execute();
 }
 
 /**
@@ -496,11 +490,10 @@ function hook_node_delete($node)
  *
  * @ingroup node_api_hooks
  */
-function hook_node_revision_delete($node)
-{
-    db_delete('mytable')
-        ->condition('vid', $node->vid)
-        ->execute();
+function hook_node_revision_delete($node) {
+  db_delete('mytable')
+    ->condition('vid', $node->vid)
+    ->execute();
 }
 
 /**
@@ -524,14 +517,13 @@ function hook_node_revision_delete($node)
  *
  * @ingroup node_api_hooks
  */
-function hook_node_insert($node)
-{
-    db_insert('mytable')
-        ->fields(array(
-            'nid' => $node->nid,
-            'extra' => $node->extra,
-        ))
-        ->execute();
+function hook_node_insert($node) {
+  db_insert('mytable')
+    ->fields(array(
+      'nid' => $node->nid,
+      'extra' => $node->extra,
+    ))
+    ->execute();
 }
 
 /**
@@ -562,17 +554,16 @@ function hook_node_insert($node)
  *
  * @ingroup node_api_hooks
  */
-function hook_node_load($nodes, $types)
-{
-    // Decide whether any of $types are relevant to our purposes.
-    if (count(array_intersect($types_we_want_to_process, $types))) {
-        // Gather our extra data for each of these nodes.
-        $result = db_query('SELECT nid, foo FROM {mytable} WHERE nid IN(:nids)', array(':nids' => array_keys($nodes)));
-        // Add our extra data to the node objects.
-        foreach ($result as $record) {
-            $nodes[$record->nid]->foo = $record->foo;
-        }
+function hook_node_load($nodes, $types) {
+  // Decide whether any of $types are relevant to our purposes.
+  if (count(array_intersect($types_we_want_to_process, $types))) {
+    // Gather our extra data for each of these nodes.
+    $result = db_query('SELECT nid, foo FROM {mytable} WHERE nid IN(:nids)', array(':nids' => array_keys($nodes)));
+    // Add our extra data to the node objects.
+    foreach ($result as $record) {
+      $nodes[$record->nid]->foo = $record->foo;
     }
+  }
 }
 
 /**
@@ -614,30 +605,29 @@ function hook_node_load($nodes, $types)
  *
  * @ingroup node_access
  */
-function hook_node_access($node, $op, $account)
-{
-    $type = is_string($node) ? $node : $node->type;
+function hook_node_access($node, $op, $account) {
+  $type = is_string($node) ? $node : $node->type;
 
-    if (in_array($type, node_permissions_get_configured_types())) {
-        if ($op == 'create' && user_access('create ' . $type . ' content', $account)) {
-            return NODE_ACCESS_ALLOW;
-        }
-
-        if ($op == 'update') {
-            if (user_access('edit any ' . $type . ' content', $account) || (user_access('edit own ' . $type . ' content', $account) && ($account->uid == $node->uid))) {
-                return NODE_ACCESS_ALLOW;
-            }
-        }
-
-        if ($op == 'delete') {
-            if (user_access('delete any ' . $type . ' content', $account) || (user_access('delete own ' . $type . ' content', $account) && ($account->uid == $node->uid))) {
-                return NODE_ACCESS_ALLOW;
-            }
-        }
+  if (in_array($type, node_permissions_get_configured_types())) {
+    if ($op == 'create' && user_access('create ' . $type . ' content', $account)) {
+      return NODE_ACCESS_ALLOW;
     }
 
-    // Returning nothing from this function would have the same effect.
-    return NODE_ACCESS_IGNORE;
+    if ($op == 'update') {
+      if (user_access('edit any ' . $type . ' content', $account) || (user_access('edit own ' . $type . ' content', $account) && ($account->uid == $node->uid))) {
+        return NODE_ACCESS_ALLOW;
+      }
+    }
+
+    if ($op == 'delete') {
+      if (user_access('delete any ' . $type . ' content', $account) || (user_access('delete own ' . $type . ' content', $account) && ($account->uid == $node->uid))) {
+        return NODE_ACCESS_ALLOW;
+      }
+    }
+  }
+
+  // Returning nothing from this function would have the same effect.
+  return NODE_ACCESS_IGNORE;
 }
 
 
@@ -652,11 +642,10 @@ function hook_node_access($node, $op, $account)
  *
  * @ingroup node_api_hooks
  */
-function hook_node_prepare($node)
-{
-    if (!isset($node->comment)) {
-        $node->comment = variable_get("comment_$node->type", COMMENT_NODE_OPEN);
-    }
+function hook_node_prepare($node) {
+  if (!isset($node->comment)) {
+    $node->comment = variable_get("comment_$node->type", COMMENT_NODE_OPEN);
+  }
 }
 
 /**
@@ -679,10 +668,9 @@ function hook_node_prepare($node)
  *
  * @ingroup node_api_hooks
  */
-function hook_node_search_result($node)
-{
-    $comments = db_query('SELECT comment_count FROM {node_comment_statistics} WHERE nid = :nid', array('nid' => $node->nid))->fetchField();
-    return array('comment' => format_plural($comments, '1 comment', '@count comments'));
+function hook_node_search_result($node) {
+  $comments = db_query('SELECT comment_count FROM {node_comment_statistics} WHERE nid = :nid', array('nid' => $node->nid))->fetchField();
+  return array('comment' => format_plural($comments, '1 comment', '@count comments'));
 }
 
 /**
@@ -696,14 +684,13 @@ function hook_node_search_result($node)
  *
  * @ingroup node_api_hooks
  */
-function hook_node_presave($node)
-{
-    if ($node->nid && $node->moderate) {
-        // Reset votes when node is updated:
-        $node->score = 0;
-        $node->users = '';
-        $node->votes = 0;
-    }
+function hook_node_presave($node) {
+  if ($node->nid && $node->moderate) {
+    // Reset votes when node is updated:
+    $node->score = 0;
+    $node->users = '';
+    $node->votes = 0;
+  }
 }
 
 /**
@@ -727,12 +714,11 @@ function hook_node_presave($node)
  *
  * @ingroup node_api_hooks
  */
-function hook_node_update($node)
-{
-    db_update('mytable')
-        ->fields(array('extra' => $node->extra))
-        ->condition('nid', $node->nid)
-        ->execute();
+function hook_node_update($node) {
+  db_update('mytable')
+    ->fields(array('extra' => $node->extra))
+    ->condition('nid', $node->nid)
+    ->execute();
 }
 
 /**
@@ -749,14 +735,13 @@ function hook_node_update($node)
  *
  * @ingroup node_api_hooks
  */
-function hook_node_update_index($node)
-{
-    $text = '';
-    $comments = db_query('SELECT subject, comment, format FROM {comment} WHERE nid = :nid AND status = :status', array(':nid' => $node->nid, ':status' => COMMENT_PUBLISHED));
-    foreach ($comments as $comment) {
-        $text .= '<h2>' . check_plain($comment->subject) . '</h2>' . check_markup($comment->comment, $comment->format, '', TRUE);
-    }
-    return $text;
+function hook_node_update_index($node) {
+  $text = '';
+  $comments = db_query('SELECT subject, comment, format FROM {comment} WHERE nid = :nid AND status = :status', array(':nid' => $node->nid, ':status' => COMMENT_PUBLISHED));
+  foreach ($comments as $comment) {
+    $text .= '<h2>' . check_plain($comment->subject) . '</h2>' . check_markup($comment->comment, $comment->format, '', TRUE);
+  }
+  return $text;
 }
 
 /**
@@ -783,13 +768,12 @@ function hook_node_update_index($node)
  *
  * @ingroup node_api_hooks
  */
-function hook_node_validate($node, $form, &$form_state)
-{
-    if (isset($node->end) && isset($node->start)) {
-        if ($node->start > $node->end) {
-            form_set_error('time', t('An event may not end before it starts.'));
-        }
+function hook_node_validate($node, $form, &$form_state) {
+  if (isset($node->end) && isset($node->start)) {
+    if ($node->start > $node->end) {
+      form_set_error('time', t('An event may not end before it starts.'));
     }
+  }
 }
 
 /**
@@ -812,13 +796,12 @@ function hook_node_validate($node, $form, &$form_state)
  *
  * @ingroup node_api_hooks
  */
-function hook_node_submit($node, $form, &$form_state)
-{
-    // Decompose the selected menu parent option into 'menu_name' and 'plid', if
-    // the form used the default parent selection widget.
-    if (!empty($form_state['values']['menu']['parent'])) {
-        list($node->menu['menu_name'], $node->menu['plid']) = explode(':', $form_state['values']['menu']['parent']);
-    }
+function hook_node_submit($node, $form, &$form_state) {
+  // Decompose the selected menu parent option into 'menu_name' and 'plid', if
+  // the form used the default parent selection widget.
+  if (!empty($form_state['values']['menu']['parent'])) {
+    list($node->menu['menu_name'], $node->menu['plid']) = explode(':', $form_state['values']['menu']['parent']);
+  }
 }
 
 /**
@@ -848,13 +831,12 @@ function hook_node_submit($node, $form, &$form_state)
  *
  * @ingroup node_api_hooks
  */
-function hook_node_view($node, $view_mode, $langcode)
-{
-    $node->content['my_additional_field'] = array(
-        '#markup' => $additional_field,
-        '#weight' => 10,
-        '#theme' => 'mymodule_my_additional_field',
-    );
+function hook_node_view($node, $view_mode, $langcode) {
+  $node->content['my_additional_field'] = array(
+    '#markup' => $additional_field,
+    '#weight' => 10,
+    '#theme' => 'mymodule_my_additional_field',
+  );
 }
 
 /**
@@ -877,15 +859,14 @@ function hook_node_view($node, $view_mode, $langcode)
  *
  * @ingroup node_api_hooks
  */
-function hook_node_view_alter(&$build)
-{
-    if ($build['#view_mode'] == 'full' && isset($build['an_additional_field'])) {
-        // Change its weight.
-        $build['an_additional_field']['#weight'] = -10;
-    }
+function hook_node_view_alter(&$build) {
+  if ($build['#view_mode'] == 'full' && isset($build['an_additional_field'])) {
+    // Change its weight.
+    $build['an_additional_field']['#weight'] = -10;
+  }
 
-    // Add a #post_render callback to act on the rendered HTML of the node.
-    $build['#post_render'][] = 'my_module_node_post_render';
+  // Add a #post_render callback to act on the rendered HTML of the node.
+  $build['#post_render'][] = 'my_module_node_post_render';
 }
 
 /**
@@ -910,7 +891,7 @@ function hook_node_view_alter(&$build)
  *   - base: (required) The base name for implementations of node-type-specific
  *     hooks that respond to this node type. Base is usually the name of the
  *     module or 'node_content', but not always. See
- * @link node_api_hooks Node API hooks @endlink for more information.
+ *     @link node_api_hooks Node API hooks @endlink for more information.
  *   - description: (required) A brief description of the node type.
  *   - help: (optional) Help information shown to the user when creating a node
  *     of this type.
@@ -932,15 +913,14 @@ function hook_node_view_alter(&$build)
  *
  * @ingroup node_api_hooks
  */
-function hook_node_info()
-{
-    return array(
-        'blog' => array(
-            'name' => t('Blog entry'),
-            'base' => 'blog',
-            'description' => t('Use for multi-user blogs. Every user gets a personal blog.'),
-        )
-    );
+function hook_node_info() {
+  return array(
+    'blog' => array(
+      'name' => t('Blog entry'),
+      'base' => 'blog',
+      'description' => t('Use for multi-user blogs. Every user gets a personal blog.'),
+    )
+  );
 }
 
 /**
@@ -986,29 +966,28 @@ function hook_node_info()
  *
  * @ingroup node_api_hooks
  */
-function hook_ranking()
-{
-    // If voting is disabled, we can avoid returning the array, no hard feelings.
-    if (variable_get('vote_node_enabled', TRUE)) {
-        return array(
-            'vote_average' => array(
-                'title' => t('Average vote'),
-                // Note that we use i.sid, the search index's search item id, rather than
-                // n.nid.
-                'join' => array(
-                    'type' => 'LEFT',
-                    'table' => 'vote_node_data',
-                    'alias' => 'vote_node_data',
-                    'on' => 'vote_node_data.nid = i.sid',
-                ),
-                // The highest possible score should be 1, and the lowest possible score,
-                // always 0, should be 0.
-                'score' => 'vote_node_data.average / CAST(%f AS DECIMAL)',
-                // Pass in the highest possible voting score as a decimal argument.
-                'arguments' => array(variable_get('vote_score_max', 5)),
-            ),
-        );
-    }
+function hook_ranking() {
+  // If voting is disabled, we can avoid returning the array, no hard feelings.
+  if (variable_get('vote_node_enabled', TRUE)) {
+    return array(
+      'vote_average' => array(
+        'title' => t('Average vote'),
+        // Note that we use i.sid, the search index's search item id, rather than
+        // n.nid.
+        'join' => array(
+          'type' => 'LEFT',
+          'table' => 'vote_node_data',
+          'alias' => 'vote_node_data',
+          'on' => 'vote_node_data.nid = i.sid',
+        ),
+        // The highest possible score should be 1, and the lowest possible score,
+        // always 0, should be 0.
+        'score' => 'vote_node_data.average / CAST(%f AS DECIMAL)',
+        // Pass in the highest possible voting score as a decimal argument.
+        'arguments' => array(variable_get('vote_score_max', 5)),
+      ),
+    );
+  }
 }
 
 
@@ -1021,9 +1000,8 @@ function hook_ranking()
  * @param $info
  *   The node type object that is being created.
  */
-function hook_node_type_insert($info)
-{
-    drupal_set_message(t('You have just created a content type with a machine name %type.', array('%type' => $info->type)));
+function hook_node_type_insert($info) {
+  drupal_set_message(t('You have just created a content type with a machine name %type.', array('%type' => $info->type)));
 }
 
 /**
@@ -1035,13 +1013,12 @@ function hook_node_type_insert($info)
  * @param $info
  *   The node type object that is being updated.
  */
-function hook_node_type_update($info)
-{
-    if (!empty($info->old_type) && $info->old_type != $info->type) {
-        $setting = variable_get('comment_' . $info->old_type, COMMENT_NODE_OPEN);
-        variable_del('comment_' . $info->old_type);
-        variable_set('comment_' . $info->type, $setting);
-    }
+function hook_node_type_update($info) {
+  if (!empty($info->old_type) && $info->old_type != $info->type) {
+    $setting = variable_get('comment_' . $info->old_type, COMMENT_NODE_OPEN);
+    variable_del('comment_' . $info->old_type);
+    variable_set('comment_' . $info->type, $setting);
+  }
 }
 
 /**
@@ -1053,9 +1030,8 @@ function hook_node_type_update($info)
  * @param $info
  *   The node type object that is being deleted.
  */
-function hook_node_type_delete($info)
-{
-    variable_del('comment_' . $info->type);
+function hook_node_type_delete($info) {
+  variable_del('comment_' . $info->type);
 }
 
 /**
@@ -1084,11 +1060,10 @@ function hook_node_type_delete($info)
  *
  * @ingroup node_api_hooks
  */
-function hook_delete($node)
-{
-    db_delete('mytable')
-        ->condition('nid', $node->nid)
-        ->execute();
+function hook_delete($node) {
+  db_delete('mytable')
+    ->condition('nid', $node->nid)
+    ->execute();
 }
 
 /**
@@ -1108,11 +1083,10 @@ function hook_delete($node)
  *
  * @ingroup node_api_hooks
  */
-function hook_prepare($node)
-{
-    if (!isset($node->mymodule_value)) {
-        $node->mymodule_value = 'foo';
-    }
+function hook_prepare($node) {
+  if (!isset($node->mymodule_value)) {
+    $node->mymodule_value = 'foo';
+  }
 }
 
 /**
@@ -1146,36 +1120,35 @@ function hook_prepare($node)
  *
  * @ingroup node_api_hooks
  */
-function hook_form($node, &$form_state)
-{
-    $type = node_type_get_type($node);
+function hook_form($node, &$form_state) {
+  $type = node_type_get_type($node);
 
-    $form['title'] = array(
-        '#type' => 'textfield',
-        '#title' => check_plain($type->title_label),
-        '#default_value' => !empty($node->title) ? $node->title : '',
-        '#required' => TRUE, '#weight' => -5
-    );
+  $form['title'] = array(
+    '#type' => 'textfield',
+    '#title' => check_plain($type->title_label),
+    '#default_value' => !empty($node->title) ? $node->title : '',
+    '#required' => TRUE, '#weight' => -5
+  );
 
-    $form['field1'] = array(
-        '#type' => 'textfield',
-        '#title' => t('Custom field'),
-        '#default_value' => $node->field1,
-        '#maxlength' => 127,
-    );
-    $form['selectbox'] = array(
-        '#type' => 'select',
-        '#title' => t('Select box'),
-        '#default_value' => $node->selectbox,
-        '#options' => array(
-            1 => 'Option A',
-            2 => 'Option B',
-            3 => 'Option C',
-        ),
-        '#description' => t('Choose an option.'),
-    );
+  $form['field1'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Custom field'),
+    '#default_value' => $node->field1,
+    '#maxlength' => 127,
+  );
+  $form['selectbox'] = array(
+    '#type' => 'select',
+    '#title' => t('Select box'),
+    '#default_value' => $node->selectbox,
+    '#options' => array(
+      1 => 'Option A',
+      2 => 'Option B',
+      3 => 'Option C',
+    ),
+    '#description' => t('Choose an option.'),
+  );
 
-    return $form;
+  return $form;
 }
 
 /**
@@ -1196,14 +1169,13 @@ function hook_form($node, &$form_state)
  *
  * @ingroup node_api_hooks
  */
-function hook_insert($node)
-{
-    db_insert('mytable')
-        ->fields(array(
-            'nid' => $node->nid,
-            'extra' => $node->extra,
-        ))
-        ->execute();
+function hook_insert($node) {
+  db_insert('mytable')
+    ->fields(array(
+      'nid' => $node->nid,
+      'extra' => $node->extra,
+    ))
+    ->execute();
 }
 
 /**
@@ -1236,12 +1208,11 @@ function hook_insert($node)
  *
  * @ingroup node_api_hooks
  */
-function hook_load($nodes)
-{
-    $result = db_query('SELECT nid, foo FROM {mytable} WHERE nid IN (:nids)', array(':nids' => array_keys($nodes)));
-    foreach ($result as $record) {
-        $nodes[$record->nid]->foo = $record->foo;
-    }
+function hook_load($nodes) {
+  $result = db_query('SELECT nid, foo FROM {mytable} WHERE nid IN (:nids)', array(':nids' => array_keys($nodes)));
+  foreach ($result as $record) {
+    $nodes[$record->nid]->foo = $record->foo;
+  }
 }
 
 /**
@@ -1262,12 +1233,11 @@ function hook_load($nodes)
  *
  * @ingroup node_api_hooks
  */
-function hook_update($node)
-{
-    db_update('mytable')
-        ->fields(array('extra' => $node->extra))
-        ->condition('nid', $node->nid)
-        ->execute();
+function hook_update($node) {
+  db_update('mytable')
+    ->fields(array('extra' => $node->extra))
+    ->condition('nid', $node->nid)
+    ->execute();
 }
 
 /**
@@ -1299,13 +1269,12 @@ function hook_update($node)
  *
  * @ingroup node_api_hooks
  */
-function hook_validate($node, $form, &$form_state)
-{
-    if (isset($node->end) && isset($node->start)) {
-        if ($node->start > $node->end) {
-            form_set_error('time', t('An event may not end before it starts.'));
-        }
+function hook_validate($node, $form, &$form_state) {
+  if (isset($node->end) && isset($node->start)) {
+    if ($node->start > $node->end) {
+      form_set_error('time', t('An event may not end before it starts.'));
     }
+  }
 }
 
 /**
@@ -1342,22 +1311,21 @@ function hook_validate($node, $form, &$form_state)
  *
  * @ingroup node_api_hooks
  */
-function hook_view($node, $view_mode, $langcode = NULL)
-{
-    if ($view_mode == 'full' && node_is_page($node)) {
-        $breadcrumb = array();
-        $breadcrumb[] = l(t('Home'), NULL);
-        $breadcrumb[] = l(t('Example'), 'example');
-        $breadcrumb[] = l($node->field1, 'example/' . $node->field1);
-        drupal_set_breadcrumb($breadcrumb);
-    }
+function hook_view($node, $view_mode, $langcode = NULL) {
+  if ($view_mode == 'full' && node_is_page($node)) {
+    $breadcrumb = array();
+    $breadcrumb[] = l(t('Home'), NULL);
+    $breadcrumb[] = l(t('Example'), 'example');
+    $breadcrumb[] = l($node->field1, 'example/' . $node->field1);
+    drupal_set_breadcrumb($breadcrumb);
+  }
 
-    $node->content['myfield'] = array(
-        '#markup' => theme('mymodule_myfield', $node->myfield),
-        '#weight' => 1,
-    );
+  $node->content['myfield'] = array(
+    '#markup' => theme('mymodule_myfield', $node->myfield),
+    '#weight' => 1,
+  );
 
-    return $node;
+  return $node;
 }
 
 /**

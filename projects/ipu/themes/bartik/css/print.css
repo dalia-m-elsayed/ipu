@@ -1,20 +1,19 @@
+
 /* ---------- General Layout ---------- */
 
 body,
 input,
 textarea,
 select {
-    color: #000;
-    background: none;
+  color: #000;
+  background: none;
 }
-
 body.two-sidebars,
 body.sidebar-first,
 body.sidebar-second,
 body {
-    width: 640px;
+  width: 640px;
 }
-
 #sidebar-first,
 #sidebar-second,
 .navigation,
@@ -22,23 +21,20 @@ body {
 #footer-wrapper,
 .tabs,
 .add-or-remove-shortcuts {
-    display: none;
+  display: none;
 }
-
 .one-sidebar #content,
 .two-sidebars #content {
-    width: 100%;
+  width: 100%;
 }
-
 #triptych-wrapper {
-    width: 960px;
-    margin: 0;
-    padding: 0;
-    border: none;
+  width: 960px;
+  margin: 0;
+  padding: 0;
+  border: none;
 }
-
 #triptych-first, #triptych-middle, #triptych-last {
-    width: 250px;
+  width: 250px;
 }
 
 /* ---------- Node Pages ---------- */
@@ -46,5 +42,5 @@ body {
 #comments .title,
 #comments form,
 .comment_forbidden {
-    display: none;
+  display: none;
 }

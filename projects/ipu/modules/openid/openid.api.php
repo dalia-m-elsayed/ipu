@@ -23,12 +23,11 @@
  *   An associative array of parameters to be merged with the default list.
  *
  */
-function hook_openid($op, $request)
-{
-    if ($op == 'request') {
-        $request['openid.identity'] = 'http://myname.myopenid.com/';
-    }
-    return $request;
+function hook_openid($op, $request) {
+  if ($op == 'request') {
+    $request['openid.identity'] = 'http://myname.myopenid.com/';
+  }
+  return $request;
 }
 
 /**
@@ -40,11 +39,10 @@ function hook_openid($op, $request)
  *   The Drupal user account that logged in
  *
  */
-function hook_openid_response($response, $account)
-{
-    if (isset($response['openid.ns.ax'])) {
-        _mymodule_store_ax_fields($response, $account);
-    }
+function hook_openid_response($response, $account) {
+  if (isset($response['openid.ns.ax'])) {
+    _mymodule_store_ax_fields($response, $account);
+  }
 }
 
 /**
@@ -68,20 +66,18 @@ function hook_openid_response($response, $account)
  *
  * @see hook_openid_discovery_method_info_alter()
  */
-function hook_openid_discovery_method_info()
-{
-    return array(
-        'new_discovery_idea' => '_my_discovery_method',
-    );
+function hook_openid_discovery_method_info() {
+  return array(
+    'new_discovery_idea' => '_my_discovery_method',
+  );
 }
 
 /**
  * Allow modules to alter discovery methods.
  */
-function hook_openid_discovery_method_info_alter(&$methods)
-{
-    // Remove XRI discovery scheme.
-    unset($methods['xri']);
+function hook_openid_discovery_method_info_alter(&$methods) {
+  // Remove XRI discovery scheme.
+  unset($methods['xri']);
 }
 
 /**
@@ -101,20 +97,18 @@ function hook_openid_discovery_method_info_alter(&$methods)
  *   a form they can handle.
  * @see hook_openid_normalization_method_info_alter()
  */
-function hook_openid_normalization_method_info()
-{
-    return array(
-        'new_normalization_idea' => '_my_normalization_method',
-    );
+function hook_openid_normalization_method_info() {
+  return array(
+    'new_normalization_idea' => '_my_normalization_method',
+  );
 }
 
 /**
  * Allow modules to alter normalization methods.
  */
-function hook_openid_normalization_method_info_alter(&$methods)
-{
-    // Remove Google IDP normalization.
-    unset($methods['google_idp']);
+function hook_openid_normalization_method_info_alter(&$methods) {
+  // Remove Google IDP normalization.
+  unset($methods['google_idp']);
 }
 
 /**

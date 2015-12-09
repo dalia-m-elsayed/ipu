@@ -38,13 +38,12 @@
  *
  * @ingroup search
  */
-function hook_search_info()
-{
-    return array(
-        'title' => 'Content',
-        'path' => 'node',
-        'conditions_callback' => 'callback_search_conditions',
-    );
+function hook_search_info() {
+  return array(
+    'title' => 'Content',
+    'path' => 'node',
+    'conditions_callback' => 'callback_search_conditions',
+  );
 }
 
 /**
@@ -54,9 +53,8 @@ function hook_search_info()
  *
  * @ingroup search
  */
-function hook_search_access()
-{
-    return user_access('access content');
+function hook_search_access() {
+  return user_access('access content');
 }
 
 /**
@@ -68,12 +66,11 @@ function hook_search_access()
  *
  * @ingroup search
  */
-function hook_search_reset()
-{
-    db_update('search_dataset')
-        ->fields(array('reindex' => REQUEST_TIME))
-        ->condition('type', 'node')
-        ->execute();
+function hook_search_reset() {
+  db_update('search_dataset')
+    ->fields(array('reindex' => REQUEST_TIME))
+    ->condition('type', 'node')
+    ->execute();
 }
 
 /**
@@ -90,11 +87,10 @@ function hook_search_reset()
  *
  * @ingroup search
  */
-function hook_search_status()
-{
-    $total = db_query('SELECT COUNT(*) FROM {node} WHERE status = 1')->fetchField();
-    $remaining = db_query("SELECT COUNT(*) FROM {node} n LEFT JOIN {search_dataset} d ON d.type = 'node' AND d.sid = n.nid WHERE n.status = 1 AND d.sid IS NULL OR d.reindex <> 0")->fetchField();
-    return array('remaining' => $remaining, 'total' => $total);
+function hook_search_status() {
+  $total = db_query('SELECT COUNT(*) FROM {node} WHERE status = 1')->fetchField();
+  $remaining = db_query("SELECT COUNT(*) FROM {node} n LEFT JOIN {search_dataset} d ON d.type = 'node' AND d.sid = n.nid WHERE n.status = 1 AND d.sid IS NULL OR d.reindex <> 0")->fetchField();
+  return array('remaining' => $remaining, 'total' => $total);
 }
 
 /**
@@ -105,29 +101,28 @@ function hook_search_status()
  *
  * @ingroup search
  */
-function hook_search_admin()
-{
-    // Output form for defining rank factor weights.
-    $form['content_ranking'] = array(
-        '#type' => 'fieldset',
-        '#title' => t('Content ranking'),
-    );
-    $form['content_ranking']['#theme'] = 'node_search_admin';
-    $form['content_ranking']['info'] = array(
-        '#value' => '<em>' . t('The following numbers control which properties the content search should favor when ordering the results. Higher numbers mean more influence, zero means the property is ignored. Changing these numbers does not require the search index to be rebuilt. Changes take effect immediately.') . '</em>'
-    );
+function hook_search_admin() {
+  // Output form for defining rank factor weights.
+  $form['content_ranking'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Content ranking'),
+  );
+  $form['content_ranking']['#theme'] = 'node_search_admin';
+  $form['content_ranking']['info'] = array(
+    '#value' => '<em>' . t('The following numbers control which properties the content search should favor when ordering the results. Higher numbers mean more influence, zero means the property is ignored. Changing these numbers does not require the search index to be rebuilt. Changes take effect immediately.') . '</em>'
+  );
 
-    // Note: reversed to reflect that higher number = higher ranking.
-    $options = drupal_map_assoc(range(0, 10));
-    foreach (module_invoke_all('ranking') as $var => $values) {
-        $form['content_ranking']['factors']['node_rank_' . $var] = array(
-            '#title' => $values['title'],
-            '#type' => 'select',
-            '#options' => $options,
-            '#default_value' => variable_get('node_rank_' . $var, 0),
-        );
-    }
-    return $form;
+  // Note: reversed to reflect that higher number = higher ranking.
+  $options = drupal_map_assoc(range(0, 10));
+  foreach (module_invoke_all('ranking') as $var => $values) {
+    $form['content_ranking']['factors']['node_rank_' . $var] = array(
+      '#title' => $values['title'],
+      '#type' => 'select',
+      '#options' => $options,
+      '#default_value' => variable_get('node_rank_' . $var, 0),
+    );
+  }
+  return $form;
 }
 
 /**
@@ -169,61 +164,60 @@ function hook_search_admin()
  *
  * @ingroup search
  */
-function hook_search_execute($keys = NULL, $conditions = NULL)
-{
-    // Build matching conditions
-    $query = db_select('search_index', 'i', array('target' => 'slave'))->extend('SearchQuery')->extend('PagerDefault');
-    $query->join('node', 'n', 'n.nid = i.sid');
-    $query
-        ->condition('n.status', 1)
-        ->addTag('node_access')
-        ->searchExpression($keys, 'node');
+function hook_search_execute($keys = NULL, $conditions = NULL) {
+  // Build matching conditions
+  $query = db_select('search_index', 'i', array('target' => 'slave'))->extend('SearchQuery')->extend('PagerDefault');
+  $query->join('node', 'n', 'n.nid = i.sid');
+  $query
+    ->condition('n.status', 1)
+    ->addTag('node_access')
+    ->searchExpression($keys, 'node');
 
-    // Insert special keywords.
-    $query->setOption('type', 'n.type');
-    $query->setOption('language', 'n.language');
-    if ($query->setOption('term', 'ti.tid')) {
-        $query->join('taxonomy_index', 'ti', 'n.nid = ti.nid');
-    }
-    // Only continue if the first pass query matches.
-    if (!$query->executeFirstPass()) {
-        return array();
-    }
+  // Insert special keywords.
+  $query->setOption('type', 'n.type');
+  $query->setOption('language', 'n.language');
+  if ($query->setOption('term', 'ti.tid')) {
+    $query->join('taxonomy_index', 'ti', 'n.nid = ti.nid');
+  }
+  // Only continue if the first pass query matches.
+  if (!$query->executeFirstPass()) {
+    return array();
+  }
 
-    // Add the ranking expressions.
-    _node_rankings($query);
+  // Add the ranking expressions.
+  _node_rankings($query);
 
-    // Load results.
-    $find = $query
-        ->limit(10)
-        ->execute();
-    $results = array();
-    foreach ($find as $item) {
-        // Build the node body.
-        $node = node_load($item->sid);
-        node_build_content($node, 'search_result');
-        $node->body = drupal_render($node->content);
+  // Load results.
+  $find = $query
+    ->limit(10)
+    ->execute();
+  $results = array();
+  foreach ($find as $item) {
+    // Build the node body.
+    $node = node_load($item->sid);
+    node_build_content($node, 'search_result');
+    $node->body = drupal_render($node->content);
 
-        // Fetch comments for snippet.
-        $node->rendered .= ' ' . module_invoke('comment', 'node_update_index', $node);
-        // Fetch terms for snippet.
-        $node->rendered .= ' ' . module_invoke('taxonomy', 'node_update_index', $node);
+    // Fetch comments for snippet.
+    $node->rendered .= ' ' . module_invoke('comment', 'node_update_index', $node);
+    // Fetch terms for snippet.
+    $node->rendered .= ' ' . module_invoke('taxonomy', 'node_update_index', $node);
 
-        $extra = module_invoke_all('node_search_result', $node);
+    $extra = module_invoke_all('node_search_result', $node);
 
-        $results[] = array(
-            'link' => url('node/' . $item->sid, array('absolute' => TRUE)),
-            'type' => check_plain(node_type_get_name($node)),
-            'title' => $node->title,
-            'user' => theme('username', array('account' => $node)),
-            'date' => $node->changed,
-            'node' => $node,
-            'extra' => $extra,
-            'score' => $item->calculated_score,
-            'snippet' => search_excerpt($keys, $node->body),
-        );
-    }
-    return $results;
+    $results[] = array(
+      'link' => url('node/' . $item->sid, array('absolute' => TRUE)),
+      'type' => check_plain(node_type_get_name($node)),
+      'title' => $node->title,
+      'user' => theme('username', array('account' => $node)),
+      'date' => $node->changed,
+      'node' => $node,
+      'extra' => $extra,
+      'score' => $item->calculated_score,
+      'snippet' => search_excerpt($keys, $node->body),
+    );
+  }
+  return $results;
 }
 
 /**
@@ -247,20 +241,19 @@ function hook_search_execute($keys = NULL, $conditions = NULL)
  * @see search-result.tpl.php
  * @see search-results.tpl.php
  */
-function hook_search_page($results)
-{
-    $output['prefix']['#markup'] = '<ol class="search-results">';
+function hook_search_page($results) {
+  $output['prefix']['#markup'] = '<ol class="search-results">';
 
-    foreach ($results as $entry) {
-        $output[] = array(
-            '#theme' => 'search_result',
-            '#result' => $entry,
-            '#module' => 'my_module_name',
-        );
-    }
-    $output['suffix']['#markup'] = '</ol>' . theme('pager');
+  foreach ($results as $entry) {
+    $output[] = array(
+      '#theme' => 'search_result',
+      '#result' => $entry,
+      '#module' => 'my_module_name',
+    );
+  }
+  $output['suffix']['#markup'] = '</ol>' . theme('pager');
 
-    return $output;
+  return $output;
 }
 
 /**
@@ -287,10 +280,9 @@ function hook_search_page($results)
  *
  * @ingroup search
  */
-function hook_search_preprocess($text)
-{
-    // Do processing on $text
-    return $text;
+function hook_search_preprocess($text) {
+  // Do processing on $text
+  return $text;
 }
 
 /**
@@ -313,36 +305,34 @@ function hook_search_preprocess($text)
  *
  * @ingroup search
  */
-function hook_update_index()
-{
-    $limit = (int)variable_get('search_cron_limit', 100);
+function hook_update_index() {
+  $limit = (int)variable_get('search_cron_limit', 100);
 
-    $result = db_query_range("SELECT n.nid FROM {node} n LEFT JOIN {search_dataset} d ON d.type = 'node' AND d.sid = n.nid WHERE d.sid IS NULL OR d.reindex <> 0 ORDER BY d.reindex ASC, n.nid ASC", 0, $limit);
+  $result = db_query_range("SELECT n.nid FROM {node} n LEFT JOIN {search_dataset} d ON d.type = 'node' AND d.sid = n.nid WHERE d.sid IS NULL OR d.reindex <> 0 ORDER BY d.reindex ASC, n.nid ASC", 0, $limit);
 
-    foreach ($result as $node) {
-        $node = node_load($node->nid);
+  foreach ($result as $node) {
+    $node = node_load($node->nid);
 
-        // Save the changed time of the most recent indexed node, for the search
-        // results half-life calculation.
-        variable_set('node_cron_last', $node->changed);
+    // Save the changed time of the most recent indexed node, for the search
+    // results half-life calculation.
+    variable_set('node_cron_last', $node->changed);
 
-        // Render the node.
-        node_build_content($node, 'search_index');
-        $node->rendered = drupal_render($node->content);
+    // Render the node.
+    node_build_content($node, 'search_index');
+    $node->rendered = drupal_render($node->content);
 
-        $text = '<h1>' . check_plain($node->title) . '</h1>' . $node->rendered;
+    $text = '<h1>' . check_plain($node->title) . '</h1>' . $node->rendered;
 
-        // Fetch extra data normally not visible
-        $extra = module_invoke_all('node_update_index', $node);
-        foreach ($extra as $t) {
-            $text .= $t;
-        }
-
-        // Update index
-        search_index($node->nid, 'node', $text);
+    // Fetch extra data normally not visible
+    $extra = module_invoke_all('node_update_index', $node);
+    foreach ($extra as $t) {
+      $text .= $t;
     }
-}
 
+    // Update index
+    search_index($node->nid, 'node', $text);
+  }
+}
 /**
  * @} End of "addtogroup hooks".
  */
@@ -370,18 +360,17 @@ function hook_update_index()
  * @ingroup callbacks
  * @ingroup search
  */
-function callback_search_conditions($keys)
-{
-    $conditions = array();
+function callback_search_conditions($keys) {
+  $conditions = array();
 
-    if (!empty($_REQUEST['keys'])) {
-        $conditions['keys'] = $_REQUEST['keys'];
-    }
-    if (!empty($_REQUEST['sample_search_keys'])) {
-        $conditions['sample_search_keys'] = $_REQUEST['sample_search_keys'];
-    }
-    if ($force_keys = config('sample_search.settings')->get('force_keywords')) {
-        $conditions['sample_search_force_keywords'] = $force_keys;
-    }
-    return $conditions;
+  if (!empty($_REQUEST['keys'])) {
+    $conditions['keys'] = $_REQUEST['keys'];
+  }
+  if (!empty($_REQUEST['sample_search_keys'])) {
+    $conditions['sample_search_keys'] = $_REQUEST['sample_search_keys'];
+  }
+  if ($force_keys = config('sample_search.settings')->get('force_keywords')) {
+    $conditions['sample_search_force_keywords'] = $force_keys;
+  }
+  return $conditions;
 }

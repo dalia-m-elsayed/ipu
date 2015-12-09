@@ -39,20 +39,19 @@
  * @return
  *   An array with the toolkit names as keys and the descriptions as values.
  */
-function image_get_available_toolkits()
-{
-    // hook_image_toolkits returns an array of toolkit names.
-    $toolkits = module_invoke_all('image_toolkits');
+function image_get_available_toolkits() {
+  // hook_image_toolkits returns an array of toolkit names.
+  $toolkits = module_invoke_all('image_toolkits');
 
-    $output = array();
-    foreach ($toolkits as $name => $info) {
-        // Only allow modules that aren't marked as unavailable.
-        if ($info['available']) {
-            $output[$name] = $info['title'];
-        }
+  $output = array();
+  foreach ($toolkits as $name => $info) {
+    // Only allow modules that aren't marked as unavailable.
+    if ($info['available']) {
+      $output[$name] = $info['title'];
     }
+  }
 
-    return $output;
+  return $output;
 }
 
 /**
@@ -61,22 +60,21 @@ function image_get_available_toolkits()
  * @return
  *   String containing the name of the selected toolkit, or FALSE on error.
  */
-function image_get_toolkit()
-{
-    static $toolkit;
+function image_get_toolkit() {
+  static $toolkit;
 
-    if (!isset($toolkit)) {
-        $toolkits = image_get_available_toolkits();
-        $toolkit = variable_get('image_toolkit', 'gd');
-        if (!isset($toolkits[$toolkit]) || !function_exists('image_' . $toolkit . '_load')) {
-            // The selected toolkit isn't available so return the first one found. If
-            // none are available this will return FALSE.
-            reset($toolkits);
-            $toolkit = key($toolkits);
-        }
+  if (!isset($toolkit)) {
+    $toolkits = image_get_available_toolkits();
+    $toolkit = variable_get('image_toolkit', 'gd');
+    if (!isset($toolkits[$toolkit]) || !function_exists('image_' . $toolkit . '_load')) {
+      // The selected toolkit isn't available so return the first one found. If
+      // none are available this will return FALSE.
+      reset($toolkits);
+      $toolkit = key($toolkits);
     }
+  }
 
-    return $toolkit;
+  return $toolkit;
 }
 
 /**
@@ -92,15 +90,14 @@ function image_get_toolkit()
  * @return
  *   Mixed values (typically Boolean indicating successful operation).
  */
-function image_toolkit_invoke($method, stdClass $image, array $params = array())
-{
-    $function = 'image_' . $image->toolkit . '_' . $method;
-    if (function_exists($function)) {
-        array_unshift($params, $image);
-        return call_user_func_array($function, $params);
-    }
-    watchdog('image', 'The selected image handling toolkit %toolkit can not correctly process %function.', array('%toolkit' => $image->toolkit, '%function' => $function), WATCHDOG_ERROR);
-    return FALSE;
+function image_toolkit_invoke($method, stdClass $image, array $params = array()) {
+  $function = 'image_' . $image->toolkit . '_' . $method;
+  if (function_exists($function)) {
+    array_unshift($params, $image);
+    return call_user_func_array($function, $params);
+  }
+  watchdog('image', 'The selected image handling toolkit %toolkit can not correctly process %function.', array('%toolkit' => $image->toolkit, '%function' => $function), WATCHDOG_ERROR);
+  return FALSE;
 }
 
 /**
@@ -124,27 +121,26 @@ function image_toolkit_invoke($method, stdClass $image, array $params = array())
  *   - "mime_type": MIME type ('image/jpeg', 'image/gif', 'image/png').
  *   - "file_size": File size in bytes.
  */
-function image_get_info($filepath, $toolkit = FALSE)
-{
-    $details = FALSE;
-    if (!is_file($filepath) && !is_uploaded_file($filepath)) {
-        return $details;
-    }
-
-    if (!$toolkit) {
-        $toolkit = image_get_toolkit();
-    }
-    if ($toolkit) {
-        $image = new stdClass();
-        $image->source = $filepath;
-        $image->toolkit = $toolkit;
-        $details = image_toolkit_invoke('get_info', $image);
-        if (isset($details) && is_array($details)) {
-            $details['file_size'] = filesize($filepath);
-        }
-    }
-
+function image_get_info($filepath, $toolkit = FALSE) {
+  $details = FALSE;
+  if (!is_file($filepath) && !is_uploaded_file($filepath)) {
     return $details;
+  }
+
+  if (!$toolkit) {
+    $toolkit = image_get_toolkit();
+  }
+  if ($toolkit) {
+    $image = new stdClass();
+    $image->source = $filepath;
+    $image->toolkit = $toolkit;
+    $details = image_toolkit_invoke('get_info', $image);
+    if (isset($details) && is_array($details)) {
+      $details['file_size'] = filesize($filepath);
+    }
+  }
+
+  return $details;
 }
 
 /**
@@ -170,16 +166,15 @@ function image_get_info($filepath, $toolkit = FALSE)
  * @see image_resize()
  * @see image_crop()
  */
-function image_scale_and_crop(stdClass $image, $width, $height)
-{
-    $scale = max($width / $image->info['width'], $height / $image->info['height']);
-    $x = ($image->info['width'] * $scale - $width) / 2;
-    $y = ($image->info['height'] * $scale - $height) / 2;
+function image_scale_and_crop(stdClass $image, $width, $height) {
+  $scale = max($width / $image->info['width'], $height / $image->info['height']);
+  $x = ($image->info['width'] * $scale - $width) / 2;
+  $y = ($image->info['height'] * $scale - $height) / 2;
 
-    if (image_resize($image, $image->info['width'] * $scale, $image->info['height'] * $scale)) {
-        return image_crop($image, $x, $y, $width, $height);
-    }
-    return FALSE;
+  if (image_resize($image, $image->info['width'] * $scale, $image->info['height'] * $scale)) {
+    return image_crop($image, $x, $y, $width, $height);
+  }
+  return FALSE;
 }
 
 /**
@@ -205,29 +200,29 @@ function image_scale_and_crop(stdClass $image, $width, $height)
  *
  * @see image_scale()
  */
-function image_dimensions_scale(array &$dimensions, $width = NULL, $height = NULL, $upscale = FALSE)
-{
-    $aspect = $dimensions['height'] / $dimensions['width'];
+function image_dimensions_scale(array &$dimensions, $width = NULL, $height = NULL, $upscale = FALSE) {
+  $aspect = $dimensions['height'] / $dimensions['width'];
 
-    // Calculate one of the dimensions from the other target dimension,
-    // ensuring the same aspect ratio as the source dimensions. If one of the
-    // target dimensions is missing, that is the one that is calculated. If both
-    // are specified then the dimension calculated is the one that would not be
-    // calculated to be bigger than its target.
-    if (($width && !$height) || ($width && $height && $aspect < $height / $width)) {
-        $height = (int)round($width * $aspect);
-    } else {
-        $width = (int)round($height / $aspect);
-    }
+  // Calculate one of the dimensions from the other target dimension,
+  // ensuring the same aspect ratio as the source dimensions. If one of the
+  // target dimensions is missing, that is the one that is calculated. If both
+  // are specified then the dimension calculated is the one that would not be
+  // calculated to be bigger than its target.
+  if (($width && !$height) || ($width && $height && $aspect < $height / $width)) {
+    $height = (int) round($width * $aspect);
+  }
+  else {
+    $width = (int) round($height / $aspect);
+  }
 
-    // Don't upscale if the option isn't enabled.
-    if (!$upscale && ($width >= $dimensions['width'] || $height >= $dimensions['height'])) {
-        return FALSE;
-    }
+  // Don't upscale if the option isn't enabled.
+  if (!$upscale && ($width >= $dimensions['width'] || $height >= $dimensions['height'])) {
+    return FALSE;
+  }
 
-    $dimensions['width'] = $width;
-    $dimensions['height'] = $height;
-    return TRUE;
+  $dimensions['width'] = $width;
+  $dimensions['height'] = $height;
+  return TRUE;
 }
 
 /**
@@ -254,16 +249,15 @@ function image_dimensions_scale(array &$dimensions, $width = NULL, $height = NUL
  * @see image_load()
  * @see image_scale_and_crop()
  */
-function image_scale(stdClass $image, $width = NULL, $height = NULL, $upscale = FALSE)
-{
-    $dimensions = $image->info;
+function image_scale(stdClass $image, $width = NULL, $height = NULL, $upscale = FALSE) {
+  $dimensions = $image->info;
 
-    // Scale the dimensions - if they don't change then just return success.
-    if (!image_dimensions_scale($dimensions, $width, $height, $upscale)) {
-        return TRUE;
-    }
+  // Scale the dimensions - if they don't change then just return success.
+  if (!image_dimensions_scale($dimensions, $width, $height, $upscale)) {
+    return TRUE;
+  }
 
-    return image_resize($image, $dimensions['width'], $dimensions['height']);
+  return image_resize($image, $dimensions['width'], $dimensions['height']);
 }
 
 /**
@@ -282,12 +276,11 @@ function image_scale(stdClass $image, $width = NULL, $height = NULL, $upscale = 
  * @see image_load()
  * @see image_gd_resize()
  */
-function image_resize(stdClass $image, $width, $height)
-{
-    $width = (int)round($width);
-    $height = (int)round($height);
+function image_resize(stdClass $image, $width, $height) {
+  $width = (int) round($width);
+  $height = (int) round($height);
 
-    return image_toolkit_invoke('resize', $image, array($width, $height));
+  return image_toolkit_invoke('resize', $image, array($width, $height));
 }
 
 /**
@@ -310,9 +303,8 @@ function image_resize(stdClass $image, $width, $height)
  * @see image_load()
  * @see image_gd_rotate()
  */
-function image_rotate(stdClass $image, $degrees, $background = NULL)
-{
-    return image_toolkit_invoke('rotate', $image, array($degrees, $background));
+function image_rotate(stdClass $image, $degrees, $background = NULL) {
+  return image_toolkit_invoke('rotate', $image, array($degrees, $background));
 }
 
 /**
@@ -336,16 +328,15 @@ function image_rotate(stdClass $image, $degrees, $background = NULL)
  * @see image_scale_and_crop()
  * @see image_gd_crop()
  */
-function image_crop(stdClass $image, $x, $y, $width, $height)
-{
-    $aspect = $image->info['height'] / $image->info['width'];
-    if (empty($height)) $height = $width / $aspect;
-    if (empty($width)) $width = $height * $aspect;
+function image_crop(stdClass $image, $x, $y, $width, $height) {
+  $aspect = $image->info['height'] / $image->info['width'];
+  if (empty($height)) $height = $width / $aspect;
+  if (empty($width)) $width = $height * $aspect;
 
-    $width = (int)round($width);
-    $height = (int)round($height);
+  $width = (int) round($width);
+  $height = (int) round($height);
 
-    return image_toolkit_invoke('crop', $image, array($x, $y, $width, $height));
+  return image_toolkit_invoke('crop', $image, array($x, $y, $width, $height));
 }
 
 /**
@@ -360,9 +351,8 @@ function image_crop(stdClass $image, $x, $y, $width, $height)
  * @see image_load()
  * @see image_gd_desaturate()
  */
-function image_desaturate(stdClass $image)
-{
-    return image_toolkit_invoke('desaturate', $image);
+function image_desaturate(stdClass $image) {
+  return image_toolkit_invoke('desaturate', $image);
 }
 
 /**
@@ -390,23 +380,22 @@ function image_desaturate(stdClass $image)
  * @see image_get_available_toolkits()
  * @see image_gd_load()
  */
-function image_load($file, $toolkit = FALSE)
-{
-    if (!$toolkit) {
-        $toolkit = image_get_toolkit();
+function image_load($file, $toolkit = FALSE) {
+  if (!$toolkit) {
+    $toolkit = image_get_toolkit();
+  }
+  if ($toolkit) {
+    $image = new stdClass();
+    $image->source = $file;
+    $image->info = image_get_info($file, $toolkit);
+    if (isset($image->info) && is_array($image->info)) {
+      $image->toolkit = $toolkit;
+      if (image_toolkit_invoke('load', $image)) {
+        return $image;
+      }
     }
-    if ($toolkit) {
-        $image = new stdClass();
-        $image->source = $file;
-        $image->info = image_get_info($file, $toolkit);
-        if (isset($image->info) && is_array($image->info)) {
-            $image->toolkit = $toolkit;
-            if (image_toolkit_invoke('load', $image)) {
-                return $image;
-            }
-        }
-    }
-    return FALSE;
+  }
+  return FALSE;
 }
 
 /**
@@ -425,21 +414,20 @@ function image_load($file, $toolkit = FALSE)
  * @see image_load()
  * @see image_gd_save()
  */
-function image_save(stdClass $image, $destination = NULL)
-{
-    if (empty($destination)) {
-        $destination = $image->source;
-    }
-    if ($return = image_toolkit_invoke('save', $image, array($destination))) {
-        // Clear the cached file size and refresh the image information.
-        clearstatcache();
-        $image->info = image_get_info($destination, $image->toolkit);
+function image_save(stdClass $image, $destination = NULL) {
+  if (empty($destination)) {
+    $destination = $image->source;
+  }
+  if ($return = image_toolkit_invoke('save', $image, array($destination))) {
+    // Clear the cached file size and refresh the image information.
+    clearstatcache();
+    $image->info = image_get_info($destination, $image->toolkit);
 
-        if (drupal_chmod($destination)) {
-            return $return;
-        }
+    if (drupal_chmod($destination)) {
+      return $return;
     }
-    return FALSE;
+  }
+  return FALSE;
 }
 
 /**

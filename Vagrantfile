@@ -1,7 +1,7 @@
 Vagrant.configure("2") do |config|
 
   # Load config JSON.
-  config_json = JSON.parse(File.read("vm/config.json"))
+  config_json = JSON.parse(File.read("config.json"))
 
   # Prepare base box.
   config.vm.box = "precise32"
@@ -29,29 +29,31 @@ Vagrant.configure("2") do |config|
       case folder["type"]
       when "nfs"
         config.vm.synced_folder folder["host_path"], folder["guest_path"], type: "nfs"
+        # A private dhcp network is required for NFS to work (on Windows hosts, at least)
+        config.vm.network "private_network", type: "dhcp"
         # This uses uid and gid of the user that started vagrant.
         config.nfs.map_uid = Process.uid
         config.nfs.map_gid = Process.gid
       else
-        config.vm.synced_folder folder["host_path"], folder["guest_path"]
+        config.vm.synced_folder folder["host_path"], folder["guest_path"], type: "smb"
       end
     end
   end
 
   # Run initial shell script.
-  config.vm.provision :shell, :path => "vm/chef/shell/initial.sh"
+  config.vm.provision :shell, :path => "chef/shell/initial.sh"
 
   # Customize provisioner.
   config.vm.provision :chef_solo do |chef|
     chef.json = config_json
-    chef.custom_config_path = "vm/chef/solo.rb"
-    chef.cookbooks_path = ["vm/chef/cookbooks/berks", "vm/chef/cookbooks/core", "vm/chef/cookbooks/custom"]
-    chef.data_bags_path = "vm/chef/data_bags"
-    chef.roles_path = "vm/chef/roles"
+    chef.custom_config_path = "chef/solo.rb"
+    chef.cookbooks_path = ["chef/cookbooks/berks", "chef/cookbooks/core", "chef/cookbooks/custom"]
+    chef.data_bags_path = "chef/data_bags"
+    chef.roles_path = "chef/roles"
     chef.add_role "vdd"
   end
 
   # Run final shell script.
-  config.vm.provision :shell, :path => "vm/chef/shell/final.sh", :args => config_json["vm"]["ip"]
+  config.vm.provision :shell, :path => "chef/shell/final.sh", :args => config_json["vm"]["ip"]
 
 end

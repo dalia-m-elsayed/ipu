@@ -8,7 +8,6 @@
 /**
  * Implements hook_help().
  */
-function boot_test_2_help($path, $arg)
-{
-    // Empty hook.
+function boot_test_2_help($path, $arg) {
+  // Empty hook.
 }

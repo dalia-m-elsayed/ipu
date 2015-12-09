@@ -37,16 +37,16 @@
  */
 ?>
 <div class="profile clearfix">
-    <?php print $user_picture; ?>
+  <?php print $user_picture; ?>
 
-    <div class="name">
-        <?php print $name; ?>
+  <div class="name">
+    <?php print $name; ?>
+  </div>
+
+  <?php foreach ($profile as $field): ?>
+    <div class="field">
+      <?php print $field->value; ?>
     </div>
-
-    <?php foreach ($profile as $field): ?>
-        <div class="field">
-            <?php print $field->value; ?>
-        </div>
-    <?php endforeach; ?>
+  <?php endforeach; ?>
 
 </div>

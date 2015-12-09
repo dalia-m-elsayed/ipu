@@ -76,31 +76,30 @@
  * @return
  *   Text with tokens replaced.
  */
-function token_replace($text, array $data = array(), array $options = array())
-{
-    $text_tokens = token_scan($text);
-    if (empty($text_tokens)) {
-        return $text;
+function token_replace($text, array $data = array(), array $options = array()) {
+  $text_tokens = token_scan($text);
+  if (empty($text_tokens)) {
+    return $text;
+  }
+
+  $replacements = array();
+  foreach ($text_tokens as $type => $tokens) {
+    $replacements += token_generate($type, $tokens, $data, $options);
+    if (!empty($options['clear'])) {
+      $replacements += array_fill_keys($tokens, '');
     }
+  }
 
-    $replacements = array();
-    foreach ($text_tokens as $type => $tokens) {
-        $replacements += token_generate($type, $tokens, $data, $options);
-        if (!empty($options['clear'])) {
-            $replacements += array_fill_keys($tokens, '');
-        }
-    }
+  // Optionally alter the list of replacement values.
+  if (!empty($options['callback']) && function_exists($options['callback'])) {
+    $function = $options['callback'];
+    $function($replacements, $data, $options);
+  }
 
-    // Optionally alter the list of replacement values.
-    if (!empty($options['callback']) && function_exists($options['callback'])) {
-        $function = $options['callback'];
-        $function($replacements, $data, $options);
-    }
+  $tokens = array_keys($replacements);
+  $values = array_values($replacements);
 
-    $tokens = array_keys($replacements);
-    $values = array_values($replacements);
-
-    return str_replace($tokens, $values, $text);
+  return str_replace($tokens, $values, $text);
 }
 
 /**
@@ -112,12 +111,11 @@ function token_replace($text, array $data = array(), array $options = array())
  * @return
  *   An associative array of discovered tokens, grouped by type.
  */
-function token_scan($text)
-{
-    // Matches tokens with the following pattern: [$type:$name]
-    // $type and $name may not contain  [ ] characters.
-    // $type may not contain : or whitespace characters, but $name may.
-    preg_match_all('/
+function token_scan($text) {
+  // Matches tokens with the following pattern: [$type:$name]
+  // $type and $name may not contain  [ ] characters.
+  // $type may not contain : or whitespace characters, but $name may.
+  preg_match_all('/
     \[             # [ - pattern start
     ([^\s\[\]:]*)  # match $type not containing whitespace : [ or ]
     :              # : - separator
@@ -125,18 +123,18 @@ function token_scan($text)
     \]             # ] - pattern end
     /x', $text, $matches);
 
-    $types = $matches[1];
-    $tokens = $matches[2];
+  $types = $matches[1];
+  $tokens = $matches[2];
 
-    // Iterate through the matches, building an associative array containing
-    // $tokens grouped by $types, pointing to the version of the token found in
-    // the source text. For example, $results['node']['title'] = '[node:title]';
-    $results = array();
-    for ($i = 0; $i < count($tokens); $i++) {
-        $results[$types[$i]][$tokens[$i]] = $matches[0][$i];
-    }
+  // Iterate through the matches, building an associative array containing
+  // $tokens grouped by $types, pointing to the version of the token found in
+  // the source text. For example, $results['node']['title'] = '[node:title]';
+  $results = array();
+  for ($i = 0; $i < count($tokens); $i++) {
+    $results[$types[$i]][$tokens[$i]] = $matches[0][$i];
+  }
 
-    return $results;
+  return $results;
 }
 
 /**
@@ -175,21 +173,20 @@ function token_scan($text)
  * @see hook_tokens()
  * @see hook_tokens_alter()
  */
-function token_generate($type, array $tokens, array $data = array(), array $options = array())
-{
-    $options += array('sanitize' => TRUE);
-    $replacements = module_invoke_all('tokens', $type, $tokens, $data, $options);
+function token_generate($type, array $tokens, array $data = array(), array $options = array()) {
+  $options += array('sanitize' => TRUE);
+  $replacements = module_invoke_all('tokens', $type, $tokens, $data, $options);
 
-    // Allow other modules to alter the replacements.
-    $context = array(
-        'type' => $type,
-        'tokens' => $tokens,
-        'data' => $data,
-        'options' => $options,
-    );
-    drupal_alter('tokens', $replacements, $context);
+  // Allow other modules to alter the replacements.
+  $context = array(
+    'type' => $type,
+    'tokens' => $tokens,
+    'data' => $data,
+    'options' => $options,
+  );
+  drupal_alter('tokens', $replacements, $context);
 
-    return $replacements;
+  return $replacements;
 }
 
 /**
@@ -219,16 +216,15 @@ function token_generate($type, array $tokens, array $data = array(), array $opti
  *   An associative array of discovered tokens, with the prefix and delimiter
  *   stripped from the key.
  */
-function token_find_with_prefix(array $tokens, $prefix, $delimiter = ':')
-{
-    $results = array();
-    foreach ($tokens as $token => $raw) {
-        $parts = explode($delimiter, $token, 2);
-        if (count($parts) == 2 && $parts[0] == $prefix) {
-            $results[$parts[1]] = $raw;
-        }
+function token_find_with_prefix(array $tokens, $prefix, $delimiter = ':') {
+  $results = array();
+  foreach ($tokens as $token => $raw) {
+    $parts = explode($delimiter, $token, 2);
+    if (count($parts) == 2 && $parts[0] == $prefix) {
+      $results[$parts[1]] = $raw;
     }
-    return $results;
+  }
+  return $results;
 }
 
 /**
@@ -258,12 +254,11 @@ function token_find_with_prefix(array $tokens, $prefix, $delimiter = ':')
  * @return
  *   An associative array of token information, grouped by token type.
  */
-function token_info()
-{
-    $data = &drupal_static(__FUNCTION__);
-    if (!isset($data)) {
-        $data = module_invoke_all('token_info');
-        drupal_alter('token_info', $data);
-    }
-    return $data;
+function token_info() {
+  $data = &drupal_static(__FUNCTION__);
+  if (!isset($data)) {
+    $data = module_invoke_all('token_info');
+    drupal_alter('token_info', $data);
+  }
+  return $data;
 }

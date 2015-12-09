@@ -77,27 +77,26 @@
  * @see filter_example.module
  * @see hook_filter_info_alter()
  */
-function hook_filter_info()
-{
-    $filters['filter_html'] = array(
-        'title' => t('Limit allowed HTML tags'),
-        'description' => t('Allows you to restrict the HTML tags the user can use. It will also remove harmful content such as JavaScript events, JavaScript URLs and CSS styles from those tags that are not removed.'),
-        'process callback' => '_filter_html',
-        'settings callback' => '_filter_html_settings',
-        'default settings' => array(
-            'allowed_html' => '<a> <em> <strong> <cite> <blockquote> <code> <ul> <ol> <li> <dl> <dt> <dd>',
-            'filter_html_help' => 1,
-            'filter_html_nofollow' => 0,
-        ),
-        'tips callback' => '_filter_html_tips',
-    );
-    $filters['filter_autop'] = array(
-        'title' => t('Convert line breaks'),
-        'description' => t('Converts line breaks into HTML (i.e. &lt;br&gt; and &lt;p&gt;) tags.'),
-        'process callback' => '_filter_autop',
-        'tips callback' => '_filter_autop_tips',
-    );
-    return $filters;
+function hook_filter_info() {
+  $filters['filter_html'] = array(
+    'title' => t('Limit allowed HTML tags'),
+    'description' => t('Allows you to restrict the HTML tags the user can use. It will also remove harmful content such as JavaScript events, JavaScript URLs and CSS styles from those tags that are not removed.'),
+    'process callback' => '_filter_html',
+    'settings callback' => '_filter_html_settings',
+    'default settings' => array(
+      'allowed_html' => '<a> <em> <strong> <cite> <blockquote> <code> <ul> <ol> <li> <dl> <dt> <dd>',
+      'filter_html_help' => 1,
+      'filter_html_nofollow' => 0,
+    ),
+    'tips callback' => '_filter_html_tips',
+  );
+  $filters['filter_autop'] = array(
+    'title' => t('Convert line breaks'),
+    'description' => t('Converts line breaks into HTML (i.e. &lt;br&gt; and &lt;p&gt;) tags.'),
+    'process callback' => '_filter_autop',
+    'tips callback' => '_filter_autop_tips',
+  );
+  return $filters;
 }
 
 /**
@@ -107,16 +106,15 @@ function hook_filter_info()
  *   Array of information on filters exposed by hook_filter_info()
  *   implementations.
  */
-function hook_filter_info_alter(&$info)
-{
-    // Replace the PHP evaluator process callback with an improved
-    // PHP evaluator provided by a module.
-    $info['php_code']['process callback'] = 'my_module_php_evaluator';
+function hook_filter_info_alter(&$info) {
+  // Replace the PHP evaluator process callback with an improved
+  // PHP evaluator provided by a module.
+  $info['php_code']['process callback'] = 'my_module_php_evaluator';
 
-    // Alter the default settings of the URL filter provided by core.
-    $info['filter_url']['default settings'] = array(
-        'filter_url_length' => 100,
-    );
+  // Alter the default settings of the URL filter provided by core.
+  $info['filter_url']['default settings'] = array(
+    'filter_url_length' => 100,
+  );
 }
 
 /**
@@ -161,17 +159,16 @@ function hook_filter_info_alter(&$info)
  *
  * @ingroup callbacks
  */
-function callback_filter_settings($form, &$form_state, $filter, $format, $defaults, $filters)
-{
-    $filter->settings += $defaults;
+function callback_filter_settings($form, &$form_state, $filter, $format, $defaults, $filters) {
+  $filter->settings += $defaults;
 
-    $elements = array();
-    $elements['nofollow'] = array(
-        '#type' => 'checkbox',
-        '#title' => t('Add rel="nofollow" to all links'),
-        '#default_value' => $filter->settings['nofollow'],
-    );
-    return $elements;
+  $elements = array();
+  $elements['nofollow'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Add rel="nofollow" to all links'),
+    '#default_value' => $filter->settings['nofollow'],
+  );
+  return $elements;
 }
 
 /**
@@ -203,11 +200,10 @@ function callback_filter_settings($form, &$form_state, $filter, $format, $defaul
  *
  * @ingroup callbacks
  */
-function callback_filter_prepare($text, $filter, $format, $langcode, $cache, $cache_id)
-{
-    // Escape <code> and </code> tags.
-    $text = preg_replace('|<code>(.+?)</code>|se', "[codefilter_code]$1[/codefilter_code]", $text);
-    return $text;
+function callback_filter_prepare($text, $filter, $format, $langcode, $cache, $cache_id) {
+  // Escape <code> and </code> tags.
+  $text = preg_replace('|<code>(.+?)</code>|se', "[codefilter_code]$1[/codefilter_code]", $text);
+  return $text;
 }
 
 /**
@@ -237,11 +233,10 @@ function callback_filter_prepare($text, $filter, $format, $langcode, $cache, $ca
  *
  * @ingroup callbacks
  */
-function callback_filter_process($text, $filter, $format, $langcode, $cache, $cache_id)
-{
-    $text = preg_replace('|\[codefilter_code\](.+?)\[/codefilter_code\]|se', "<pre>$1</pre>", $text);
+function callback_filter_process($text, $filter, $format, $langcode, $cache, $cache_id) {
+  $text = preg_replace('|\[codefilter_code\](.+?)\[/codefilter_code\]|se', "<pre>$1</pre>", $text);
 
-    return $text;
+  return $text;
 }
 
 /**
@@ -266,13 +261,13 @@ function callback_filter_process($text, $filter, $format, $langcode, $cache, $ca
  *
  * @ingroup callbacks
  */
-function callback_filter_tips($filter, $format, $long)
-{
-    if ($long) {
-        return t('Lines and paragraphs are automatically recognized. The &lt;br /&gt; line break, &lt;p&gt; paragraph and &lt;/p&gt; close paragraph tags are inserted automatically. If paragraphs are not recognized simply add a couple blank lines.');
-    } else {
-        return t('Lines and paragraphs break automatically.');
-    }
+function callback_filter_tips($filter, $format, $long) {
+ if ($long) {
+    return t('Lines and paragraphs are automatically recognized. The &lt;br /&gt; line break, &lt;p&gt; paragraph and &lt;/p&gt; close paragraph tags are inserted automatically. If paragraphs are not recognized simply add a couple blank lines.');
+  }
+  else {
+    return t('Lines and paragraphs break automatically.');
+  }
 }
 
 /**
@@ -289,9 +284,8 @@ function callback_filter_tips($filter, $format, $long)
  * @see hook_filter_format_update()
  * @see hook_filter_format_disable()
  */
-function hook_filter_format_insert($format)
-{
-    mymodule_cache_rebuild();
+function hook_filter_format_insert($format) {
+  mymodule_cache_rebuild();
 }
 
 /**
@@ -307,9 +301,8 @@ function hook_filter_format_insert($format)
  * @see hook_filter_format_insert()
  * @see hook_filter_format_disable()
  */
-function hook_filter_format_update($format)
-{
-    mymodule_cache_rebuild();
+function hook_filter_format_update($format) {
+  mymodule_cache_rebuild();
 }
 
 /**
@@ -321,9 +314,8 @@ function hook_filter_format_update($format)
  * @see hook_filter_format_insert()
  * @see hook_filter_format_update()
  */
-function hook_filter_format_disable($format)
-{
-    mymodule_cache_rebuild();
+function hook_filter_format_disable($format) {
+  mymodule_cache_rebuild();
 }
 
 /**

@@ -8,34 +8,32 @@
 /**
  * Implements hook_system_theme_info().
  */
-function update_test_system_theme_info()
-{
-    $themes['update_test_basetheme'] = drupal_get_path('module', 'update_test') . '/themes/update_test_basetheme/update_test_basetheme.info';
-    $themes['update_test_subtheme'] = drupal_get_path('module', 'update_test') . '/themes/update_test_subtheme/update_test_subtheme.info';
-    return $themes;
+function update_test_system_theme_info() {
+  $themes['update_test_basetheme'] = drupal_get_path('module', 'update_test') . '/themes/update_test_basetheme/update_test_basetheme.info';
+  $themes['update_test_subtheme'] = drupal_get_path('module', 'update_test') . '/themes/update_test_subtheme/update_test_subtheme.info';
+  return $themes;
 }
 
 /**
  * Implements hook_menu().
  */
-function update_test_menu()
-{
-    $items = array();
+function update_test_menu() {
+  $items = array();
 
-    $items['update-test'] = array(
-        'title' => t('Update test'),
-        'page callback' => 'update_test_mock_page',
-        'access callback' => TRUE,
-        'type' => MENU_CALLBACK,
-    );
-    $items['503-error'] = array(
-        'title' => t('503 Service unavailable'),
-        'page callback' => 'update_callback_service_unavailable',
-        'access callback' => TRUE,
-        'type' => MENU_CALLBACK,
-    );
+  $items['update-test'] = array(
+    'title' => t('Update test'),
+    'page callback' => 'update_test_mock_page',
+    'access callback' => TRUE,
+    'type' => MENU_CALLBACK,
+  );
+  $items['503-error'] = array(
+    'title' => t('503 Service unavailable'),
+    'page callback' => 'update_callback_service_unavailable',
+    'access callback' => TRUE,
+    'type' => MENU_CALLBACK,
+  );
 
-    return $items;
+  return $items;
 }
 
 /**
@@ -49,16 +47,15 @@ function update_test_menu()
  * name ($file->name) and the subarrays contain settings just for that module or
  * theme.
  */
-function update_test_system_info_alter(&$info, $file)
-{
-    $setting = variable_get('update_test_system_info', array());
-    foreach (array('#all', $file->name) as $id) {
-        if (!empty($setting[$id])) {
-            foreach ($setting[$id] as $key => $value) {
-                $info[$key] = $value;
-            }
-        }
+function update_test_system_info_alter(&$info, $file) {
+  $setting = variable_get('update_test_system_info', array());
+  foreach (array('#all', $file->name) as $id) {
+    if (!empty($setting[$id])) {
+      foreach ($setting[$id] as $key => $value) {
+        $info[$key] = $value;
+      }
     }
+  }
 }
 
 /**
@@ -71,20 +68,19 @@ function update_test_system_info_alter(&$info, $file)
  * system. Otherwise, the settings array is keyed by the module or theme short
  * name and the subarrays contain settings just for that module or theme.
  */
-function update_test_update_status_alter(&$projects)
-{
-    $setting = variable_get('update_test_update_status', array());
-    if (!empty($setting)) {
-        foreach ($projects as $project_name => &$project) {
-            foreach (array('#all', $project_name) as $id) {
-                if (!empty($setting[$id])) {
-                    foreach ($setting[$id] as $key => $value) {
-                        $project[$key] = $value;
-                    }
-                }
-            }
+function update_test_update_status_alter(&$projects) {
+  $setting = variable_get('update_test_update_status', array());
+  if (!empty($setting)) {
+    foreach ($projects as $project_name => &$project) {
+      foreach (array('#all', $project_name) as $id) {
+        if (!empty($setting[$id])) {
+          foreach ($setting[$id] as $key => $value) {
+            $project[$key] = $value;
+          }
         }
+      }
     }
+  }
 }
 
 /**
@@ -103,89 +99,85 @@ function update_test_update_status_alter(&$projects)
  *
  * @see update_test_menu()
  */
-function update_test_mock_page($project_name)
-{
-    $xml_map = variable_get('update_test_xml_map', FALSE);
-    if (isset($xml_map[$project_name])) {
-        $availability_scenario = $xml_map[$project_name];
-    } elseif (isset($xml_map['#all'])) {
-        $availability_scenario = $xml_map['#all'];
-    } else {
-        // The test didn't specify (for example, the webroot has other modules and
-        // themes installed but they're disabled by the version of the site
-        // running the test. So, we default to a file we know won't exist, so at
-        // least we'll get an empty page from readfile instead of a bunch of
-        // Drupal page output.
-        $availability_scenario = '#broken#';
-    }
+function update_test_mock_page($project_name) {
+  $xml_map = variable_get('update_test_xml_map', FALSE);
+  if (isset($xml_map[$project_name])) {
+    $availability_scenario = $xml_map[$project_name];
+  }
+  elseif (isset($xml_map['#all'])) {
+    $availability_scenario = $xml_map['#all'];
+  }
+  else {
+    // The test didn't specify (for example, the webroot has other modules and
+    // themes installed but they're disabled by the version of the site
+    // running the test. So, we default to a file we know won't exist, so at
+    // least we'll get an empty page from readfile instead of a bunch of
+    // Drupal page output.
+    $availability_scenario = '#broken#';
+  }
 
-    $path = drupal_get_path('module', 'update_test');
-    readfile("$path/$project_name.$availability_scenario.xml");
+  $path = drupal_get_path('module', 'update_test');
+  readfile("$path/$project_name.$availability_scenario.xml");
 }
 
 /**
  * Implements hook_archiver_info().
  */
-function update_test_archiver_info()
-{
-    return array(
-        'update_test_archiver' => array(
-            // This is bogus, we only care about the extensions for now.
-            'class' => 'ArchiverUpdateTest',
-            'extensions' => array('update-test-extension'),
-        ),
-    );
+function update_test_archiver_info() {
+  return array(
+    'update_test_archiver' => array(
+      // This is bogus, we only care about the extensions for now.
+      'class' => 'ArchiverUpdateTest',
+      'extensions' => array('update-test-extension'),
+    ),
+  );
 }
 
 /**
  * Implements hook_filetransfer_info().
  */
-function update_test_filetransfer_info()
-{
-    // Define a mock file transfer method, to ensure that there will always be
-    // at least one method available in the user interface (regardless of the
-    // environment in which the update manager tests are run).
-    return array(
-        'system_test' => array(
-            'title' => t('Update Test FileTransfer'),
-            // This should be in an .inc file, but for testing purposes, it is OK to
-            // leave it in the main module file.
-            'file' => 'update_test.module',
-            'class' => 'UpdateTestFileTransfer',
-            'weight' => -20,
-        ),
-    );
+function update_test_filetransfer_info() {
+  // Define a mock file transfer method, to ensure that there will always be
+  // at least one method available in the user interface (regardless of the
+  // environment in which the update manager tests are run).
+  return array(
+    'system_test' => array(
+      'title' => t('Update Test FileTransfer'),
+      // This should be in an .inc file, but for testing purposes, it is OK to
+      // leave it in the main module file.
+      'file' => 'update_test.module',
+      'class' => 'UpdateTestFileTransfer',
+      'weight' => -20,
+    ),
+  );
 }
 
 /**
  * Mocks a FileTransfer object to test the settings form functionality.
  */
-class UpdateTestFileTransfer
-{
+class UpdateTestFileTransfer {
 
-    /**
-     * Returns an UpdateTestFileTransfer object.
-     *
-     * @return
-     *   A new UpdateTestFileTransfer object.
-     */
-    public static function factory()
-    {
-        return new UpdateTestFileTransfer;
-    }
+  /**
+   * Returns an UpdateTestFileTransfer object.
+   *
+   * @return
+   *   A new UpdateTestFileTransfer object.
+   */
+  public static function factory() {
+    return new UpdateTestFileTransfer;
+  }
 
-    /**
-     * Returns a settings form with a text field to input a username.
-     */
-    public function getSettingsForm()
-    {
-        $form = array();
-        $form['udpate_test_username'] = array(
-            '#type' => 'textfield',
-            '#title' => t('Update Test Username'),
-        );
-        return $form;
-    }
+  /**
+   * Returns a settings form with a text field to input a username.
+   */
+  public function getSettingsForm() {
+    $form = array();
+    $form['udpate_test_username'] = array(
+      '#type' => 'textfield',
+      '#title' => t('Update Test Username'),
+    );
+    return $form;
+  }
 }
 
 /**
@@ -193,8 +185,7 @@ class UpdateTestFileTransfer
  *
  * @see update_test_menu()
  */
-function update_callback_service_unavailable()
-{
-    drupal_add_http_header('Status', '503 Service unavailable');
-    print "503 Service Temporarily Unavailable";
+function update_callback_service_unavailable() {
+  drupal_add_http_header('Status', '503 Service unavailable');
+  print "503 Service Temporarily Unavailable";
 }

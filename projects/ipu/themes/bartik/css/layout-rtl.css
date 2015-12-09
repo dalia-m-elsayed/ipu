@@ -1,3 +1,4 @@
+
 /* ---------- Basic Layout RTL Styles ----------- */
 
 #content,
@@ -10,14 +11,12 @@
 .region-footer-secondcolumn,
 .region-footer-thirdcolumn,
 .region-footer-fourthcolumn {
-    float: right;
+  float: right;
 }
-
 .region-header {
-    float: left;
+  float: left;
 }
-
 #secondary-menu {
-    left: 0;
-    right: auto;
+  left: 0;
+  right: auto;
 }

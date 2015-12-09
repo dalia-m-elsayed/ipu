@@ -34,15 +34,14 @@
  *
  * @see hook_hook_info_alter().
  */
-function hook_hook_info()
-{
-    $hooks['token_info'] = array(
-        'group' => 'tokens',
-    );
-    $hooks['tokens'] = array(
-        'group' => 'tokens',
-    );
-    return $hooks;
+function hook_hook_info() {
+  $hooks['token_info'] = array(
+    'group' => 'tokens',
+  );
+  $hooks['tokens'] = array(
+    'group' => 'tokens',
+  );
+  return $hooks;
 }
 
 /**
@@ -53,12 +52,11 @@ function hook_hook_info()
  *   implementations of hook_hook_info(). Alter this array directly.
  *   See hook_hook_info() for information on what this may contain.
  */
-function hook_hook_info_alter(&$hooks)
-{
-    // Our module wants to completely override the core tokens, so make
-    // sure the core token hooks are not found.
-    $hooks['token_info']['group'] = 'mytokens';
-    $hooks['tokens']['group'] = 'mytokens';
+function hook_hook_info_alter(&$hooks) {
+  // Our module wants to completely override the core tokens, so make
+  // sure the core token hooks are not found.
+  $hooks['token_info']['group'] = 'mytokens';
+  $hooks['tokens']['group'] = 'mytokens';
 }
 
 /**
@@ -201,76 +199,75 @@ function hook_hook_info_alter(&$hooks)
  * @see entity_load()
  * @see hook_entity_info_alter()
  */
-function hook_entity_info()
-{
-    $return = array(
-        'node' => array(
-            'label' => t('Node'),
-            'controller class' => 'NodeController',
-            'base table' => 'node',
-            'revision table' => 'node_revision',
-            'uri callback' => 'node_uri',
-            'fieldable' => TRUE,
-            'translation' => array(
-                'locale' => TRUE,
-            ),
-            'entity keys' => array(
-                'id' => 'nid',
-                'revision' => 'vid',
-                'bundle' => 'type',
-                'language' => 'language',
-            ),
-            'bundle keys' => array(
-                'bundle' => 'type',
-            ),
-            'bundles' => array(),
-            'view modes' => array(
-                'full' => array(
-                    'label' => t('Full content'),
-                    'custom settings' => FALSE,
-                ),
-                'teaser' => array(
-                    'label' => t('Teaser'),
-                    'custom settings' => TRUE,
-                ),
-                'rss' => array(
-                    'label' => t('RSS'),
-                    'custom settings' => FALSE,
-                ),
-            ),
+function hook_entity_info() {
+  $return = array(
+    'node' => array(
+      'label' => t('Node'),
+      'controller class' => 'NodeController',
+      'base table' => 'node',
+      'revision table' => 'node_revision',
+      'uri callback' => 'node_uri',
+      'fieldable' => TRUE,
+      'translation' => array(
+        'locale' => TRUE,
+      ),
+      'entity keys' => array(
+        'id' => 'nid',
+        'revision' => 'vid',
+        'bundle' => 'type',
+        'language' => 'language',
+      ),
+      'bundle keys' => array(
+        'bundle' => 'type',
+      ),
+      'bundles' => array(),
+      'view modes' => array(
+        'full' => array(
+          'label' => t('Full content'),
+          'custom settings' => FALSE,
         ),
+        'teaser' => array(
+          'label' => t('Teaser'),
+          'custom settings' => TRUE,
+        ),
+        'rss' => array(
+          'label' => t('RSS'),
+          'custom settings' => FALSE,
+        ),
+      ),
+    ),
+  );
+
+  // Search integration is provided by node.module, so search-related
+  // view modes for nodes are defined here and not in search.module.
+  if (module_exists('search')) {
+    $return['node']['view modes'] += array(
+      'search_index' => array(
+        'label' => t('Search index'),
+        'custom settings' => FALSE,
+      ),
+      'search_result' => array(
+        'label' => t('Search result highlighting input'),
+        'custom settings' => FALSE,
+      ),
     );
+  }
 
-    // Search integration is provided by node.module, so search-related
-    // view modes for nodes are defined here and not in search.module.
-    if (module_exists('search')) {
-        $return['node']['view modes'] += array(
-            'search_index' => array(
-                'label' => t('Search index'),
-                'custom settings' => FALSE,
-            ),
-            'search_result' => array(
-                'label' => t('Search result highlighting input'),
-                'custom settings' => FALSE,
-            ),
-        );
-    }
+  // Bundles must provide a human readable name so we can create help and error
+  // messages, and the path to attach Field admin pages to.
+  foreach (node_type_get_names() as $type => $name) {
+    $return['node']['bundles'][$type] = array(
+      'label' => $name,
+      'admin' => array(
+        'path' => 'admin/structure/types/manage/%node_type',
+        'real path' => 'admin/structure/types/manage/' . str_replace('_', '-', $type),
+        'bundle argument' => 4,
+        'access arguments' => array('administer content types'),
+      ),
+    );
+  }
 
-    // Bundles must provide a human readable name so we can create help and error
-    // messages, and the path to attach Field admin pages to.
-    foreach (node_type_get_names() as $type => $name) {
-        $return['node']['bundles'][$type] = array(
-            'label' => $name,
-            'admin' => array(
-                'path' => 'admin/structure/types/manage/%node_type',
-                'real path' => 'admin/structure/types/manage/' . str_replace('_', '-', $type),
-                'bundle argument' => 4,
-                'access arguments' => array('administer content types'),
-            ),
-        );
-    }
-
-    return $return;
+  return $return;
 }
 
 /**
@@ -285,11 +282,10 @@ function hook_entity_info()
  *
  * @see hook_entity_info()
  */
-function hook_entity_info_alter(&$entity_info)
-{
-    // Set the controller class for nodes to an alternate implementation of the
-    // DrupalEntityController interface.
-    $entity_info['node']['controller class'] = 'MyCustomNodeController';
+function hook_entity_info_alter(&$entity_info) {
+  // Set the controller class for nodes to an alternate implementation of the
+  // DrupalEntityController interface.
+  $entity_info['node']['controller class'] = 'MyCustomNodeController';
 }
 
 /**
@@ -303,11 +299,10 @@ function hook_entity_info_alter(&$entity_info)
  * @param $type
  *   The type of entities being loaded (i.e. node, user, comment).
  */
-function hook_entity_load($entities, $type)
-{
-    foreach ($entities as $entity) {
-        $entity->foo = mymodule_add_something($entity, $type);
-    }
+function hook_entity_load($entities, $type) {
+  foreach ($entities as $entity) {
+    $entity->foo = mymodule_add_something($entity, $type);
+  }
 }
 
 /**
@@ -318,9 +313,8 @@ function hook_entity_load($entities, $type)
  * @param $type
  *   The type of entity being saved (i.e. node, user, comment).
  */
-function hook_entity_presave($entity, $type)
-{
-    $entity->changed = REQUEST_TIME;
+function hook_entity_presave($entity, $type) {
+  $entity->changed = REQUEST_TIME;
 }
 
 /**
@@ -331,19 +325,18 @@ function hook_entity_presave($entity, $type)
  * @param $type
  *   The type of entity being inserted (i.e. node, user, comment).
  */
-function hook_entity_insert($entity, $type)
-{
-    // Insert the new entity into a fictional table of all entities.
-    $info = entity_get_info($type);
-    list($id) = entity_extract_ids($type, $entity);
-    db_insert('example_entity')
-        ->fields(array(
-            'type' => $type,
-            'id' => $id,
-            'created' => REQUEST_TIME,
-            'updated' => REQUEST_TIME,
-        ))
-        ->execute();
+function hook_entity_insert($entity, $type) {
+  // Insert the new entity into a fictional table of all entities.
+  $info = entity_get_info($type);
+  list($id) = entity_extract_ids($type, $entity);
+  db_insert('example_entity')
+    ->fields(array(
+      'type' => $type,
+      'id' => $id,
+      'created' => REQUEST_TIME,
+      'updated' => REQUEST_TIME,
+    ))
+    ->execute();
 }
 
 /**
@@ -354,18 +347,17 @@ function hook_entity_insert($entity, $type)
  * @param $type
  *   The type of entity being updated (i.e. node, user, comment).
  */
-function hook_entity_update($entity, $type)
-{
-    // Update the entity's entry in a fictional table of all entities.
-    $info = entity_get_info($type);
-    list($id) = entity_extract_ids($type, $entity);
-    db_update('example_entity')
-        ->fields(array(
-            'updated' => REQUEST_TIME,
-        ))
-        ->condition('type', $type)
-        ->condition('id', $id)
-        ->execute();
+function hook_entity_update($entity, $type) {
+  // Update the entity's entry in a fictional table of all entities.
+  $info = entity_get_info($type);
+  list($id) = entity_extract_ids($type, $entity);
+  db_update('example_entity')
+    ->fields(array(
+      'updated' => REQUEST_TIME,
+    ))
+    ->condition('type', $type)
+    ->condition('id', $id)
+    ->execute();
 }
 
 /**
@@ -376,15 +368,14 @@ function hook_entity_update($entity, $type)
  * @param $type
  *   The type of entity being deleted (i.e. node, user, comment).
  */
-function hook_entity_delete($entity, $type)
-{
-    // Delete the entity's entry from a fictional table of all entities.
-    $info = entity_get_info($type);
-    list($id) = entity_extract_ids($type, $entity);
-    db_delete('example_entity')
-        ->condition('type', $type)
-        ->condition('id', $id)
-        ->execute();
+function hook_entity_delete($entity, $type) {
+  // Delete the entity's entry from a fictional table of all entities.
+  $info = entity_get_info($type);
+  list($id) = entity_extract_ids($type, $entity);
+  db_delete('example_entity')
+    ->condition('type', $type)
+    ->condition('id', $id)
+    ->execute();
 }
 
 /**
@@ -409,9 +400,8 @@ function hook_entity_delete($entity, $type)
  *   ($query->pager && $query->count), allowing the driver to return 0 from
  *   the count query and disable the pager.
  */
-function hook_entity_query_alter($query)
-{
-    $query->executeCallback = 'my_module_query_callback';
+function hook_entity_query_alter($query) {
+  $query->executeCallback = 'my_module_query_callback';
 }
 
 /**
@@ -435,13 +425,12 @@ function hook_entity_query_alter($query)
  * @see hook_node_view()
  * @see hook_user_view()
  */
-function hook_entity_view($entity, $type, $view_mode, $langcode)
-{
-    $entity->content['my_additional_field'] = array(
-        '#markup' => $additional_field,
-        '#weight' => 10,
-        '#theme' => 'mymodule_my_additional_field',
-    );
+function hook_entity_view($entity, $type, $view_mode, $langcode) {
+  $entity->content['my_additional_field'] = array(
+    '#markup' => $additional_field,
+    '#weight' => 10,
+    '#theme' => 'mymodule_my_additional_field',
+  );
 }
 
 /**
@@ -467,15 +456,14 @@ function hook_entity_view($entity, $type, $view_mode, $langcode)
  * @see hook_taxonomy_term_view_alter()
  * @see hook_user_view_alter()
  */
-function hook_entity_view_alter(&$build, $type)
-{
-    if ($build['#view_mode'] == 'full' && isset($build['an_additional_field'])) {
-        // Change its weight.
-        $build['an_additional_field']['#weight'] = -10;
+function hook_entity_view_alter(&$build, $type) {
+  if ($build['#view_mode'] == 'full' && isset($build['an_additional_field'])) {
+    // Change its weight.
+    $build['an_additional_field']['#weight'] = -10;
 
-        // Add a #post_render callback to act on the rendered HTML of the entity.
-        $build['#post_render'][] = 'my_module_node_post_render';
-    }
+    // Add a #post_render callback to act on the rendered HTML of the entity.
+    $build['#post_render'][] = 'my_module_node_post_render';
+  }
 }
 
 /**
@@ -489,12 +477,11 @@ function hook_entity_view_alter(&$build, $type)
  *   - entity: The entity object.
  *   - langcode: The langcode the entity is being viewed in.
  */
-function hook_entity_view_mode_alter(&$view_mode, $context)
-{
-    // For nodes, change the view mode when it is teaser.
-    if ($context['entity_type'] == 'node' && $view_mode == 'teaser') {
-        $view_mode = 'my_custom_view_mode';
-    }
+function hook_entity_view_mode_alter(&$view_mode, $context) {
+  // For nodes, change the view mode when it is teaser.
+  if ($context['entity_type'] == 'node' && $view_mode == 'teaser') {
+    $view_mode = 'my_custom_view_mode';
+  }
 }
 
 /**
@@ -518,13 +505,12 @@ function hook_entity_view_mode_alter(&$view_mode, $context)
  * @see drupal_match_path()
  * @see hook_admin_paths_alter()
  */
-function hook_admin_paths()
-{
-    $paths = array(
-        'mymodule/*/add' => TRUE,
-        'mymodule/*/edit' => TRUE,
-    );
-    return $paths;
+function hook_admin_paths() {
+  $paths = array(
+    'mymodule/*/add' => TRUE,
+    'mymodule/*/edit' => TRUE,
+  );
+  return $paths;
 }
 
 /**
@@ -536,13 +522,12 @@ function hook_admin_paths()
  *
  * @see hook_admin_paths()
  */
-function hook_admin_paths_alter(&$paths)
-{
-    // Treat all user pages as administrative.
-    $paths['user'] = TRUE;
-    $paths['user/*'] = TRUE;
-    // Treat the forum topic node form as a non-administrative page.
-    $paths['node/add/forum'] = FALSE;
+function hook_admin_paths_alter(&$paths) {
+  // Treat all user pages as administrative.
+  $paths['user'] = TRUE;
+  $paths['user/*'] = TRUE;
+  // Treat the forum topic node form as a non-administrative page.
+  $paths['node/add/forum'] = FALSE;
 }
 
 /**
@@ -559,15 +544,14 @@ function hook_admin_paths_alter(&$paths)
  * @param $langcode
  *   The language to display the entity in.
  */
-function hook_entity_prepare_view($entities, $type, $langcode)
-{
-    // Load a specific node into the user object for later theming.
-    if ($type == 'user') {
-        $nodes = mymodule_get_user_nodes(array_keys($entities));
-        foreach ($entities as $uid => $entity) {
-            $entity->user_node = $nodes[$uid];
-        }
+function hook_entity_prepare_view($entities, $type, $langcode) {
+  // Load a specific node into the user object for later theming.
+  if ($type == 'user') {
+    $nodes = mymodule_get_user_nodes(array_keys($entities));
+    foreach ($entities as $uid => $entity) {
+      $entity->user_node = $nodes[$uid];
     }
+  }
 }
 
 /**
@@ -588,26 +572,25 @@ function hook_entity_prepare_view($entities, $type, $langcode)
  * more queues via hook_cron_queue_info(). Then, add items that need to be
  * processed to the defined queues.
  */
-function hook_cron()
-{
-    // Short-running operation example, not using a queue:
-    // Delete all expired records since the last cron run.
-    $expires = variable_get('mymodule_cron_last_run', REQUEST_TIME);
-    db_delete('mymodule_table')
-        ->condition('expires', $expires, '>=')
-        ->execute();
-    variable_set('mymodule_cron_last_run', REQUEST_TIME);
+function hook_cron() {
+  // Short-running operation example, not using a queue:
+  // Delete all expired records since the last cron run.
+  $expires = variable_get('mymodule_cron_last_run', REQUEST_TIME);
+  db_delete('mymodule_table')
+    ->condition('expires', $expires, '>=')
+    ->execute();
+  variable_set('mymodule_cron_last_run', REQUEST_TIME);
 
-    // Long-running operation example, leveraging a queue:
-    // Fetch feeds from other sites.
-    $result = db_query('SELECT * FROM {aggregator_feed} WHERE checked + refresh < :time AND refresh <> :never', array(
-        ':time' => REQUEST_TIME,
-        ':never' => AGGREGATOR_CLEAR_NEVER,
-    ));
-    $queue = DrupalQueue::get('aggregator_feeds');
-    foreach ($result as $feed) {
-        $queue->createItem($feed);
-    }
+  // Long-running operation example, leveraging a queue:
+  // Fetch feeds from other sites.
+  $result = db_query('SELECT * FROM {aggregator_feed} WHERE checked + refresh < :time AND refresh <> :never', array(
+    ':time' => REQUEST_TIME,
+    ':never' => AGGREGATOR_CLEAR_NEVER,
+  ));
+  $queue = DrupalQueue::get('aggregator_feeds');
+  foreach ($result as $feed) {
+    $queue->createItem($feed);
+  }
 }
 
 /**
@@ -634,13 +617,12 @@ function hook_cron()
  * @see hook_cron()
  * @see hook_cron_queue_info_alter()
  */
-function hook_cron_queue_info()
-{
-    $queues['aggregator_feeds'] = array(
-        'worker callback' => 'aggregator_refresh',
-        'time' => 60,
-    );
-    return $queues;
+function hook_cron_queue_info() {
+  $queues['aggregator_feeds'] = array(
+    'worker callback' => 'aggregator_refresh',
+    'time' => 60,
+  );
+  return $queues;
 }
 
 /**
@@ -655,11 +637,10 @@ function hook_cron_queue_info()
  * @see hook_cron_queue_info()
  * @see drupal_cron_run()
  */
-function hook_cron_queue_info_alter(&$queues)
-{
-    // This site has many feeds so let's spend 90 seconds on each cron run
-    // updating feeds instead of the default 60.
-    $queues['aggregator_feeds']['time'] = 90;
+function hook_cron_queue_info_alter(&$queues) {
+  // This site has many feeds so let's spend 90 seconds on each cron run
+  // updating feeds instead of the default 60.
+  $queues['aggregator_feeds']['time'] = 90;
 }
 
 /**
@@ -700,12 +681,11 @@ function hook_cron_queue_info_alter(&$queues)
  * @see hook_element_info_alter()
  * @see system_element_info()
  */
-function hook_element_info()
-{
-    $types['filter_format'] = array(
-        '#input' => TRUE,
-    );
-    return $types;
+function hook_element_info() {
+  $types['filter_format'] = array(
+    '#input' => TRUE,
+  );
+  return $types;
 }
 
 /**
@@ -719,12 +699,11 @@ function hook_element_info()
  *
  * @see hook_element_info()
  */
-function hook_element_info_alter(&$type)
-{
-    // Decrease the default size of textfields.
-    if (isset($type['textfield']['#size'])) {
-        $type['textfield']['#size'] = 40;
-    }
+function hook_element_info_alter(&$type) {
+  // Decrease the default size of textfields.
+  if (isset($type['textfield']['#size'])) {
+    $type['textfield']['#size'] = 40;
+  }
 }
 
 /**
@@ -746,12 +725,11 @@ function hook_element_info_alter(&$type)
  *   If this hook is invoked as part of a drupal_goto() call, then this argument
  *   will be a fully-qualified URL that is the destination of the redirect.
  */
-function hook_exit($destination = NULL)
-{
-    db_update('counter')
-        ->expression('hits', 'hits + 1')
-        ->condition('type', 1)
-        ->execute();
+function hook_exit($destination = NULL) {
+  db_update('counter')
+    ->expression('hits', 'hits + 1')
+    ->condition('type', 1)
+    ->execute();
 }
 
 /**
@@ -765,10 +743,9 @@ function hook_exit($destination = NULL)
  * @see drupal_get_js()
  * @see drupal_js_defaults()
  */
-function hook_js_alter(&$javascript)
-{
-    // Swap out jQuery to use an updated version of the library.
-    $javascript['misc/jquery.js']['data'] = drupal_get_path('module', 'jquery_update') . '/jquery.js';
+function hook_js_alter(&$javascript) {
+  // Swap out jQuery to use an updated version of the library.
+  $javascript['misc/jquery.js']['data'] = drupal_get_path('module', 'jquery_update') . '/jquery.js';
 }
 
 /**
@@ -806,45 +783,44 @@ function hook_js_alter(&$javascript)
  * @see drupal_add_library()
  * @see drupal_get_library()
  */
-function hook_library()
-{
-    // Library One.
-    $libraries['library-1'] = array(
-        'title' => 'Library One',
-        'website' => 'http://example.com/library-1',
-        'version' => '1.2',
-        'js' => array(
-            drupal_get_path('module', 'my_module') . '/library-1.js' => array(),
-        ),
-        'css' => array(
-            drupal_get_path('module', 'my_module') . '/library-2.css' => array(
-                'type' => 'file',
-                'media' => 'screen',
-            ),
-        ),
-    );
-    // Library Two.
-    $libraries['library-2'] = array(
-        'title' => 'Library Two',
-        'website' => 'http://example.com/library-2',
-        'version' => '3.1-beta1',
-        'js' => array(
-            // JavaScript settings may use the 'data' key.
-            array(
-                'type' => 'setting',
-                'data' => array('library2' => TRUE),
-            ),
-        ),
-        'dependencies' => array(
-            // Require jQuery UI core by System module.
-            array('system', 'ui'),
-            // Require our other library.
-            array('my_module', 'library-1'),
-            // Require another library.
-            array('other_module', 'library-3'),
-        ),
-    );
-    return $libraries;
+function hook_library() {
+  // Library One.
+  $libraries['library-1'] = array(
+    'title' => 'Library One',
+    'website' => 'http://example.com/library-1',
+    'version' => '1.2',
+    'js' => array(
+      drupal_get_path('module', 'my_module') . '/library-1.js' => array(),
+    ),
+    'css' => array(
+      drupal_get_path('module', 'my_module') . '/library-2.css' => array(
+        'type' => 'file',
+        'media' => 'screen',
+      ),
+    ),
+  );
+  // Library Two.
+  $libraries['library-2'] = array(
+    'title' => 'Library Two',
+    'website' => 'http://example.com/library-2',
+    'version' => '3.1-beta1',
+    'js' => array(
+      // JavaScript settings may use the 'data' key.
+      array(
+        'type' => 'setting',
+        'data' => array('library2' => TRUE),
+      ),
+    ),
+    'dependencies' => array(
+      // Require jQuery UI core by System module.
+      array('system', 'ui'),
+      // Require our other library.
+      array('my_module', 'library-1'),
+      // Require another library.
+      array('other_module', 'library-3'),
+    ),
+  );
+  return $libraries;
 }
 
 /**
@@ -863,19 +839,18 @@ function hook_library()
  *
  * @see hook_library()
  */
-function hook_library_alter(&$libraries, $module)
-{
-    // Update Farbtastic to version 2.0.
-    if ($module == 'system' && isset($libraries['farbtastic'])) {
-        // Verify existing version is older than the one we are updating to.
-        if (version_compare($libraries['farbtastic']['version'], '2.0', '<')) {
-            // Update the existing Farbtastic to version 2.0.
-            $libraries['farbtastic']['version'] = '2.0';
-            $libraries['farbtastic']['js'] = array(
-                drupal_get_path('module', 'farbtastic_update') . '/farbtastic-2.0.js' => array(),
-            );
-        }
+function hook_library_alter(&$libraries, $module) {
+  // Update Farbtastic to version 2.0.
+  if ($module == 'system' && isset($libraries['farbtastic'])) {
+    // Verify existing version is older than the one we are updating to.
+    if (version_compare($libraries['farbtastic']['version'], '2.0', '<')) {
+      // Update the existing Farbtastic to version 2.0.
+      $libraries['farbtastic']['version'] = '2.0';
+      $libraries['farbtastic']['js'] = array(
+        drupal_get_path('module', 'farbtastic_update') . '/farbtastic-2.0.js' => array(),
+      );
     }
+  }
 }
 
 /**
@@ -887,10 +862,9 @@ function hook_library_alter(&$libraries, $module)
  * @see drupal_add_css()
  * @see drupal_get_css()
  */
-function hook_css_alter(&$css)
-{
-    // Remove defaults.css file.
-    unset($css[drupal_get_path('module', 'system') . '/defaults.css']);
+function hook_css_alter(&$css) {
+  // Remove defaults.css file.
+  unset($css[drupal_get_path('module', 'system') . '/defaults.css']);
 }
 
 /**
@@ -901,10 +875,9 @@ function hook_css_alter(&$css)
  *
  * @see ajax_render()
  */
-function hook_ajax_render_alter(&$commands)
-{
-    // Inject any new status messages into the content area.
-    $commands[] = ajax_command_prepend('#block-system-main .content', theme('status_messages'));
+function hook_ajax_render_alter(&$commands) {
+  // Inject any new status messages into the content area.
+  $commands[] = ajax_command_prepend('#block-system-main .content', theme('status_messages'));
 }
 
 /**
@@ -929,16 +902,15 @@ function hook_ajax_render_alter(&$commands)
  * @see hook_page_alter()
  * @see drupal_render_page()
  */
-function hook_page_build(&$page)
-{
-    if (menu_get_object('node', 1)) {
-        // We are on a node detail page. Append a standard disclaimer to the
-        // content region.
-        $page['content']['disclaimer'] = array(
-            '#markup' => t('Acme, Inc. is not responsible for the contents of this sample code.'),
-            '#weight' => 25,
-        );
-    }
+function hook_page_build(&$page) {
+  if (menu_get_object('node', 1)) {
+    // We are on a node detail page. Append a standard disclaimer to the
+    // content region.
+    $page['content']['disclaimer'] = array(
+      '#markup' => t('Acme, Inc. is not responsible for the contents of this sample code.'),
+      '#weight' => 25,
+    );
+  }
 }
 
 /**
@@ -965,13 +937,12 @@ function hook_page_build(&$page)
  *
  * @see menu_get_item()
  */
-function hook_menu_get_item_alter(&$router_item, $path, $original_map)
-{
-    // When retrieving the router item for the current path...
-    if ($path == $_GET['q']) {
-        // ...call a function that prepares something for this request.
-        mymodule_prepare_something();
-    }
+function hook_menu_get_item_alter(&$router_item, $path, $original_map) {
+  // When retrieving the router item for the current path...
+  if ($path == $_GET['q']) {
+    // ...call a function that prepares something for this request.
+    mymodule_prepare_something();
+  }
 }
 
 /**
@@ -1256,9 +1227,9 @@ function hook_menu_get_item_alter(&$router_item, $path, $original_map)
  *       the primary page context only.
  *     Contexts can be combined. For example, to display a tab both on a page
  *     and inline, a menu router item may specify:
- * @code
+ *     @code
  *       'context' => MENU_CONTEXT_PAGE | MENU_CONTEXT_INLINE,
- * @endcode
+ *     @endcode
  *   - "tab_parent": For local task menu items, the path of the task's parent
  *     item; defaults to the same path without the last component (e.g., the
  *     default parent for 'admin/people/create' is 'admin/people').
@@ -1290,22 +1261,21 @@ function hook_menu_get_item_alter(&$router_item, $path, $original_map)
  * For comprehensive documentation on the menu system, see
  * http://drupal.org/node/102338.
  */
-function hook_menu()
-{
-    $items['example'] = array(
-        'title' => 'Example Page',
-        'page callback' => 'example_page',
-        'access arguments' => array('access content'),
-        'type' => MENU_SUGGESTED_ITEM,
-    );
-    $items['example/feed'] = array(
-        'title' => 'Example RSS feed',
-        'page callback' => 'example_feed',
-        'access arguments' => array('access content'),
-        'type' => MENU_CALLBACK,
-    );
+function hook_menu() {
+  $items['example'] = array(
+    'title' => 'Example Page',
+    'page callback' => 'example_page',
+    'access arguments' => array('access content'),
+    'type' => MENU_SUGGESTED_ITEM,
+  );
+  $items['example/feed'] = array(
+    'title' => 'Example RSS feed',
+    'page callback' => 'example_feed',
+    'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK,
+  );
 
-    return $items;
+  return $items;
 }
 
 /**
@@ -1319,10 +1289,9 @@ function hook_menu()
  * @param $items
  *   Associative array of menu router definitions returned from hook_menu().
  */
-function hook_menu_alter(&$items)
-{
-    // Example - disable the page at node/add
-    $items['node/add']['access callback'] = FALSE;
+function hook_menu_alter(&$items) {
+  // Example - disable the page at node/add
+  $items['node/add']['access callback'] = FALSE;
 }
 
 /**
@@ -1333,22 +1302,21 @@ function hook_menu_alter(&$items)
  *
  * @see hook_translated_menu_link_alter()
  */
-function hook_menu_link_alter(&$item)
-{
-    // Make all new admin links hidden (a.k.a disabled).
-    if (strpos($item['link_path'], 'admin') === 0 && empty($item['mlid'])) {
-        $item['hidden'] = 1;
-    }
-    // Flag a link to be altered by hook_translated_menu_link_alter().
-    if ($item['link_path'] == 'devel/cache/clear') {
-        $item['options']['alter'] = TRUE;
-    }
-    // Flag a link to be altered by hook_translated_menu_link_alter(), but only
-    // if it is derived from a menu router item; i.e., do not alter a custom
-    // menu link pointing to the same path that has been created by a user.
-    if ($item['link_path'] == 'user' && $item['module'] == 'system') {
-        $item['options']['alter'] = TRUE;
-    }
+function hook_menu_link_alter(&$item) {
+  // Make all new admin links hidden (a.k.a disabled).
+  if (strpos($item['link_path'], 'admin') === 0 && empty($item['mlid'])) {
+    $item['hidden'] = 1;
+  }
+  // Flag a link to be altered by hook_translated_menu_link_alter().
+  if ($item['link_path'] == 'devel/cache/clear') {
+    $item['options']['alter'] = TRUE;
+  }
+  // Flag a link to be altered by hook_translated_menu_link_alter(), but only
+  // if it is derived from a menu router item; i.e., do not alter a custom
+  // menu link pointing to the same path that has been created by a user.
+  if ($item['link_path'] == 'user' && $item['module'] == 'system') {
+    $item['options']['alter'] = TRUE;
+  }
 }
 
 /**
@@ -1375,11 +1343,10 @@ function hook_menu_link_alter(&$item)
  *
  * @see hook_menu_link_alter()
  */
-function hook_translated_menu_link_alter(&$item, $map)
-{
-    if ($item['href'] == 'devel/cache/clear') {
-        $item['localized_options']['query'] = drupal_get_destination();
-    }
+function hook_translated_menu_link_alter(&$item, $map) {
+  if ($item['href'] == 'devel/cache/clear') {
+    $item['localized_options']['query'] = drupal_get_destination();
+  }
 }
 
 /**
@@ -1395,14 +1362,13 @@ function hook_translated_menu_link_alter(&$item, $map)
  * @see hook_menu_link_update()
  * @see hook_menu_link_delete()
  */
-function hook_menu_link_insert($link)
-{
-    // In our sample case, we track menu items as editing sections
-    // of the site. These are stored in our table as 'disabled' items.
-    $record['mlid'] = $link['mlid'];
-    $record['menu_name'] = $link['menu_name'];
-    $record['status'] = 0;
-    drupal_write_record('menu_example', $record);
+function hook_menu_link_insert($link) {
+  // In our sample case, we track menu items as editing sections
+  // of the site. These are stored in our table as 'disabled' items.
+  $record['mlid'] = $link['mlid'];
+  $record['menu_name'] = $link['menu_name'];
+  $record['status'] = 0;
+  drupal_write_record('menu_example', $record);
 }
 
 /**
@@ -1418,16 +1384,15 @@ function hook_menu_link_insert($link)
  * @see hook_menu_link_insert()
  * @see hook_menu_link_delete()
  */
-function hook_menu_link_update($link)
-{
-    // If the parent menu has changed, update our record.
-    $menu_name = db_query("SELECT menu_name FROM {menu_example} WHERE mlid = :mlid", array(':mlid' => $link['mlid']))->fetchField();
-    if ($menu_name != $link['menu_name']) {
-        db_update('menu_example')
-            ->fields(array('menu_name' => $link['menu_name']))
-            ->condition('mlid', $link['mlid'])
-            ->execute();
-    }
+function hook_menu_link_update($link) {
+  // If the parent menu has changed, update our record.
+  $menu_name = db_query("SELECT menu_name FROM {menu_example} WHERE mlid = :mlid", array(':mlid' => $link['mlid']))->fetchField();
+  if ($menu_name != $link['menu_name']) {
+    db_update('menu_example')
+      ->fields(array('menu_name' => $link['menu_name']))
+      ->condition('mlid', $link['mlid'])
+      ->execute();
+  }
 }
 
 /**
@@ -1443,12 +1408,11 @@ function hook_menu_link_update($link)
  * @see hook_menu_link_insert()
  * @see hook_menu_link_update()
  */
-function hook_menu_link_delete($link)
-{
-    // Delete the record from our table.
-    db_delete('menu_example')
-        ->condition('mlid', $link['mlid'])
-        ->execute();
+function hook_menu_link_delete($link) {
+  // Delete the record from our table.
+  db_delete('menu_example')
+    ->condition('mlid', $link['mlid'])
+    ->execute();
 }
 
 /**
@@ -1484,39 +1448,38 @@ function hook_menu_link_delete($link)
  * @param $root_path
  *   The path to the root item for this set of tabs.
  */
-function hook_menu_local_tasks_alter(&$data, $router_item, $root_path)
-{
-    // Add an action linking to node/add to all pages.
-    $data['actions']['output'][] = array(
-        '#theme' => 'menu_local_task',
-        '#link' => array(
-            'title' => t('Add new content'),
-            'href' => 'node/add',
-            'localized_options' => array(
-                'attributes' => array(
-                    'title' => t('Add new content'),
-                ),
-            ),
+function hook_menu_local_tasks_alter(&$data, $router_item, $root_path) {
+  // Add an action linking to node/add to all pages.
+  $data['actions']['output'][] = array(
+    '#theme' => 'menu_local_task',
+    '#link' => array(
+      'title' => t('Add new content'),
+      'href' => 'node/add',
+      'localized_options' => array(
+        'attributes' => array(
+          'title' => t('Add new content'),
         ),
-    );
+      ),
+    ),
+  );
 
-    // Add a tab linking to node/add to all pages.
-    $data['tabs'][0]['output'][] = array(
-        '#theme' => 'menu_local_task',
-        '#link' => array(
-            'title' => t('Example tab'),
-            'href' => 'node/add',
-            'localized_options' => array(
-                'attributes' => array(
-                    'title' => t('Add new content'),
-                ),
-            ),
+  // Add a tab linking to node/add to all pages.
+  $data['tabs'][0]['output'][] = array(
+    '#theme' => 'menu_local_task',
+    '#link' => array(
+      'title' => t('Example tab'),
+      'href' => 'node/add',
+      'localized_options' => array(
+        'attributes' => array(
+          'title' => t('Add new content'),
         ),
-        // Define whether this link is active. This can be omitted for
-        // implementations that add links to pages outside of the current page
-        // context.
-        '#active' => ($router_item['path'] == $root_path),
-    );
+      ),
+    ),
+    // Define whether this link is active. This can be omitted for
+    // implementations that add links to pages outside of the current page
+    // context.
+    '#active' => ($router_item['path'] == $root_path),
+  );
 }
 
 /**
@@ -1553,18 +1516,17 @@ function hook_menu_local_tasks_alter(&$data, $router_item, $root_path)
  * @see menu_get_active_trail()
  * @see menu_set_active_trail()
  */
-function hook_menu_breadcrumb_alter(&$active_trail, $item)
-{
-    // Always display a link to the current page by duplicating the last link in
-    // the active trail. This means that menu_get_active_breadcrumb() will remove
-    // the last link (for the current page), but since it is added once more here,
-    // it will appear.
-    if (!drupal_is_front_page()) {
-        $end = end($active_trail);
-        if ($item['href'] == $end['href']) {
-            $active_trail[] = $end;
-        }
+function hook_menu_breadcrumb_alter(&$active_trail, $item) {
+  // Always display a link to the current page by duplicating the last link in
+  // the active trail. This means that menu_get_active_breadcrumb() will remove
+  // the last link (for the current page), but since it is added once more here,
+  // it will appear.
+  if (!drupal_is_front_page()) {
+    $end = end($active_trail);
+    if ($item['href'] == $end['href']) {
+      $active_trail[] = $end;
     }
+  }
 }
 
 /**
@@ -1596,20 +1558,19 @@ function hook_menu_breadcrumb_alter(&$active_trail, $item)
  * @see hook_menu()
  * @see contextual_preprocess()
  */
-function hook_menu_contextual_links_alter(&$links, $router_item, $root_path)
-{
-    // Add a link to all contextual links for nodes.
-    if ($root_path == 'node/%') {
-        $links['foo'] = array(
-            'title' => t('Do fu'),
-            'href' => 'foo/do',
-            'localized_options' => array(
-                'query' => array(
-                    'foo' => 'bar',
-                ),
-            ),
-        );
-    }
+function hook_menu_contextual_links_alter(&$links, $router_item, $root_path) {
+  // Add a link to all contextual links for nodes.
+  if ($root_path == 'node/%') {
+    $links['foo'] = array(
+      'title' => t('Do fu'),
+      'href' => 'foo/do',
+      'localized_options' => array(
+        'query' => array(
+          'foo' => 'bar',
+        ),
+      ),
+    );
+  }
 }
 
 /**
@@ -1663,13 +1624,12 @@ function hook_menu_contextual_links_alter(&$links, $router_item, $root_path)
  * @see hook_page_build()
  * @see drupal_render_page()
  */
-function hook_page_alter(&$page)
-{
-    // Add help text to the user login block.
-    $page['sidebar_first']['user_login']['help'] = array(
-        '#weight' => -10,
-        '#markup' => t('To post comments or add new content, you first have to log in.'),
-    );
+function hook_page_alter(&$page) {
+  // Add help text to the user login block.
+  $page['sidebar_first']['user_login']['help'] = array(
+    '#weight' => -10,
+    '#markup' => t('To post comments or add new content, you first have to log in.'),
+  );
 }
 
 /**
@@ -1708,16 +1668,15 @@ function hook_page_alter(&$page)
  * @see hook_form_FORM_ID_alter()
  * @see forms_api_reference.html
  */
-function hook_form_alter(&$form, &$form_state, $form_id)
-{
-    if (isset($form['type']) && $form['type']['#value'] . '_node_settings' == $form_id) {
-        $form['workflow']['upload_' . $form['type']['#value']] = array(
-            '#type' => 'radios',
-            '#title' => t('Attachments'),
-            '#default_value' => variable_get('upload_' . $form['type']['#value'], 1),
-            '#options' => array(t('Disabled'), t('Enabled')),
-        );
-    }
+function hook_form_alter(&$form, &$form_state, $form_id) {
+  if (isset($form['type']) && $form['type']['#value'] . '_node_settings' == $form_id) {
+    $form['workflow']['upload_' . $form['type']['#value']] = array(
+      '#type' => 'radios',
+      '#title' => t('Attachments'),
+      '#default_value' => variable_get('upload_' . $form['type']['#value'], 1),
+      '#options' => array(t('Disabled'), t('Enabled')),
+    );
+  }
 }
 
 /**
@@ -1746,18 +1705,17 @@ function hook_form_alter(&$form, &$form_state, $form_id)
  * @see drupal_prepare_form()
  * @see forms_api_reference.html
  */
-function hook_form_FORM_ID_alter(&$form, &$form_state, $form_id)
-{
-    // Modification for the form with the given form ID goes here. For example, if
-    // FORM_ID is "user_register_form" this code would run only on the user
-    // registration form.
+function hook_form_FORM_ID_alter(&$form, &$form_state, $form_id) {
+  // Modification for the form with the given form ID goes here. For example, if
+  // FORM_ID is "user_register_form" this code would run only on the user
+  // registration form.
 
-    // Add a checkbox to registration form about agreeing to terms of use.
-    $form['terms_of_use'] = array(
-        '#type' => 'checkbox',
-        '#title' => t("I agree with the website's terms and conditions."),
-        '#required' => TRUE,
-    );
+  // Add a checkbox to registration form about agreeing to terms of use.
+  $form['terms_of_use'] = array(
+    '#type' => 'checkbox',
+    '#title' => t("I agree with the website's terms and conditions."),
+    '#required' => TRUE,
+  );
 }
 
 /**
@@ -1796,18 +1754,17 @@ function hook_form_FORM_ID_alter(&$form, &$form_state, $form_id)
  * @see drupal_prepare_form()
  * @see hook_forms()
  */
-function hook_form_BASE_FORM_ID_alter(&$form, &$form_state, $form_id)
-{
-    // Modification for the form with the given BASE_FORM_ID goes here. For
-    // example, if BASE_FORM_ID is "node_form", this code would run on every
-    // node form, regardless of node type.
+function hook_form_BASE_FORM_ID_alter(&$form, &$form_state, $form_id) {
+  // Modification for the form with the given BASE_FORM_ID goes here. For
+  // example, if BASE_FORM_ID is "node_form", this code would run on every
+  // node form, regardless of node type.
 
-    // Add a checkbox to the node form about agreeing to terms of use.
-    $form['terms_of_use'] = array(
-        '#type' => 'checkbox',
-        '#title' => t("I agree with the website's terms and conditions."),
-        '#required' => TRUE,
-    );
+  // Add a checkbox to the node form about agreeing to terms of use.
+  $form['terms_of_use'] = array(
+    '#type' => 'checkbox',
+    '#title' => t("I agree with the website's terms and conditions."),
+    '#required' => TRUE,
+  );
 }
 
 /**
@@ -1864,30 +1821,29 @@ function hook_form_BASE_FORM_ID_alter(&$form, &$form_state, $form_id)
  *     forms that belong to the wizard, which all share the same wrapper
  *     callback.
  */
-function hook_forms($form_id, $args)
-{
-    // Simply reroute the (non-existing) $form_id 'mymodule_first_form' to
-    // 'mymodule_main_form'.
-    $forms['mymodule_first_form'] = array(
-        'callback' => 'mymodule_main_form',
-    );
+function hook_forms($form_id, $args) {
+  // Simply reroute the (non-existing) $form_id 'mymodule_first_form' to
+  // 'mymodule_main_form'.
+  $forms['mymodule_first_form'] = array(
+    'callback' => 'mymodule_main_form',
+  );
 
-    // Reroute the $form_id and prepend an additional argument that gets passed to
-    // the 'mymodule_main_form' form builder function.
-    $forms['mymodule_second_form'] = array(
-        'callback' => 'mymodule_main_form',
-        'callback arguments' => array('some parameter'),
-    );
+  // Reroute the $form_id and prepend an additional argument that gets passed to
+  // the 'mymodule_main_form' form builder function.
+  $forms['mymodule_second_form'] = array(
+    'callback' => 'mymodule_main_form',
+    'callback arguments' => array('some parameter'),
+  );
 
-    // Reroute the $form_id, but invoke the form builder function
-    // 'mymodule_main_form_wrapper' first, so we can prepopulate the $form array
-    // that is passed to the actual form builder 'mymodule_main_form'.
-    $forms['mymodule_wrapped_form'] = array(
-        'callback' => 'mymodule_main_form',
-        'wrapper_callback' => 'mymodule_main_form_wrapper',
-    );
+  // Reroute the $form_id, but invoke the form builder function
+  // 'mymodule_main_form_wrapper' first, so we can prepopulate the $form array
+  // that is passed to the actual form builder 'mymodule_main_form'.
+  $forms['mymodule_wrapped_form'] = array(
+    'callback' => 'mymodule_main_form',
+    'wrapper_callback' => 'mymodule_main_form_wrapper',
+  );
 
-    return $forms;
+  return $forms;
 }
 
 /**
@@ -1902,11 +1858,10 @@ function hook_forms($form_id, $args)
  *
  * @see hook_init()
  */
-function hook_boot()
-{
-    // We need user_access() in the shutdown function. Make sure it gets loaded.
-    drupal_load('module', 'user');
-    drupal_register_shutdown_function('devel_shutdown');
+function hook_boot() {
+  // We need user_access() in the shutdown function. Make sure it gets loaded.
+  drupal_load('module', 'user');
+  drupal_register_shutdown_function('devel_shutdown');
 }
 
 /**
@@ -1924,13 +1879,12 @@ function hook_boot()
  *
  * @see hook_boot()
  */
-function hook_init()
-{
-    // Since this file should only be loaded on the front page, it cannot be
-    // declared in the info file.
-    if (drupal_is_front_page()) {
-        drupal_add_css(drupal_get_path('module', 'foo') . '/foo.css');
-    }
+function hook_init() {
+  // Since this file should only be loaded on the front page, it cannot be
+  // declared in the info file.
+  if (drupal_is_front_page()) {
+    drupal_add_css(drupal_get_path('module', 'foo') . '/foo.css');
+  }
 }
 
 /**
@@ -1957,18 +1911,17 @@ function hook_init()
  *
  * @see system_image_toolkits()
  */
-function hook_image_toolkits()
-{
-    return array(
-        'working' => array(
-            'title' => t('A toolkit that works.'),
-            'available' => TRUE,
-        ),
-        'broken' => array(
-            'title' => t('A toolkit that is "broken" and will not be listed.'),
-            'available' => FALSE,
-        ),
-    );
+function hook_image_toolkits() {
+  return array(
+    'working' => array(
+      'title' => t('A toolkit that works.'),
+      'available' => TRUE,
+    ),
+    'broken' => array(
+      'title' => t('A toolkit that is "broken" and will not be listed.'),
+      'available' => FALSE,
+    ),
+  );
 }
 
 /**
@@ -1992,7 +1945,7 @@ function hook_image_toolkits()
  *  - 'to':
  *     The address or addresses the message will be sent to. The formatting of
  *     this string will be validated with the
- * @link http://php.net/manual/filter.filters.validate.php PHP e-mail validation filter. @endlink
+ *     @link http://php.net/manual/filter.filters.validate.php PHP e-mail validation filter. @endlink
  *  - 'from':
  *     The address the message will be marked as being from, which is
  *     either a custom address or the site-wide default email address.
@@ -2017,17 +1970,16 @@ function hook_image_toolkits()
  *
  * @see drupal_mail()
  */
-function hook_mail_alter(&$message)
-{
-    if ($message['id'] == 'modulename_messagekey') {
-        if (!example_notifications_optin($message['to'], $message['id'])) {
-            // If the recipient has opted to not receive such messages, cancel
-            // sending.
-            $message['send'] = FALSE;
-            return;
-        }
-        $message['body'][] = "--\nMail sent out from " . variable_get('site_name', t('Drupal'));
+function hook_mail_alter(&$message) {
+  if ($message['id'] == 'modulename_messagekey') {
+    if (!example_notifications_optin($message['to'], $message['id'])) {
+      // If the recipient has opted to not receive such messages, cancel
+      // sending.
+      $message['send'] = FALSE;
+      return;
     }
+    $message['body'][] = "--\nMail sent out from " . variable_get('site_name', t('Drupal'));
+  }
 }
 
 /**
@@ -2053,17 +2005,16 @@ function hook_mail_alter(&$message)
  * @param $hook
  *   The name of the module hook being implemented.
  */
-function hook_module_implements_alter(&$implementations, $hook)
-{
-    if ($hook == 'rdf_mapping') {
-        // Move my_module_rdf_mapping() to the end of the list. module_implements()
-        // iterates through $implementations with a foreach loop which PHP iterates
-        // in the order that the items were added, so to move an item to the end of
-        // the array, we remove it and then add it.
-        $group = $implementations['my_module'];
-        unset($implementations['my_module']);
-        $implementations['my_module'] = $group;
-    }
+function hook_module_implements_alter(&$implementations, $hook) {
+  if ($hook == 'rdf_mapping') {
+    // Move my_module_rdf_mapping() to the end of the list. module_implements()
+    // iterates through $implementations with a foreach loop which PHP iterates
+    // in the order that the items were added, so to move an item to the end of
+    // the array, we remove it and then add it.
+    $group = $implementations['my_module'];
+    unset($implementations['my_module']);
+    $implementations['my_module'] = $group;
+  }
 }
 
 /**
@@ -2080,10 +2031,9 @@ function hook_module_implements_alter(&$implementations, $hook)
  *   An associative array. Each key is the system name of a theme and each value
  *   is the corresponding path to the theme's .info file.
  */
-function hook_system_theme_info()
-{
-    $themes['mymodule_test_theme'] = drupal_get_path('module', 'mymodule') . '/mymodule_test_theme/mymodule_test_theme.info';
-    return $themes;
+function hook_system_theme_info() {
+  $themes['mymodule_test_theme'] = drupal_get_path('module', 'mymodule') . '/mymodule_test_theme/mymodule_test_theme.info';
+  return $themes;
 }
 
 /**
@@ -2103,12 +2053,11 @@ function hook_system_theme_info()
  *   Either 'module' or 'theme', depending on the type of .info file that was
  *   passed.
  */
-function hook_system_info_alter(&$info, $file, $type)
-{
-    // Only fill this in if the .info file does not define a 'datestamp'.
-    if (empty($info['datestamp'])) {
-        $info['datestamp'] = filemtime($file->filename);
-    }
+function hook_system_info_alter(&$info, $file, $type) {
+  // Only fill this in if the .info file does not define a 'datestamp'.
+  if (empty($info['datestamp'])) {
+    $info['datestamp'] = filemtime($file->filename);
+  }
 }
 
 /**
@@ -2150,14 +2099,13 @@ function hook_system_info_alter(&$info, $file, $type)
  *
  * @see theme_user_permission_description()
  */
-function hook_permission()
-{
-    return array(
-        'administer my module' => array(
-            'title' => t('Administer my module'),
-            'description' => t('Perform administration tasks for my module.'),
-        ),
-    );
+function hook_permission() {
+  return array(
+    'administer my module' =>  array(
+      'title' => t('Administer my module'),
+      'description' => t('Perform administration tasks for my module.'),
+    ),
+  );
 }
 
 /**
@@ -2175,7 +2123,7 @@ function hook_permission()
  *
  * For detailed usage examples of:
  * - Module overview help, see node_help(). Module overview help should follow
- * @link https://drupal.org/node/632280 the standard help template. @endlink
+ *   @link https://drupal.org/node/632280 the standard help template. @endlink
  * - Page-specific help with simple paths, see dashboard_help().
  * - Page-specific help using wildcards in path and $arg, see node_help()
  *   and block_help().
@@ -2203,17 +2151,16 @@ function hook_permission()
  * @return
  *   A localized string containing the help text.
  */
-function hook_help($path, $arg)
-{
-    switch ($path) {
-        // Main module help for the block module
-        case 'admin/help#block':
-            return '<p>' . t('Blocks are boxes of content rendered into an area, or region, of a web page. The default theme Bartik, for example, implements the regions "Sidebar first", "Sidebar second", "Featured", "Content", "Header", "Footer", etc., and a block may appear in any one of these areas. The <a href="@blocks">blocks administration page</a> provides a drag-and-drop interface for assigning a block to a region, and for controlling the order of blocks within regions.', array('@blocks' => url('admin/structure/block'))) . '</p>';
+function hook_help($path, $arg) {
+  switch ($path) {
+    // Main module help for the block module
+    case 'admin/help#block':
+      return '<p>' . t('Blocks are boxes of content rendered into an area, or region, of a web page. The default theme Bartik, for example, implements the regions "Sidebar first", "Sidebar second", "Featured", "Content", "Header", "Footer", etc., and a block may appear in any one of these areas. The <a href="@blocks">blocks administration page</a> provides a drag-and-drop interface for assigning a block to a region, and for controlling the order of blocks within regions.', array('@blocks' => url('admin/structure/block'))) . '</p>';
 
-        // Help for another path in the block module
-        case 'admin/structure/block':
-            return '<p>' . t('This page provides a drag-and-drop interface for assigning a block to a region, and for controlling the order of blocks within regions. Since not all themes implement the same regions, or display regions in the same way, blocks are positioned on a per-theme basis. Remember that your changes will not be saved until you click the <em>Save blocks</em> button at the bottom of the page.') . '</p>';
-    }
+    // Help for another path in the block module
+    case 'admin/structure/block':
+      return '<p>' . t('This page provides a drag-and-drop interface for assigning a block to a region, and for controlling the order of blocks within regions. Since not all themes implement the same regions, or display regions in the same way, blocks are positioned on a per-theme basis. Remember that your changes will not be saved until you click the <em>Save blocks</em> button at the bottom of the page.') . '</p>';
+  }
 }
 
 /**
@@ -2301,9 +2248,9 @@ function hook_help($path, $arg)
  *     differentiate the dynamic portion of the theme. For example, to allow
  *     forums to be themed individually, the pattern might be: 'forum__'. Then,
  *     when the forum is themed, call:
- * @code
+ *     @code
  *     theme(array('forum__' . $tid, 'forum'), $forum)
- * @endcode
+ *     @endcode
  *   - preprocess functions: A list of functions used to preprocess this data.
  *     Ordinarily this won't be used; it's automatically filled in. By default,
  *     for a module this will be filled in as template_preprocess_HOOK. For
@@ -2324,30 +2271,29 @@ function hook_help($path, $arg)
  *
  * @see hook_theme_registry_alter()
  */
-function hook_theme($existing, $type, $theme, $path)
-{
-    return array(
-        'forum_display' => array(
-            'variables' => array('forums' => NULL, 'topics' => NULL, 'parents' => NULL, 'tid' => NULL, 'sortby' => NULL, 'forum_per_page' => NULL),
-        ),
-        'forum_list' => array(
-            'variables' => array('forums' => NULL, 'parents' => NULL, 'tid' => NULL),
-        ),
-        'forum_topic_list' => array(
-            'variables' => array('tid' => NULL, 'topics' => NULL, 'sortby' => NULL, 'forum_per_page' => NULL),
-        ),
-        'forum_icon' => array(
-            'variables' => array('new_posts' => NULL, 'num_posts' => 0, 'comment_mode' => 0, 'sticky' => 0),
-        ),
-        'status_report' => array(
-            'render element' => 'requirements',
-            'file' => 'system.admin.inc',
-        ),
-        'system_date_time_settings' => array(
-            'render element' => 'form',
-            'file' => 'system.admin.inc',
-        ),
-    );
+function hook_theme($existing, $type, $theme, $path) {
+  return array(
+    'forum_display' => array(
+      'variables' => array('forums' => NULL, 'topics' => NULL, 'parents' => NULL, 'tid' => NULL, 'sortby' => NULL, 'forum_per_page' => NULL),
+    ),
+    'forum_list' => array(
+      'variables' => array('forums' => NULL, 'parents' => NULL, 'tid' => NULL),
+    ),
+    'forum_topic_list' => array(
+      'variables' => array('tid' => NULL, 'topics' => NULL, 'sortby' => NULL, 'forum_per_page' => NULL),
+    ),
+    'forum_icon' => array(
+      'variables' => array('new_posts' => NULL, 'num_posts' => 0, 'comment_mode' => 0, 'sticky' => 0),
+    ),
+    'status_report' => array(
+      'render element' => 'requirements',
+      'file' => 'system.admin.inc',
+    ),
+    'system_date_time_settings' => array(
+      'render element' => 'form',
+      'file' => 'system.admin.inc',
+    ),
+  );
 }
 
 /**
@@ -2387,14 +2333,13 @@ function hook_theme($existing, $type, $theme, $path)
  * @see hook_theme()
  * @see _theme_process_registry()
  */
-function hook_theme_registry_alter(&$theme_registry)
-{
-    // Kill the next/previous forum topic navigation links.
-    foreach ($theme_registry['forum_topic_navigation']['preprocess functions'] as $key => $value) {
-        if ($value == 'template_preprocess_forum_topic_navigation') {
-            unset($theme_registry['forum_topic_navigation']['preprocess functions'][$key]);
-        }
+function hook_theme_registry_alter(&$theme_registry) {
+  // Kill the next/previous forum topic navigation links.
+  foreach ($theme_registry['forum_topic_navigation']['preprocess functions'] as $key => $value) {
+    if ($value == 'template_preprocess_forum_topic_navigation') {
+      unset($theme_registry['forum_topic_navigation']['preprocess functions'][$key]);
     }
+  }
 }
 
 /**
@@ -2422,12 +2367,11 @@ function hook_theme_registry_alter(&$theme_registry)
  *   effect if it corresponds to a currently-active theme on the site. Do not
  *   return a value if you do not wish to set a custom theme.
  */
-function hook_custom_theme()
-{
-    // Allow the user to request a particular theme via a query parameter.
-    if (isset($_GET['theme'])) {
-        return $_GET['theme'];
-    }
+function hook_custom_theme() {
+  // Allow the user to request a particular theme via a query parameter.
+  if (isset($_GET['theme'])) {
+    return $_GET['theme'];
+  }
 }
 
 /**
@@ -2463,16 +2407,15 @@ function hook_custom_theme()
  *     purposes.
  *   Both forms are shown in the example.
  */
-function hook_xmlrpc()
-{
-    return array(
-        'drupal.login' => 'drupal_login',
-        array(
-            'drupal.site.ping',
-            'drupal_directory_ping',
-            array('boolean', 'string', 'string', 'string', 'string', 'string'),
-            t('Handling ping request'))
-    );
+function hook_xmlrpc() {
+  return array(
+    'drupal.login' => 'drupal_login',
+    array(
+      'drupal.site.ping',
+      'drupal_directory_ping',
+      array('boolean', 'string', 'string', 'string', 'string', 'string'),
+      t('Handling ping request'))
+  );
 }
 
 /**
@@ -2492,22 +2435,21 @@ function hook_xmlrpc()
  * @see hook_xmlrpc()
  * @see xmlrpc_server()
  */
-function hook_xmlrpc_alter(&$methods)
-{
-    // Directly change a simple method.
-    $methods['drupal.login'] = 'mymodule_login';
+function hook_xmlrpc_alter(&$methods) {
+  // Directly change a simple method.
+  $methods['drupal.login'] = 'mymodule_login';
 
-    // Alter complex definitions.
-    foreach ($methods as $key => &$method) {
-        // Skip simple method definitions.
-        if (!is_int($key)) {
-            continue;
-        }
-        // Perform the wanted manipulation.
-        if ($method[0] == 'drupal.site.ping') {
-            $method[1] = 'mymodule_directory_ping';
-        }
+  // Alter complex definitions.
+  foreach ($methods as $key => &$method) {
+    // Skip simple method definitions.
+    if (!is_int($key)) {
+      continue;
     }
+    // Perform the wanted manipulation.
+    if ($method[0] == 'drupal.site.ping') {
+      $method[1] = 'mymodule_directory_ping';
+    }
+  }
 }
 
 /**
@@ -2547,55 +2489,54 @@ function hook_xmlrpc_alter(&$methods)
  *     display. Will be NULL or missing if a message is already translated or if
  *     the message is not possible to translate.
  */
-function hook_watchdog(array $log_entry)
-{
-    global $base_url, $language;
+function hook_watchdog(array $log_entry) {
+  global $base_url, $language;
 
-    $severity_list = array(
-        WATCHDOG_EMERGENCY => t('Emergency'),
-        WATCHDOG_ALERT => t('Alert'),
-        WATCHDOG_CRITICAL => t('Critical'),
-        WATCHDOG_ERROR => t('Error'),
-        WATCHDOG_WARNING => t('Warning'),
-        WATCHDOG_NOTICE => t('Notice'),
-        WATCHDOG_INFO => t('Info'),
-        WATCHDOG_DEBUG => t('Debug'),
-    );
+  $severity_list = array(
+    WATCHDOG_EMERGENCY => t('Emergency'),
+    WATCHDOG_ALERT     => t('Alert'),
+    WATCHDOG_CRITICAL  => t('Critical'),
+    WATCHDOG_ERROR     => t('Error'),
+    WATCHDOG_WARNING   => t('Warning'),
+    WATCHDOG_NOTICE    => t('Notice'),
+    WATCHDOG_INFO      => t('Info'),
+    WATCHDOG_DEBUG     => t('Debug'),
+  );
 
-    $to = 'someone@example.com';
-    $params = array();
-    $params['subject'] = t('[@site_name] @severity_desc: Alert from your web site', array(
-        '@site_name' => variable_get('site_name', 'Drupal'),
-        '@severity_desc' => $severity_list[$log_entry['severity']],
-    ));
+  $to = 'someone@example.com';
+  $params = array();
+  $params['subject'] = t('[@site_name] @severity_desc: Alert from your web site', array(
+    '@site_name' => variable_get('site_name', 'Drupal'),
+    '@severity_desc' => $severity_list[$log_entry['severity']],
+  ));
 
-    $params['message'] = "\nSite:         @base_url";
-    $params['message'] .= "\nSeverity:     (@severity) @severity_desc";
-    $params['message'] .= "\nTimestamp:    @timestamp";
-    $params['message'] .= "\nType:         @type";
-    $params['message'] .= "\nIP Address:   @ip";
-    $params['message'] .= "\nRequest URI:  @request_uri";
-    $params['message'] .= "\nReferrer URI: @referer_uri";
-    $params['message'] .= "\nUser:         (@uid) @name";
-    $params['message'] .= "\nLink:         @link";
-    $params['message'] .= "\nMessage:      \n\n@message";
+  $params['message']  = "\nSite:         @base_url";
+  $params['message'] .= "\nSeverity:     (@severity) @severity_desc";
+  $params['message'] .= "\nTimestamp:    @timestamp";
+  $params['message'] .= "\nType:         @type";
+  $params['message'] .= "\nIP Address:   @ip";
+  $params['message'] .= "\nRequest URI:  @request_uri";
+  $params['message'] .= "\nReferrer URI: @referer_uri";
+  $params['message'] .= "\nUser:         (@uid) @name";
+  $params['message'] .= "\nLink:         @link";
+  $params['message'] .= "\nMessage:      \n\n@message";
 
-    $params['message'] = t($params['message'], array(
-        '@base_url' => $base_url,
-        '@severity' => $log_entry['severity'],
-        '@severity_desc' => $severity_list[$log_entry['severity']],
-        '@timestamp' => format_date($log_entry['timestamp']),
-        '@type' => $log_entry['type'],
-        '@ip' => $log_entry['ip'],
-        '@request_uri' => $log_entry['request_uri'],
-        '@referer_uri' => $log_entry['referer'],
-        '@uid' => $log_entry['uid'],
-        '@name' => $log_entry['user']->name,
-        '@link' => strip_tags($log_entry['link']),
-        '@message' => strip_tags($log_entry['message']),
-    ));
+  $params['message'] = t($params['message'], array(
+    '@base_url'      => $base_url,
+    '@severity'      => $log_entry['severity'],
+    '@severity_desc' => $severity_list[$log_entry['severity']],
+    '@timestamp'     => format_date($log_entry['timestamp']),
+    '@type'          => $log_entry['type'],
+    '@ip'            => $log_entry['ip'],
+    '@request_uri'   => $log_entry['request_uri'],
+    '@referer_uri'   => $log_entry['referer'],
+    '@uid'           => $log_entry['uid'],
+    '@name'          => $log_entry['user']->name,
+    '@link'          => strip_tags($log_entry['link']),
+    '@message'       => strip_tags($log_entry['message']),
+  ));
 
-    drupal_mail('emaillog', 'entry', $to, $language, $params);
+  drupal_mail('emaillog', 'entry', $to, $language, $params);
 }
 
 /**
@@ -2612,7 +2553,7 @@ function hook_watchdog(array $log_entry)
  *     or drupal_mail() for possible id values.
  *   - to: The address or addresses the message will be sent to. The formatting
  *     of this string will be validated with the
- * @link http://php.net/manual/filter.filters.validate.php PHP e-mail validation filter. @endlink
+ *     @link http://php.net/manual/filter.filters.validate.php PHP e-mail validation filter. @endlink
  *   - subject: Subject of the e-mail to be sent. This must not contain any
  *     newline characters, or the mail may not be sent properly. drupal_mail()
  *     sets this to an empty string when the hook is invoked.
@@ -2628,43 +2569,42 @@ function hook_watchdog(array $log_entry)
  * @param $params
  *   An array of parameters supplied by the caller of drupal_mail().
  */
-function hook_mail($key, &$message, $params)
-{
-    $account = $params['account'];
-    $context = $params['context'];
-    $variables = array(
-        '%site_name' => variable_get('site_name', 'Drupal'),
-        '%username' => format_username($account),
+function hook_mail($key, &$message, $params) {
+  $account = $params['account'];
+  $context = $params['context'];
+  $variables = array(
+    '%site_name' => variable_get('site_name', 'Drupal'),
+    '%username' => format_username($account),
+  );
+  if ($context['hook'] == 'taxonomy') {
+    $entity = $params['entity'];
+    $vocabulary = taxonomy_vocabulary_load($entity->vid);
+    $variables += array(
+      '%term_name' => $entity->name,
+      '%term_description' => $entity->description,
+      '%term_id' => $entity->tid,
+      '%vocabulary_name' => $vocabulary->name,
+      '%vocabulary_description' => $vocabulary->description,
+      '%vocabulary_id' => $vocabulary->vid,
     );
-    if ($context['hook'] == 'taxonomy') {
-        $entity = $params['entity'];
-        $vocabulary = taxonomy_vocabulary_load($entity->vid);
-        $variables += array(
-            '%term_name' => $entity->name,
-            '%term_description' => $entity->description,
-            '%term_id' => $entity->tid,
-            '%vocabulary_name' => $vocabulary->name,
-            '%vocabulary_description' => $vocabulary->description,
-            '%vocabulary_id' => $vocabulary->vid,
-        );
-    }
+  }
 
-    // Node-based variable translation is only available if we have a node.
-    if (isset($params['node'])) {
-        $node = $params['node'];
-        $variables += array(
-            '%uid' => $node->uid,
-            '%node_url' => url('node/' . $node->nid, array('absolute' => TRUE)),
-            '%node_type' => node_type_get_name($node),
-            '%title' => $node->title,
-            '%teaser' => $node->teaser,
-            '%body' => $node->body,
-        );
-    }
-    $subject = strtr($context['subject'], $variables);
-    $body = strtr($context['message'], $variables);
-    $message['subject'] .= str_replace(array("\r", "\n"), '', $subject);
-    $message['body'][] = drupal_html_to_text($body);
+  // Node-based variable translation is only available if we have a node.
+  if (isset($params['node'])) {
+    $node = $params['node'];
+    $variables += array(
+      '%uid' => $node->uid,
+      '%node_url' => url('node/' . $node->nid, array('absolute' => TRUE)),
+      '%node_type' => node_type_get_name($node),
+      '%title' => $node->title,
+      '%teaser' => $node->teaser,
+      '%body' => $node->body,
+    );
+  }
+  $subject = strtr($context['subject'], $variables);
+  $body = strtr($context['message'], $variables);
+  $message['subject'] .= str_replace(array("\r", "\n"), '', $subject);
+  $message['body'][] = drupal_html_to_text($body);
 }
 
 /**
@@ -2679,9 +2619,8 @@ function hook_mail($key, &$message, $params)
  *
  * @see drupal_flush_all_caches()
  */
-function hook_flush_caches()
-{
-    return array('cache_example');
+function hook_flush_caches() {
+  return array('cache_example');
 }
 
 /**
@@ -2702,11 +2641,10 @@ function hook_flush_caches()
  * @see hook_modules_enabled()
  * @see hook_install()
  */
-function hook_modules_installed($modules)
-{
-    if (in_array('lousy_module', $modules)) {
-        variable_set('lousy_module_conflicting_variable', FALSE);
-    }
+function hook_modules_installed($modules) {
+  if (in_array('lousy_module', $modules)) {
+    variable_set('lousy_module_conflicting_variable', FALSE);
+  }
 }
 
 /**
@@ -2725,12 +2663,11 @@ function hook_modules_installed($modules)
  * @see hook_modules_installed()
  * @see module_enable()
  */
-function hook_modules_enabled($modules)
-{
-    if (in_array('lousy_module', $modules)) {
-        drupal_set_message(t('mymodule is not compatible with lousy_module'), 'error');
-        mymodule_disable_functionality();
-    }
+function hook_modules_enabled($modules) {
+  if (in_array('lousy_module', $modules)) {
+    drupal_set_message(t('mymodule is not compatible with lousy_module'), 'error');
+    mymodule_disable_functionality();
+  }
 }
 
 /**
@@ -2746,11 +2683,10 @@ function hook_modules_enabled($modules)
  * @see hook_disable()
  * @see hook_modules_uninstalled()
  */
-function hook_modules_disabled($modules)
-{
-    if (in_array('lousy_module', $modules)) {
-        mymodule_enable_functionality();
-    }
+function hook_modules_disabled($modules) {
+  if (in_array('lousy_module', $modules)) {
+    mymodule_enable_functionality();
+  }
 }
 
 /**
@@ -2769,14 +2705,13 @@ function hook_modules_disabled($modules)
  * @see hook_uninstall()
  * @see hook_modules_disabled()
  */
-function hook_modules_uninstalled($modules)
-{
-    foreach ($modules as $module) {
-        db_delete('mymodule_table')
-            ->condition('module', $module)
-            ->execute();
-    }
-    mymodule_cache_rebuild();
+function hook_modules_uninstalled($modules) {
+  foreach ($modules as $module) {
+    db_delete('mymodule_table')
+      ->condition('module', $module)
+      ->execute();
+  }
+  mymodule_cache_rebuild();
 }
 
 /**
@@ -2809,43 +2744,42 @@ function hook_modules_uninstalled($modules)
  * @see hook_stream_wrappers_alter()
  * @see system_stream_wrappers()
  */
-function hook_stream_wrappers()
-{
-    return array(
-        'public' => array(
-            'name' => t('Public files'),
-            'class' => 'DrupalPublicStreamWrapper',
-            'description' => t('Public local files served by the webserver.'),
-            'type' => STREAM_WRAPPERS_LOCAL_NORMAL,
-        ),
-        'private' => array(
-            'name' => t('Private files'),
-            'class' => 'DrupalPrivateStreamWrapper',
-            'description' => t('Private local files served by Drupal.'),
-            'type' => STREAM_WRAPPERS_LOCAL_NORMAL,
-        ),
-        'temp' => array(
-            'name' => t('Temporary files'),
-            'class' => 'DrupalTempStreamWrapper',
-            'description' => t('Temporary local files for upload and previews.'),
-            'type' => STREAM_WRAPPERS_LOCAL_HIDDEN,
-        ),
-        'cdn' => array(
-            'name' => t('Content delivery network files'),
-            'class' => 'MyModuleCDNStreamWrapper',
-            'description' => t('Files served by a content delivery network.'),
-            // 'type' can be omitted to use the default of STREAM_WRAPPERS_NORMAL
-        ),
-        'youtube' => array(
-            'name' => t('YouTube video'),
-            'class' => 'MyModuleYouTubeStreamWrapper',
-            'description' => t('Video streamed from YouTube.'),
-            // A module implementing YouTube integration may decide to support using
-            // the YouTube API for uploading video, but here, we assume that this
-            // particular module only supports playing YouTube video.
-            'type' => STREAM_WRAPPERS_READ_VISIBLE,
-        ),
-    );
+function hook_stream_wrappers() {
+  return array(
+    'public' => array(
+      'name' => t('Public files'),
+      'class' => 'DrupalPublicStreamWrapper',
+      'description' => t('Public local files served by the webserver.'),
+      'type' => STREAM_WRAPPERS_LOCAL_NORMAL,
+    ),
+    'private' => array(
+      'name' => t('Private files'),
+      'class' => 'DrupalPrivateStreamWrapper',
+      'description' => t('Private local files served by Drupal.'),
+      'type' => STREAM_WRAPPERS_LOCAL_NORMAL,
+    ),
+    'temp' => array(
+      'name' => t('Temporary files'),
+      'class' => 'DrupalTempStreamWrapper',
+      'description' => t('Temporary local files for upload and previews.'),
+      'type' => STREAM_WRAPPERS_LOCAL_HIDDEN,
+    ),
+    'cdn' => array(
+      'name' => t('Content delivery network files'),
+      'class' => 'MyModuleCDNStreamWrapper',
+      'description' => t('Files served by a content delivery network.'),
+      // 'type' can be omitted to use the default of STREAM_WRAPPERS_NORMAL
+    ),
+    'youtube' => array(
+      'name' => t('YouTube video'),
+      'class' => 'MyModuleYouTubeStreamWrapper',
+      'description' => t('Video streamed from YouTube.'),
+      // A module implementing YouTube integration may decide to support using
+      // the YouTube API for uploading video, but here, we assume that this
+      // particular module only supports playing YouTube video.
+      'type' => STREAM_WRAPPERS_READ_VISIBLE,
+    ),
+  );
 }
 
 /**
@@ -2854,10 +2788,9 @@ function hook_stream_wrappers()
  * @see file_get_stream_wrappers()
  * @see hook_stream_wrappers()
  */
-function hook_stream_wrappers_alter(&$wrappers)
-{
-    // Change the name of private files to reflect the performance.
-    $wrappers['private']['name'] = t('Slow files');
+function hook_stream_wrappers_alter(&$wrappers) {
+  // Change the name of private files to reflect the performance.
+  $wrappers['private']['name'] = t('Slow files');
 }
 
 /**
@@ -2872,15 +2805,14 @@ function hook_stream_wrappers_alter(&$wrappers)
  * @see file_load_multiple()
  * @see file_load()
  */
-function hook_file_load($files)
-{
-    // Add the upload specific data into the file object.
-    $result = db_query('SELECT * FROM {upload} u WHERE u.fid IN (:fids)', array(':fids' => array_keys($files)))->fetchAll(PDO::FETCH_ASSOC);
-    foreach ($result as $record) {
-        foreach ($record as $key => $value) {
-            $files[$record['fid']]->$key = $value;
-        }
+function hook_file_load($files) {
+  // Add the upload specific data into the file object.
+  $result = db_query('SELECT * FROM {upload} u WHERE u.fid IN (:fids)', array(':fids' => array_keys($files)))->fetchAll(PDO::FETCH_ASSOC);
+  foreach ($result as $record) {
+    foreach ($record as $key => $value) {
+      $files[$record['fid']]->$key = $value;
     }
+  }
 }
 
 /**
@@ -2897,18 +2829,17 @@ function hook_file_load($files)
  *
  * @see file_validate()
  */
-function hook_file_validate($file)
-{
-    $errors = array();
+function hook_file_validate($file) {
+  $errors = array();
 
-    if (empty($file->filename)) {
-        $errors[] = t("The file's name is empty. Please give a name to the file.");
-    }
-    if (strlen($file->filename) > 255) {
-        $errors[] = t("The file's name exceeds the 255 characters limit. Please rename the file and try again.");
-    }
+  if (empty($file->filename)) {
+    $errors[] = t("The file's name is empty. Please give a name to the file.");
+  }
+  if (strlen($file->filename) > 255) {
+    $errors[] = t("The file's name exceeds the 255 characters limit. Please rename the file and try again.");
+  }
 
-    return $errors;
+  return $errors;
 }
 
 /**
@@ -2923,10 +2854,9 @@ function hook_file_validate($file)
  *
  * @see file_save()
  */
-function hook_file_presave($file)
-{
-    // Change the file timestamp to an hour prior.
-    $file->timestamp -= 3600;
+function hook_file_presave($file) {
+  // Change the file timestamp to an hour prior.
+  $file->timestamp -= 3600;
 }
 
 /**
@@ -2941,13 +2871,12 @@ function hook_file_presave($file)
  *
  * @see file_save()
  */
-function hook_file_insert($file)
-{
-    // Add a message to the log, if the file is a jpg
-    $validate = file_validate_extensions($file, 'jpg');
-    if (empty($validate)) {
-        watchdog('file', 'A jpg has been added.');
-    }
+function hook_file_insert($file) {
+  // Add a message to the log, if the file is a jpg
+  $validate = file_validate_extensions($file, 'jpg');
+  if (empty($validate)) {
+    watchdog('file', 'A jpg has been added.');
+  }
 }
 
 /**
@@ -2960,17 +2889,16 @@ function hook_file_insert($file)
  *
  * @see file_save()
  */
-function hook_file_update($file)
-{
-    $file_user = user_load($file->uid);
-    // Make sure that the file name starts with the owner's user name.
-    if (strpos($file->filename, $file_user->name) !== 0) {
-        $old_filename = $file->filename;
-        $file->filename = $file_user->name . '_' . $file->filename;
-        $file->save();
+function hook_file_update($file) {
+  $file_user = user_load($file->uid);
+  // Make sure that the file name starts with the owner's user name.
+  if (strpos($file->filename, $file_user->name) !== 0) {
+    $old_filename = $file->filename;
+    $file->filename = $file_user->name . '_' . $file->filename;
+    $file->save();
 
-        watchdog('file', t('%source has been renamed to %destination', array('%source' => $old_filename, '%destination' => $file->filename)));
-    }
+    watchdog('file', t('%source has been renamed to %destination', array('%source' => $old_filename, '%destination' => $file->filename)));
+  }
 }
 
 /**
@@ -2983,16 +2911,15 @@ function hook_file_update($file)
  *
  * @see file_copy()
  */
-function hook_file_copy($file, $source)
-{
-    $file_user = user_load($file->uid);
-    // Make sure that the file name starts with the owner's user name.
-    if (strpos($file->filename, $file_user->name) !== 0) {
-        $file->filename = $file_user->name . '_' . $file->filename;
-        $file->save();
+function hook_file_copy($file, $source) {
+  $file_user = user_load($file->uid);
+  // Make sure that the file name starts with the owner's user name.
+  if (strpos($file->filename, $file_user->name) !== 0) {
+    $file->filename = $file_user->name . '_' . $file->filename;
+    $file->save();
 
-        watchdog('file', t('Copied file %source has been renamed to %destination', array('%source' => $source->filename, '%destination' => $file->filename)));
-    }
+    watchdog('file', t('Copied file %source has been renamed to %destination', array('%source' => $source->filename, '%destination' => $file->filename)));
+  }
 }
 
 /**
@@ -3005,16 +2932,15 @@ function hook_file_copy($file, $source)
  *
  * @see file_move()
  */
-function hook_file_move($file, $source)
-{
-    $file_user = user_load($file->uid);
-    // Make sure that the file name starts with the owner's user name.
-    if (strpos($file->filename, $file_user->name) !== 0) {
-        $file->filename = $file_user->name . '_' . $file->filename;
-        $file->save();
+function hook_file_move($file, $source) {
+  $file_user = user_load($file->uid);
+  // Make sure that the file name starts with the owner's user name.
+  if (strpos($file->filename, $file_user->name) !== 0) {
+    $file->filename = $file_user->name . '_' . $file->filename;
+    $file->save();
 
-        watchdog('file', t('Moved file %source has been renamed to %destination', array('%source' => $source->filename, '%destination' => $file->filename)));
-    }
+    watchdog('file', t('Moved file %source has been renamed to %destination', array('%source' => $source->filename, '%destination' => $file->filename)));
+  }
 }
 
 /**
@@ -3025,10 +2951,9 @@ function hook_file_move($file, $source)
  *
  * @see file_delete()
  */
-function hook_file_delete($file)
-{
-    // Delete all information associated with the file.
-    db_delete('upload')->condition('fid', $file->fid)->execute();
+function hook_file_delete($file) {
+  // Delete all information associated with the file.
+  db_delete('upload')->condition('fid', $file->fid)->execute();
 }
 
 /**
@@ -3048,21 +2973,21 @@ function hook_file_delete($file)
  *
  * @see file_download()
  */
-function hook_file_download($uri)
-{
-    // Check if the file is controlled by the current module.
-    if (!file_prepare_directory($uri)) {
-        $uri = FALSE;
+function hook_file_download($uri) {
+  // Check if the file is controlled by the current module.
+  if (!file_prepare_directory($uri)) {
+    $uri = FALSE;
+  }
+  if (strpos(file_uri_target($uri), variable_get('user_picture_path', 'pictures') . '/picture-') === 0) {
+    if (!user_access('access user profiles')) {
+      // Access to the file is denied.
+      return -1;
     }
-    if (strpos(file_uri_target($uri), variable_get('user_picture_path', 'pictures') . '/picture-') === 0) {
-        if (!user_access('access user profiles')) {
-            // Access to the file is denied.
-            return -1;
-        } else {
-            $info = image_get_info($uri);
-            return array('Content-Type' => $info['mime_type']);
-        }
+    else {
+      $info = image_get_info($uri);
+      return array('Content-Type' => $info['mime_type']);
     }
+  }
 }
 
 /**
@@ -3080,48 +3005,49 @@ function hook_file_download($uri)
  *   The URI to a file for which we need an external URL, or the path to a
  *   shipped file.
  */
-function hook_file_url_alter(&$uri)
-{
-    global $user;
+function hook_file_url_alter(&$uri) {
+  global $user;
 
-    // User 1 will always see the local file in this example.
-    if ($user->uid == 1) {
-        return;
+  // User 1 will always see the local file in this example.
+  if ($user->uid == 1) {
+    return;
+  }
+
+  $cdn1 = 'http://cdn1.example.com';
+  $cdn2 = 'http://cdn2.example.com';
+  $cdn_extensions = array('css', 'js', 'gif', 'jpg', 'jpeg', 'png');
+
+  // Most CDNs don't support private file transfers without a lot of hassle,
+  // so don't support this in the common case.
+  $schemes = array('public');
+
+  $scheme = file_uri_scheme($uri);
+
+  // Only serve shipped files and public created files from the CDN.
+  if (!$scheme || in_array($scheme, $schemes)) {
+    // Shipped files.
+    if (!$scheme) {
+      $path = $uri;
+    }
+    // Public created files.
+    else {
+      $wrapper = file_stream_wrapper_get_instance_by_scheme($scheme);
+      $path = $wrapper->getDirectoryPath() . '/' . file_uri_target($uri);
     }
 
-    $cdn1 = 'http://cdn1.example.com';
-    $cdn2 = 'http://cdn2.example.com';
-    $cdn_extensions = array('css', 'js', 'gif', 'jpg', 'jpeg', 'png');
+    // Clean up Windows paths.
+    $path = str_replace('\\', '/', $path);
 
-    // Most CDNs don't support private file transfers without a lot of hassle,
-    // so don't support this in the common case.
-    $schemes = array('public');
-
-    $scheme = file_uri_scheme($uri);
-
-    // Only serve shipped files and public created files from the CDN.
-    if (!$scheme || in_array($scheme, $schemes)) {
-        // Shipped files.
-        if (!$scheme) {
-            $path = $uri;
-        } // Public created files.
-        else {
-            $wrapper = file_stream_wrapper_get_instance_by_scheme($scheme);
-            $path = $wrapper->getDirectoryPath() . '/' . file_uri_target($uri);
-        }
-
-        // Clean up Windows paths.
-        $path = str_replace('\\', '/', $path);
-
-        // Serve files with one of the CDN extensions from CDN 1, all others from
-        // CDN 2.
-        $pathinfo = pathinfo($path);
-        if (isset($pathinfo['extension']) && in_array($pathinfo['extension'], $cdn_extensions)) {
-            $uri = $cdn1 . '/' . $path;
-        } else {
-            $uri = $cdn2 . '/' . $path;
-        }
+    // Serve files with one of the CDN extensions from CDN 1, all others from
+    // CDN 2.
+    $pathinfo = pathinfo($path);
+    if (isset($pathinfo['extension']) && in_array($pathinfo['extension'], $cdn_extensions)) {
+      $uri = $cdn1 . '/' . $path;
     }
+    else {
+      $uri = $cdn2 . '/' . $path;
+    }
+  }
 }
 
 /**
@@ -3180,51 +3106,51 @@ function hook_file_url_alter(&$uri)
  *     - REQUIREMENT_WARNING: The requirement failed with a warning.
  *     - REQUIREMENT_ERROR: The requirement failed with an error.
  */
-function hook_requirements($phase)
-{
-    $requirements = array();
-    // Ensure translations don't break during installation.
-    $t = get_t();
+function hook_requirements($phase) {
+  $requirements = array();
+  // Ensure translations don't break during installation.
+  $t = get_t();
 
-    // Report Drupal version
-    if ($phase == 'runtime') {
-        $requirements['drupal'] = array(
-            'title' => $t('Drupal'),
-            'value' => VERSION,
-            'severity' => REQUIREMENT_INFO
-        );
-    }
-
-    // Test PHP version
-    $requirements['php'] = array(
-        'title' => $t('PHP'),
-        'value' => ($phase == 'runtime') ? l(phpversion(), 'admin/reports/status/php') : phpversion(),
+  // Report Drupal version
+  if ($phase == 'runtime') {
+    $requirements['drupal'] = array(
+      'title' => $t('Drupal'),
+      'value' => VERSION,
+      'severity' => REQUIREMENT_INFO
     );
-    if (version_compare(phpversion(), DRUPAL_MINIMUM_PHP) < 0) {
-        $requirements['php']['description'] = $t('Your PHP installation is too old. Drupal requires at least PHP %version.', array('%version' => DRUPAL_MINIMUM_PHP));
-        $requirements['php']['severity'] = REQUIREMENT_ERROR;
+  }
+
+  // Test PHP version
+  $requirements['php'] = array(
+    'title' => $t('PHP'),
+    'value' => ($phase == 'runtime') ? l(phpversion(), 'admin/reports/status/php') : phpversion(),
+  );
+  if (version_compare(phpversion(), DRUPAL_MINIMUM_PHP) < 0) {
+    $requirements['php']['description'] = $t('Your PHP installation is too old. Drupal requires at least PHP %version.', array('%version' => DRUPAL_MINIMUM_PHP));
+    $requirements['php']['severity'] = REQUIREMENT_ERROR;
+  }
+
+  // Report cron status
+  if ($phase == 'runtime') {
+    $cron_last = variable_get('cron_last');
+
+    if (is_numeric($cron_last)) {
+      $requirements['cron']['value'] = $t('Last run !time ago', array('!time' => format_interval(REQUEST_TIME - $cron_last)));
+    }
+    else {
+      $requirements['cron'] = array(
+        'description' => $t('Cron has not run. It appears cron jobs have not been setup on your system. Check the help pages for <a href="@url">configuring cron jobs</a>.', array('@url' => 'http://drupal.org/cron')),
+        'severity' => REQUIREMENT_ERROR,
+        'value' => $t('Never run'),
+      );
     }
 
-    // Report cron status
-    if ($phase == 'runtime') {
-        $cron_last = variable_get('cron_last');
+    $requirements['cron']['description'] .= ' ' . $t('You can <a href="@cron">run cron manually</a>.', array('@cron' => url('admin/reports/status/run-cron')));
 
-        if (is_numeric($cron_last)) {
-            $requirements['cron']['value'] = $t('Last run !time ago', array('!time' => format_interval(REQUEST_TIME - $cron_last)));
-        } else {
-            $requirements['cron'] = array(
-                'description' => $t('Cron has not run. It appears cron jobs have not been setup on your system. Check the help pages for <a href="@url">configuring cron jobs</a>.', array('@url' => 'http://drupal.org/cron')),
-                'severity' => REQUIREMENT_ERROR,
-                'value' => $t('Never run'),
-            );
-        }
+    $requirements['cron']['title'] = $t('Cron maintenance tasks');
+  }
 
-        $requirements['cron']['description'] .= ' ' . $t('You can <a href="@cron">run cron manually</a>.', array('@cron' => url('admin/reports/status/run-cron')));
-
-        $requirements['cron']['title'] = $t('Cron maintenance tasks');
-    }
-
-    return $requirements;
+  return $requirements;
 }
 
 /**
@@ -3262,63 +3188,62 @@ function hook_requirements($phase)
  *
  * @ingroup schemaapi
  */
-function hook_schema()
-{
-    $schema['node'] = array(
-        // Example (partial) specification for table "node".
-        'description' => 'The base table for nodes.',
-        'fields' => array(
-            'nid' => array(
-                'description' => 'The primary identifier for a node.',
-                'type' => 'serial',
-                'unsigned' => TRUE,
-                'not null' => TRUE,
-            ),
-            'vid' => array(
-                'description' => 'The current {node_revision}.vid version identifier.',
-                'type' => 'int',
-                'unsigned' => TRUE,
-                'not null' => TRUE,
-                'default' => 0,
-            ),
-            'type' => array(
-                'description' => 'The {node_type} of this node.',
-                'type' => 'varchar',
-                'length' => 32,
-                'not null' => TRUE,
-                'default' => '',
-            ),
-            'title' => array(
-                'description' => 'The title of this node, always treated as non-markup plain text.',
-                'type' => 'varchar',
-                'length' => 255,
-                'not null' => TRUE,
-                'default' => '',
-            ),
-        ),
-        'indexes' => array(
-            'node_changed' => array('changed'),
-            'node_created' => array('created'),
-        ),
-        'unique keys' => array(
-            'nid_vid' => array('nid', 'vid'),
-            'vid' => array('vid'),
-        ),
-        // For documentation purposes only; foreign keys are not created in the
-        // database.
-        'foreign keys' => array(
-            'node_revision' => array(
-                'table' => 'node_revision',
-                'columns' => array('vid' => 'vid'),
-            ),
-            'node_author' => array(
-                'table' => 'users',
-                'columns' => array('uid' => 'uid'),
-            ),
-        ),
-        'primary key' => array('nid'),
-    );
-    return $schema;
+function hook_schema() {
+  $schema['node'] = array(
+    // Example (partial) specification for table "node".
+    'description' => 'The base table for nodes.',
+    'fields' => array(
+      'nid' => array(
+        'description' => 'The primary identifier for a node.',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'vid' => array(
+        'description' => 'The current {node_revision}.vid version identifier.',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'type' => array(
+        'description' => 'The {node_type} of this node.',
+        'type' => 'varchar',
+        'length' => 32,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'title' => array(
+        'description' => 'The title of this node, always treated as non-markup plain text.',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+    ),
+    'indexes' => array(
+      'node_changed'        => array('changed'),
+      'node_created'        => array('created'),
+    ),
+    'unique keys' => array(
+      'nid_vid' => array('nid', 'vid'),
+      'vid'     => array('vid'),
+    ),
+    // For documentation purposes only; foreign keys are not created in the
+    // database.
+    'foreign keys' => array(
+      'node_revision' => array(
+        'table' => 'node_revision',
+        'columns' => array('vid' => 'vid'),
+      ),
+      'node_author' => array(
+        'table' => 'users',
+        'columns' => array('uid' => 'uid'),
+      ),
+    ),
+    'primary key' => array('nid'),
+  );
+  return $schema;
 }
 
 /**
@@ -3336,15 +3261,14 @@ function hook_schema()
  *
  * @ingroup schemaapi
  */
-function hook_schema_alter(&$schema)
-{
-    // Add field to existing schema.
-    $schema['users']['fields']['timezone_id'] = array(
-        'type' => 'int',
-        'not null' => TRUE,
-        'default' => 0,
-        'description' => 'Per-user timezone configuration.',
-    );
+function hook_schema_alter(&$schema) {
+  // Add field to existing schema.
+  $schema['users']['fields']['timezone_id'] = array(
+    'type' => 'int',
+    'not null' => TRUE,
+    'default' => 0,
+    'description' => 'Per-user timezone configuration.',
+  );
 }
 
 /**
@@ -3361,11 +3285,10 @@ function hook_schema_alter(&$schema)
  * @see QueryAlterableInterface
  * @see SelectQueryInterface
  */
-function hook_query_alter(QueryAlterableInterface $query)
-{
-    if ($query->hasTag('micro_limit')) {
-        $query->range(0, 2);
-    }
+function hook_query_alter(QueryAlterableInterface $query) {
+  if ($query->hasTag('micro_limit')) {
+    $query->range(0, 2);
+  }
 }
 
 /**
@@ -3379,38 +3302,37 @@ function hook_query_alter(QueryAlterableInterface $query)
  * @see QueryAlterableInterface
  * @see SelectQueryInterface
  */
-function hook_query_TAG_alter(QueryAlterableInterface $query)
-{
-    // Skip the extra expensive alterations if site has no node access control modules.
-    if (!node_access_view_all_nodes()) {
-        // Prevent duplicates records.
-        $query->distinct();
-        // The recognized operations are 'view', 'update', 'delete'.
-        if (!$op = $query->getMetaData('op')) {
-            $op = 'view';
-        }
-        // Skip the extra joins and conditions for node admins.
-        if (!user_access('bypass node access')) {
-            // The node_access table has the access grants for any given node.
-            $access_alias = $query->join('node_access', 'na', '%alias.nid = n.nid');
-            $or = db_or();
-            // If any grant exists for the specified user, then user has access to the node for the specified operation.
-            foreach (node_access_grants($op, $query->getMetaData('account')) as $realm => $gids) {
-                foreach ($gids as $gid) {
-                    $or->condition(db_and()
-                        ->condition($access_alias . '.gid', $gid)
-                        ->condition($access_alias . '.realm', $realm)
-                    );
-                }
-            }
-
-            if (count($or->conditions())) {
-                $query->condition($or);
-            }
-
-            $query->condition($access_alias . 'grant_' . $op, 1, '>=');
-        }
+function hook_query_TAG_alter(QueryAlterableInterface $query) {
+  // Skip the extra expensive alterations if site has no node access control modules.
+  if (!node_access_view_all_nodes()) {
+    // Prevent duplicates records.
+    $query->distinct();
+    // The recognized operations are 'view', 'update', 'delete'.
+    if (!$op = $query->getMetaData('op')) {
+      $op = 'view';
     }
+    // Skip the extra joins and conditions for node admins.
+    if (!user_access('bypass node access')) {
+      // The node_access table has the access grants for any given node.
+      $access_alias = $query->join('node_access', 'na', '%alias.nid = n.nid');
+      $or = db_or();
+      // If any grant exists for the specified user, then user has access to the node for the specified operation.
+      foreach (node_access_grants($op, $query->getMetaData('account')) as $realm => $gids) {
+        foreach ($gids as $gid) {
+          $or->condition(db_and()
+            ->condition($access_alias . '.gid', $gid)
+            ->condition($access_alias . '.realm', $realm)
+          );
+        }
+      }
+
+      if (count($or->conditions())) {
+        $query->condition($or);
+      }
+
+      $query->condition($access_alias . 'grant_' . $op, 1, '>=');
+    }
+  }
 }
 
 /**
@@ -3445,19 +3367,18 @@ function hook_query_TAG_alter(QueryAlterableInterface $query)
  * @see hook_uninstall()
  * @see hook_modules_installed()
  */
-function hook_install()
-{
-    // Populate the default {node_access} record.
-    db_insert('node_access')
-        ->fields(array(
-            'nid' => 0,
-            'gid' => 0,
-            'realm' => 'all',
-            'grant_view' => 1,
-            'grant_update' => 0,
-            'grant_delete' => 0,
-        ))
-        ->execute();
+function hook_install() {
+  // Populate the default {node_access} record.
+  db_insert('node_access')
+    ->fields(array(
+      'nid' => 0,
+      'gid' => 0,
+      'realm' => 'all',
+      'grant_view' => 1,
+      'grant_update' => 0,
+      'grant_delete' => 0,
+    ))
+    ->execute();
 }
 
 /**
@@ -3545,52 +3466,51 @@ function hook_install()
  * @see hook_update_last_removed()
  * @see update_get_update_list()
  */
-function hook_update_N(&$sandbox)
-{
-    // For non-multipass updates, the signature can simply be;
-    // function hook_update_N() {
+function hook_update_N(&$sandbox) {
+  // For non-multipass updates, the signature can simply be;
+  // function hook_update_N() {
 
-    // For most updates, the following is sufficient.
-    db_add_field('mytable1', 'newcol', array('type' => 'int', 'not null' => TRUE, 'description' => 'My new integer column.'));
+  // For most updates, the following is sufficient.
+  db_add_field('mytable1', 'newcol', array('type' => 'int', 'not null' => TRUE, 'description' => 'My new integer column.'));
 
-    // However, for more complex operations that may take a long time,
-    // you may hook into Batch API as in the following example.
+  // However, for more complex operations that may take a long time,
+  // you may hook into Batch API as in the following example.
 
-    // Update 3 users at a time to have an exclamation point after their names.
-    // (They're really happy that we can do batch API in this hook!)
-    if (!isset($sandbox['progress'])) {
-        $sandbox['progress'] = 0;
-        $sandbox['current_uid'] = 0;
-        // We'll -1 to disregard the uid 0...
-        $sandbox['max'] = db_query('SELECT COUNT(DISTINCT uid) FROM {users}')->fetchField() - 1;
-    }
+  // Update 3 users at a time to have an exclamation point after their names.
+  // (They're really happy that we can do batch API in this hook!)
+  if (!isset($sandbox['progress'])) {
+    $sandbox['progress'] = 0;
+    $sandbox['current_uid'] = 0;
+    // We'll -1 to disregard the uid 0...
+    $sandbox['max'] = db_query('SELECT COUNT(DISTINCT uid) FROM {users}')->fetchField() - 1;
+  }
 
-    $users = db_select('users', 'u')
-        ->fields('u', array('uid', 'name'))
-        ->condition('uid', $sandbox['current_uid'], '>')
-        ->range(0, 3)
-        ->orderBy('uid', 'ASC')
-        ->execute();
+  $users = db_select('users', 'u')
+    ->fields('u', array('uid', 'name'))
+    ->condition('uid', $sandbox['current_uid'], '>')
+    ->range(0, 3)
+    ->orderBy('uid', 'ASC')
+    ->execute();
 
-    foreach ($users as $user) {
-        $user->name .= '!';
-        db_update('users')
-            ->fields(array('name' => $user->name))
-            ->condition('uid', $user->uid)
-            ->execute();
+  foreach ($users as $user) {
+    $user->name .= '!';
+    db_update('users')
+      ->fields(array('name' => $user->name))
+      ->condition('uid', $user->uid)
+      ->execute();
 
-        $sandbox['progress']++;
-        $sandbox['current_uid'] = $user->uid;
-    }
+    $sandbox['progress']++;
+    $sandbox['current_uid'] = $user->uid;
+  }
 
-    $sandbox['#finished'] = empty($sandbox['max']) ? 1 : ($sandbox['progress'] / $sandbox['max']);
+  $sandbox['#finished'] = empty($sandbox['max']) ? 1 : ($sandbox['progress'] / $sandbox['max']);
 
-    // To display a message to the user when the update is completed, return it.
-    // If you do not want to display a completion message, simply return nothing.
-    return t('The update did what it was supposed to do.');
+  // To display a message to the user when the update is completed, return it.
+  // If you do not want to display a completion message, simply return nothing.
+  return t('The update did what it was supposed to do.');
 
-    // In case of an error, simply throw an exception with an error message.
-    throw new DrupalUpdateException('Something went wrong; here is what you should do.');
+  // In case of an error, simply throw an exception with an error message.
+  throw new DrupalUpdateException('Something went wrong; here is what you should do.');
 }
 
 /**
@@ -3618,25 +3538,24 @@ function hook_update_N(&$sandbox)
  * @see update_resolve_dependencies()
  * @see hook_update_N()
  */
-function hook_update_dependencies()
-{
-    // Indicate that the mymodule_update_7000() function provided by this module
-    // must run after the another_module_update_7002() function provided by the
-    // 'another_module' module.
-    $dependencies['mymodule'][7000] = array(
-        'another_module' => 7002,
-    );
-    // Indicate that the mymodule_update_7001() function provided by this module
-    // must run before the yet_another_module_update_7004() function provided by
-    // the 'yet_another_module' module. (Note that declaring dependencies in this
-    // direction should be done only in rare situations, since it can lead to the
-    // following problem: If a site has already run the yet_another_module
-    // module's database updates before it updates its codebase to pick up the
-    // newest mymodule code, then the dependency declared here will be ignored.)
-    $dependencies['yet_another_module'][7004] = array(
-        'mymodule' => 7001,
-    );
-    return $dependencies;
+function hook_update_dependencies() {
+  // Indicate that the mymodule_update_7000() function provided by this module
+  // must run after the another_module_update_7002() function provided by the
+  // 'another_module' module.
+  $dependencies['mymodule'][7000] = array(
+    'another_module' => 7002,
+  );
+  // Indicate that the mymodule_update_7001() function provided by this module
+  // must run before the yet_another_module_update_7004() function provided by
+  // the 'yet_another_module' module. (Note that declaring dependencies in this
+  // direction should be done only in rare situations, since it can lead to the
+  // following problem: If a site has already run the yet_another_module
+  // module's database updates before it updates its codebase to pick up the
+  // newest mymodule code, then the dependency declared here will be ignored.)
+  $dependencies['yet_another_module'][7004] = array(
+    'mymodule' => 7001,
+  );
+  return $dependencies;
 }
 
 /**
@@ -3655,11 +3574,10 @@ function hook_update_dependencies()
  *
  * @see hook_update_N()
  */
-function hook_update_last_removed()
-{
-    // We've removed the 5.x-1.x version of mymodule, including database updates.
-    // The next update function is mymodule_update_5200().
-    return 5103;
+function hook_update_last_removed() {
+  // We've removed the 5.x-1.x version of mymodule, including database updates.
+  // The next update function is mymodule_update_5200().
+  return 5103;
 }
 
 /**
@@ -3690,9 +3608,8 @@ function hook_update_last_removed()
  * @see hook_disable()
  * @see hook_modules_uninstalled()
  */
-function hook_uninstall()
-{
-    variable_del('upload_file_types');
+function hook_uninstall() {
+  variable_del('upload_file_types');
 }
 
 /**
@@ -3706,9 +3623,8 @@ function hook_uninstall()
  * @see hook_install()
  * @see hook_modules_enabled()
  */
-function hook_enable()
-{
-    mymodule_cache_rebuild();
+function hook_enable() {
+  mymodule_cache_rebuild();
 }
 
 /**
@@ -3721,9 +3637,8 @@ function hook_enable()
  * @see hook_uninstall()
  * @see hook_modules_disabled()
  */
-function hook_disable()
-{
-    mymodule_cache_rebuild();
+function hook_disable() {
+  mymodule_cache_rebuild();
 }
 
 /**
@@ -3747,12 +3662,12 @@ function hook_disable()
  *   _registry_update() and related functions.
  *
  *   For example:
- * @code
+ *   @code
  *     $files["modules/system/system.module"] = array(
  *       'module' => 'system',
  *       'weight' => 0,
  *     );
- * @endcode
+ *   @endcode
  * @param $modules
  *   An array containing all module information stored in the {system} table.
  *   Each element of the array also contains the module's .info file
@@ -3764,20 +3679,19 @@ function hook_disable()
  * @see _registry_update()
  * @see simpletest_test_get_all()
  */
-function hook_registry_files_alter(&$files, $modules)
-{
-    foreach ($modules as $module) {
-        // Only add test files for disabled modules, as enabled modules should
-        // already include any test files they provide.
-        if (!$module->status) {
-            $dir = $module->dir;
-            foreach ($module->info['files'] as $file) {
-                if (substr($file, -5) == '.test') {
-                    $files["$dir/$file"] = array('module' => $module->name, 'weight' => $module->weight);
-                }
-            }
+function hook_registry_files_alter(&$files, $modules) {
+  foreach ($modules as $module) {
+    // Only add test files for disabled modules, as enabled modules should
+    // already include any test files they provide.
+    if (!$module->status) {
+      $dir = $module->dir;
+      foreach ($module->info['files'] as $file) {
+        if (substr($file, -5) == '.test') {
+          $files["$dir/$file"] = array('module' => $module->name, 'weight' => $module->weight);
         }
+      }
     }
+  }
 }
 
 /**
@@ -3883,65 +3797,65 @@ function hook_registry_files_alter(&$files, $modules)
  * @see hook_install_tasks_alter()
  * @see install_tasks()
  */
-function hook_install_tasks(&$install_state)
-{
-    // Here, we define a variable to allow tasks to indicate that a particular,
-    // processor-intensive batch process needs to be triggered later on in the
-    // installation.
-    $myprofile_needs_batch_processing = variable_get('myprofile_needs_batch_processing', FALSE);
-    $tasks = array(
-        // This is an example of a task that defines a form which the user who is
-        // installing the site will be asked to fill out. To implement this task,
-        // your profile would define a function named myprofile_data_import_form()
-        // as a normal form API callback function, with associated validation and
-        // submit handlers. In the submit handler, in addition to saving whatever
-        // other data you have collected from the user, you might also call
-        // variable_set('myprofile_needs_batch_processing', TRUE) if the user has
-        // entered data which requires that batch processing will need to occur
-        // later on.
-        'myprofile_data_import_form' => array(
-            'display_name' => st('Data import options'),
-            'type' => 'form',
-        ),
-        // Similarly, to implement this task, your profile would define a function
-        // named myprofile_settings_form() with associated validation and submit
-        // handlers. This form might be used to collect and save additional
-        // information from the user that your profile needs. There are no extra
-        // steps required for your profile to act as an "installation wizard"; you
-        // can simply define as many tasks of type 'form' as you wish to execute,
-        // and the forms will be presented to the user, one after another.
-        'myprofile_settings_form' => array(
-            'display_name' => st('Additional options'),
-            'type' => 'form',
-        ),
-        // This is an example of a task that performs batch operations. To
-        // implement this task, your profile would define a function named
-        // myprofile_batch_processing() which returns a batch API array definition
-        // that the installer will use to execute your batch operations. Due to the
-        // 'myprofile_needs_batch_processing' variable used here, this task will be
-        // hidden and skipped unless your profile set it to TRUE in one of the
-        // previous tasks.
-        'myprofile_batch_processing' => array(
-            'display_name' => st('Import additional data'),
-            'display' => $myprofile_needs_batch_processing,
-            'type' => 'batch',
-            'run' => $myprofile_needs_batch_processing ? INSTALL_TASK_RUN_IF_NOT_COMPLETED : INSTALL_TASK_SKIP,
-        ),
-        // This is an example of a task that will not be displayed in the list that
-        // the user sees. To implement this task, your profile would define a
-        // function named myprofile_final_site_setup(), in which additional,
-        // automated site setup operations would be performed. Since this is the
-        // last task defined by your profile, you should also use this function to
-        // call variable_del('myprofile_needs_batch_processing') and clean up the
-        // variable that was used above. If you want the user to pass to the final
-        // Drupal installation tasks uninterrupted, return no output from this
-        // function. Otherwise, return themed output that the user will see (for
-        // example, a confirmation page explaining that your profile's tasks are
-        // complete, with a link to reload the current page and therefore pass on
-        // to the final Drupal installation tasks when the user is ready to do so).
-        'myprofile_final_site_setup' => array(),
-    );
-    return $tasks;
+function hook_install_tasks(&$install_state) {
+  // Here, we define a variable to allow tasks to indicate that a particular,
+  // processor-intensive batch process needs to be triggered later on in the
+  // installation.
+  $myprofile_needs_batch_processing = variable_get('myprofile_needs_batch_processing', FALSE);
+  $tasks = array(
+    // This is an example of a task that defines a form which the user who is
+    // installing the site will be asked to fill out. To implement this task,
+    // your profile would define a function named myprofile_data_import_form()
+    // as a normal form API callback function, with associated validation and
+    // submit handlers. In the submit handler, in addition to saving whatever
+    // other data you have collected from the user, you might also call
+    // variable_set('myprofile_needs_batch_processing', TRUE) if the user has
+    // entered data which requires that batch processing will need to occur
+    // later on.
+    'myprofile_data_import_form' => array(
+      'display_name' => st('Data import options'),
+      'type' => 'form',
+    ),
+    // Similarly, to implement this task, your profile would define a function
+    // named myprofile_settings_form() with associated validation and submit
+    // handlers. This form might be used to collect and save additional
+    // information from the user that your profile needs. There are no extra
+    // steps required for your profile to act as an "installation wizard"; you
+    // can simply define as many tasks of type 'form' as you wish to execute,
+    // and the forms will be presented to the user, one after another.
+    'myprofile_settings_form' => array(
+      'display_name' => st('Additional options'),
+      'type' => 'form',
+    ),
+    // This is an example of a task that performs batch operations. To
+    // implement this task, your profile would define a function named
+    // myprofile_batch_processing() which returns a batch API array definition
+    // that the installer will use to execute your batch operations. Due to the
+    // 'myprofile_needs_batch_processing' variable used here, this task will be
+    // hidden and skipped unless your profile set it to TRUE in one of the
+    // previous tasks.
+    'myprofile_batch_processing' => array(
+      'display_name' => st('Import additional data'),
+      'display' => $myprofile_needs_batch_processing,
+      'type' => 'batch',
+      'run' => $myprofile_needs_batch_processing ? INSTALL_TASK_RUN_IF_NOT_COMPLETED : INSTALL_TASK_SKIP,
+    ),
+    // This is an example of a task that will not be displayed in the list that
+    // the user sees. To implement this task, your profile would define a
+    // function named myprofile_final_site_setup(), in which additional,
+    // automated site setup operations would be performed. Since this is the
+    // last task defined by your profile, you should also use this function to
+    // call variable_del('myprofile_needs_batch_processing') and clean up the
+    // variable that was used above. If you want the user to pass to the final
+    // Drupal installation tasks uninterrupted, return no output from this
+    // function. Otherwise, return themed output that the user will see (for
+    // example, a confirmation page explaining that your profile's tasks are
+    // complete, with a link to reload the current page and therefore pass on
+    // to the final Drupal installation tasks when the user is ready to do so).
+    'myprofile_final_site_setup' => array(
+    ),
+  );
+  return $tasks;
 }
 
 /**
@@ -3955,10 +3869,9 @@ function hook_install_tasks(&$install_state)
  *   The HTTP status code to use for the redirection. See drupal_goto() for more
  *   information.
  */
-function hook_drupal_goto_alter(&$path, &$options, &$http_response_code)
-{
-    // A good addition to misery module.
-    $http_response_code = 500;
+function hook_drupal_goto_alter(&$path, &$options, &$http_response_code) {
+  // A good addition to misery module.
+  $http_response_code = 500;
 }
 
 /**
@@ -3973,14 +3886,13 @@ function hook_drupal_goto_alter(&$path, &$options, &$http_response_code)
  *   An array of renderable elements. Generally the values of the #attributes
  *   array will be the most likely target for changes.
  */
-function hook_html_head_alter(&$head_elements)
-{
-    foreach ($head_elements as $key => $element) {
-        if (isset($element['#attributes']['rel']) && $element['#attributes']['rel'] == 'canonical') {
-            // I want a custom canonical URL.
-            $head_elements[$key]['#attributes']['href'] = mymodule_canonical_url();
-        }
+function hook_html_head_alter(&$head_elements) {
+  foreach ($head_elements as $key => $element) {
+    if (isset($element['#attributes']['rel']) && $element['#attributes']['rel'] == 'canonical') {
+      // I want a custom canonical URL.
+      $head_elements[$key]['#attributes']['href'] = mymodule_canonical_url();
     }
+  }
 }
 
 /**
@@ -3999,11 +3911,10 @@ function hook_html_head_alter(&$head_elements)
  * @see hook_install_tasks()
  * @see install_tasks()
  */
-function hook_install_tasks_alter(&$tasks, $install_state)
-{
-    // Replace the "Choose language" installation task provided by Drupal core
-    // with a custom callback function defined by this installation profile.
-    $tasks['install_select_locale']['function'] = 'myprofile_locale_selection';
+function hook_install_tasks_alter(&$tasks, $install_state) {
+  // Replace the "Choose language" installation task provided by Drupal core
+  // with a custom callback function defined by this installation profile.
+  $tasks['install_select_locale']['function'] = 'myprofile_locale_selection';
 }
 
 /**
@@ -4020,14 +3931,13 @@ function hook_install_tasks_alter(&$tasks, $install_state)
  *
  * @see file_default_mimetype_mapping()
  */
-function hook_file_mimetype_mapping_alter(&$mapping)
-{
-    // Add new MIME type 'drupal/info'.
-    $mapping['mimetypes']['example_info'] = 'drupal/info';
-    // Add new extension '.info' and map it to the 'drupal/info' MIME type.
-    $mapping['extensions']['info'] = 'example_info';
-    // Override existing extension mapping for '.ogg' files.
-    $mapping['extensions']['ogg'] = 189;
+function hook_file_mimetype_mapping_alter(&$mapping) {
+  // Add new MIME type 'drupal/info'.
+  $mapping['mimetypes']['example_info'] = 'drupal/info';
+  // Add new extension '.info' and map it to the 'drupal/info' MIME type.
+  $mapping['extensions']['info'] = 'example_info';
+  // Override existing extension mapping for '.ogg' files.
+  $mapping['extensions']['ogg'] = 189;
 }
 
 /**
@@ -4078,30 +3988,29 @@ function hook_file_mimetype_mapping_alter(&$mapping)
  *
  * @ingroup actions
  */
-function hook_action_info()
-{
-    return array(
-        'comment_unpublish_action' => array(
-            'type' => 'comment',
-            'label' => t('Unpublish comment'),
-            'configurable' => FALSE,
-            'behavior' => array('changes_property'),
-            'triggers' => array('comment_presave', 'comment_insert', 'comment_update'),
-        ),
-        'comment_unpublish_by_keyword_action' => array(
-            'type' => 'comment',
-            'label' => t('Unpublish comment containing keyword(s)'),
-            'configurable' => TRUE,
-            'behavior' => array('changes_property'),
-            'triggers' => array('comment_presave', 'comment_insert', 'comment_update'),
-        ),
-        'comment_save_action' => array(
-            'type' => 'comment',
-            'label' => t('Save comment'),
-            'configurable' => FALSE,
-            'triggers' => array('comment_insert', 'comment_update'),
-        ),
-    );
+function hook_action_info() {
+  return array(
+    'comment_unpublish_action' => array(
+      'type' => 'comment',
+      'label' => t('Unpublish comment'),
+      'configurable' => FALSE,
+      'behavior' => array('changes_property'),
+      'triggers' => array('comment_presave', 'comment_insert', 'comment_update'),
+    ),
+    'comment_unpublish_by_keyword_action' => array(
+      'type' => 'comment',
+      'label' => t('Unpublish comment containing keyword(s)'),
+      'configurable' => TRUE,
+      'behavior' => array('changes_property'),
+      'triggers' => array('comment_presave', 'comment_insert', 'comment_update'),
+    ),
+    'comment_save_action' => array(
+      'type' => 'comment',
+      'label' => t('Save comment'),
+      'configurable' => FALSE,
+      'triggers' => array('comment_insert', 'comment_update'),
+    ),
+  );
 }
 
 /**
@@ -4110,11 +4019,10 @@ function hook_action_info()
  * @param $aid
  *   The action ID.
  */
-function hook_actions_delete($aid)
-{
-    db_delete('actions_assignments')
-        ->condition('aid', $aid)
-        ->execute();
+function hook_actions_delete($aid) {
+  db_delete('actions_assignments')
+    ->condition('aid', $aid)
+    ->execute();
 }
 
 /**
@@ -4125,9 +4033,8 @@ function hook_actions_delete($aid)
  *
  * @see trigger_example_action_info_alter()
  */
-function hook_action_info_alter(&$actions)
-{
-    $actions['node_unpublish_action']['label'] = t('Unpublish and remove from public view.');
+function hook_action_info_alter(&$actions) {
+  $actions['node_unpublish_action']['label'] = t('Unpublish and remove from public view.');
 }
 
 /**
@@ -4148,14 +4055,13 @@ function hook_action_info_alter(&$actions)
  *
  * @see hook_archiver_info_alter()
  */
-function hook_archiver_info()
-{
-    return array(
-        'tar' => array(
-            'class' => 'ArchiverTar',
-            'extensions' => array('tar', 'tar.gz', 'tar.bz2'),
-        ),
-    );
+function hook_archiver_info() {
+  return array(
+    'tar' => array(
+      'class' => 'ArchiverTar',
+      'extensions' => array('tar', 'tar.gz', 'tar.bz2'),
+    ),
+  );
 }
 
 /**
@@ -4167,9 +4073,8 @@ function hook_archiver_info()
  * @param $info
  *   Archiver information to alter (return values from hook_archiver_info()).
  */
-function hook_archiver_info_alter(&$info)
-{
-    $info['tar']['extensions'][] = 'tgz';
+function hook_archiver_info_alter(&$info) {
+  $info['tar']['extensions'][] = 'tgz';
 }
 
 /**
@@ -4203,14 +4108,13 @@ function hook_archiver_info_alter(&$info)
  * @see hook_date_formats()
  * @see format_date()
  */
-function hook_date_format_types()
-{
-    // Define the core date format types.
-    return array(
-        'long' => t('Long'),
-        'medium' => t('Medium'),
-        'short' => t('Short'),
-    );
+function hook_date_format_types() {
+  // Define the core date format types.
+  return array(
+    'long' => t('Long'),
+    'medium' => t('Medium'),
+    'short' => t('Short'),
+  );
 }
 
 /**
@@ -4230,11 +4134,10 @@ function hook_date_format_types()
  *   - title: The human-readable date type name.
  *   - locked: Specifies that the date type is system-provided.
  */
-function hook_date_format_types_alter(&$types)
-{
-    foreach ($types as $name => $type) {
-        $types[$name]['locked'] = 1;
-    }
+function hook_date_format_types_alter(&$types) {
+  foreach ($types as $name => $type) {
+    $types[$name]['locked'] = 1;
+  }
 }
 
 /**
@@ -4279,25 +4182,24 @@ function hook_date_format_types_alter(&$types)
  *
  * @see hook_date_format_types()
  */
-function hook_date_formats()
-{
-    return array(
-        array(
-            'type' => 'mymodule_extra_long',
-            'format' => 'l jS F Y H:i:s e',
-            'locales' => array('en-ie'),
-        ),
-        array(
-            'type' => 'mymodule_extra_long',
-            'format' => 'l jS F Y h:i:sa',
-            'locales' => array('en', 'en-us'),
-        ),
-        array(
-            'type' => 'short',
-            'format' => 'F Y',
-            'locales' => array(),
-        ),
-    );
+function hook_date_formats() {
+  return array(
+    array(
+      'type' => 'mymodule_extra_long',
+      'format' => 'l jS F Y H:i:s e',
+      'locales' => array('en-ie'),
+    ),
+    array(
+      'type' => 'mymodule_extra_long',
+      'format' => 'l jS F Y h:i:sa',
+      'locales' => array('en', 'en-us'),
+    ),
+    array(
+      'type' => 'short',
+      'format' => 'F Y',
+      'locales' => array(),
+    ),
+  );
 }
 
 /**
@@ -4306,11 +4208,10 @@ function hook_date_formats()
  * Called by _system_date_format_types_build() to allow modules to alter the
  * return values from implementations of hook_date_formats().
  */
-function hook_date_formats_alter(&$formats)
-{
-    foreach ($formats as $id => $format) {
-        $formats[$id]['locales'][] = 'en-ca';
-    }
+function hook_date_formats_alter(&$formats) {
+  foreach ($formats as $id => $format) {
+    $formats[$id]['locales'][] = 'en-ca';
+  }
 }
 
 /**
@@ -4349,14 +4250,13 @@ function hook_date_formats_alter(&$formats)
  *
  * @see drupal_deliver_page()
  */
-function hook_page_delivery_callback_alter(&$callback)
-{
-    // jQuery sets a HTTP_X_REQUESTED_WITH header of 'XMLHttpRequest'.
-    // If a page would normally be delivered as an html page, and it is called
-    // from jQuery, deliver it instead as an Ajax response.
-    if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest' && $callback == 'drupal_deliver_html_page') {
-        $callback = 'ajax_deliver';
-    }
+function hook_page_delivery_callback_alter(&$callback) {
+  // jQuery sets a HTTP_X_REQUESTED_WITH header of 'XMLHttpRequest'.
+  // If a page would normally be delivered as an html page, and it is called
+  // from jQuery, deliver it instead as an Ajax response.
+  if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest' && $callback == 'drupal_deliver_html_page') {
+    $callback = 'ajax_deliver';
+  }
 }
 
 /**
@@ -4367,18 +4267,17 @@ function hook_page_delivery_callback_alter(&$callback)
  *
  * @see system_themes_page()
  */
-function hook_system_themes_page_alter(&$theme_groups)
-{
-    foreach ($theme_groups as $state => &$group) {
-        foreach ($theme_groups[$state] as &$theme) {
-            // Add a foo link to each list of theme operations.
-            $theme->operations[] = array(
-                'title' => t('Foo'),
-                'href' => 'admin/appearance/foo',
-                'query' => array('theme' => $theme->name)
-            );
-        }
+function hook_system_themes_page_alter(&$theme_groups) {
+  foreach ($theme_groups as $state => &$group) {
+    foreach ($theme_groups[$state] as &$theme) {
+      // Add a foo link to each list of theme operations.
+      $theme->operations[] = array(
+        'title' => t('Foo'),
+        'href' => 'admin/appearance/foo',
+        'query' => array('theme' => $theme->name)
+      );
     }
+  }
 }
 
 /**
@@ -4396,13 +4295,12 @@ function hook_system_themes_page_alter(&$theme_groups)
  *
  * @see drupal_get_normal_path()
  */
-function hook_url_inbound_alter(&$path, $original_path, $path_language)
-{
-    // Create the path user/me/edit, which allows a user to edit their account.
-    if (preg_match('|^user/me/edit(/.*)?|', $path, $matches)) {
-        global $user;
-        $path = 'user/' . $user->uid . '/edit' . $matches[1];
-    }
+function hook_url_inbound_alter(&$path, $original_path, $path_language) {
+  // Create the path user/me/edit, which allows a user to edit their account.
+  if (preg_match('|^user/me/edit(/.*)?|', $path, $matches)) {
+    global $user;
+    $path = 'user/' . $user->uid . '/edit' . $matches[1];
+  }
 }
 
 /**
@@ -4422,21 +4320,20 @@ function hook_url_inbound_alter(&$path, $original_path, $path_language)
  *
  * @see url()
  */
-function hook_url_outbound_alter(&$path, &$options, $original_path)
-{
-    // Use an external RSS feed rather than the Drupal one.
-    if ($path == 'rss.xml') {
-        $path = 'http://example.com/rss.xml';
-        $options['external'] = TRUE;
-    }
+function hook_url_outbound_alter(&$path, &$options, $original_path) {
+  // Use an external RSS feed rather than the Drupal one.
+  if ($path == 'rss.xml') {
+    $path = 'http://example.com/rss.xml';
+    $options['external'] = TRUE;
+  }
 
-    // Instead of pointing to user/[uid]/edit, point to user/me/edit.
-    if (preg_match('|^user/([0-9]*)/edit(/.*)?|', $path, $matches)) {
-        global $user;
-        if ($user->uid == $matches[1]) {
-            $path = 'user/me/edit' . $matches[2];
-        }
+  // Instead of pointing to user/[uid]/edit, point to user/me/edit.
+  if (preg_match('|^user/([0-9]*)/edit(/.*)?|', $path, $matches)) {
+    global $user;
+    if ($user->uid == $matches[1]) {
+      $path = 'user/me/edit' . $matches[2];
     }
+  }
 }
 
 /**
@@ -4454,12 +4351,11 @@ function hook_url_outbound_alter(&$path, &$options, $original_path)
  *
  * @see format_username()
  */
-function hook_username_alter(&$name, $account)
-{
-    // Display the user's uid instead of name.
-    if (isset($account->uid)) {
-        $name = t('User !uid', array('!uid' => $account->uid));
-    }
+function hook_username_alter(&$name, $account) {
+  // Display the user's uid instead of name.
+  if (isset($account->uid)) {
+    $name = t('User !uid', array('!uid' => $account->uid));
+  }
 }
 
 /**
@@ -4496,60 +4392,60 @@ function hook_username_alter(&$name, $account)
  * @see hook_token_info()
  * @see hook_tokens_alter()
  */
-function hook_tokens($type, $tokens, array $data = array(), array $options = array())
-{
-    $url_options = array('absolute' => TRUE);
-    if (isset($options['language'])) {
-        $url_options['language'] = $options['language'];
-        $language_code = $options['language']->language;
-    } else {
-        $language_code = NULL;
-    }
-    $sanitize = !empty($options['sanitize']);
+function hook_tokens($type, $tokens, array $data = array(), array $options = array()) {
+  $url_options = array('absolute' => TRUE);
+  if (isset($options['language'])) {
+    $url_options['language'] = $options['language'];
+    $language_code = $options['language']->language;
+  }
+  else {
+    $language_code = NULL;
+  }
+  $sanitize = !empty($options['sanitize']);
 
-    $replacements = array();
+  $replacements = array();
 
-    if ($type == 'node' && !empty($data['node'])) {
-        $node = $data['node'];
+  if ($type == 'node' && !empty($data['node'])) {
+    $node = $data['node'];
 
-        foreach ($tokens as $name => $original) {
-            switch ($name) {
-                // Simple key values on the node.
-                case 'nid':
-                    $replacements[$original] = $node->nid;
-                    break;
+    foreach ($tokens as $name => $original) {
+      switch ($name) {
+        // Simple key values on the node.
+        case 'nid':
+          $replacements[$original] = $node->nid;
+          break;
 
-                case 'title':
-                    $replacements[$original] = $sanitize ? check_plain($node->title) : $node->title;
-                    break;
+        case 'title':
+          $replacements[$original] = $sanitize ? check_plain($node->title) : $node->title;
+          break;
 
-                case 'edit-url':
-                    $replacements[$original] = url('node/' . $node->nid . '/edit', $url_options);
-                    break;
+        case 'edit-url':
+          $replacements[$original] = url('node/' . $node->nid . '/edit', $url_options);
+          break;
 
-                // Default values for the chained tokens handled below.
-                case 'author':
-                    $name = ($node->uid == 0) ? variable_get('anonymous', t('Anonymous')) : $node->name;
-                    $replacements[$original] = $sanitize ? filter_xss($name) : $name;
-                    break;
+        // Default values for the chained tokens handled below.
+        case 'author':
+          $name = ($node->uid == 0) ? variable_get('anonymous', t('Anonymous')) : $node->name;
+          $replacements[$original] = $sanitize ? filter_xss($name) : $name;
+          break;
 
-                case 'created':
-                    $replacements[$original] = format_date($node->created, 'medium', '', NULL, $language_code);
-                    break;
-            }
-        }
-
-        if ($author_tokens = token_find_with_prefix($tokens, 'author')) {
-            $author = user_load($node->uid);
-            $replacements += token_generate('user', $author_tokens, array('user' => $author), $options);
-        }
-
-        if ($created_tokens = token_find_with_prefix($tokens, 'created')) {
-            $replacements += token_generate('date', $created_tokens, array('date' => $node->created), $options);
-        }
+        case 'created':
+          $replacements[$original] = format_date($node->created, 'medium', '', NULL, $language_code);
+          break;
+      }
     }
 
-    return $replacements;
+    if ($author_tokens = token_find_with_prefix($tokens, 'author')) {
+      $author = user_load($node->uid);
+      $replacements += token_generate('user', $author_tokens, array('user' => $author), $options);
+    }
+
+    if ($created_tokens = token_find_with_prefix($tokens, 'created')) {
+      $replacements += token_generate('date', $created_tokens, array('date' => $node->created), $options);
+    }
+  }
+
+  return $replacements;
 }
 
 /**
@@ -4568,28 +4464,28 @@ function hook_tokens($type, $tokens, array $data = array(), array $options = arr
  *
  * @see hook_tokens()
  */
-function hook_tokens_alter(array &$replacements, array $context)
-{
-    $options = $context['options'];
+function hook_tokens_alter(array &$replacements, array $context) {
+  $options = $context['options'];
 
-    if (isset($options['language'])) {
-        $url_options['language'] = $options['language'];
-        $language_code = $options['language']->language;
-    } else {
-        $language_code = NULL;
+  if (isset($options['language'])) {
+    $url_options['language'] = $options['language'];
+    $language_code = $options['language']->language;
+  }
+  else {
+    $language_code = NULL;
+  }
+  $sanitize = !empty($options['sanitize']);
+
+  if ($context['type'] == 'node' && !empty($context['data']['node'])) {
+    $node = $context['data']['node'];
+
+    // Alter the [node:title] token, and replace it with the rendered content
+    // of a field (field_title).
+    if (isset($context['tokens']['title'])) {
+      $title = field_view_field('node', $node, 'field_title', 'default', $language_code);
+      $replacements[$context['tokens']['title']] = drupal_render($title);
     }
-    $sanitize = !empty($options['sanitize']);
-
-    if ($context['type'] == 'node' && !empty($context['data']['node'])) {
-        $node = $context['data']['node'];
-
-        // Alter the [node:title] token, and replace it with the rendered content
-        // of a field (field_title).
-        if (isset($context['tokens']['title'])) {
-            $title = field_view_field('node', $node, 'field_title', 'default', $language_code);
-            $replacements[$context['tokens']['title']] = drupal_render($title);
-        }
-    }
+  }
 }
 
 /**
@@ -4636,44 +4532,43 @@ function hook_tokens_alter(array &$replacements, array $context)
  * @see hook_token_info_alter()
  * @see hook_tokens()
  */
-function hook_token_info()
-{
-    $type = array(
-        'name' => t('Nodes'),
-        'description' => t('Tokens related to individual nodes.'),
-        'needs-data' => 'node',
-    );
+function hook_token_info() {
+  $type = array(
+    'name' => t('Nodes'),
+    'description' => t('Tokens related to individual nodes.'),
+    'needs-data' => 'node',
+  );
 
-    // Core tokens for nodes.
-    $node['nid'] = array(
-        'name' => t("Node ID"),
-        'description' => t("The unique ID of the node."),
-    );
-    $node['title'] = array(
-        'name' => t("Title"),
-        'description' => t("The title of the node."),
-    );
-    $node['edit-url'] = array(
-        'name' => t("Edit URL"),
-        'description' => t("The URL of the node's edit page."),
-    );
+  // Core tokens for nodes.
+  $node['nid'] = array(
+    'name' => t("Node ID"),
+    'description' => t("The unique ID of the node."),
+  );
+  $node['title'] = array(
+    'name' => t("Title"),
+    'description' => t("The title of the node."),
+  );
+  $node['edit-url'] = array(
+    'name' => t("Edit URL"),
+    'description' => t("The URL of the node's edit page."),
+  );
 
-    // Chained tokens for nodes.
-    $node['created'] = array(
-        'name' => t("Date created"),
-        'description' => t("The date the node was posted."),
-        'type' => 'date',
-    );
-    $node['author'] = array(
-        'name' => t("Author"),
-        'description' => t("The author of the node."),
-        'type' => 'user',
-    );
+  // Chained tokens for nodes.
+  $node['created'] = array(
+    'name' => t("Date created"),
+    'description' => t("The date the node was posted."),
+    'type' => 'date',
+  );
+  $node['author'] = array(
+    'name' => t("Author"),
+    'description' => t("The author of the node."),
+    'type' => 'user',
+  );
 
-    return array(
-        'types' => array('node' => $type),
-        'tokens' => array('node' => $node),
-    );
+  return array(
+    'types' => array('node' => $type),
+    'tokens' => array('node' => $node),
+  );
 }
 
 /**
@@ -4684,24 +4579,23 @@ function hook_token_info()
  *
  * @see hook_token_info()
  */
-function hook_token_info_alter(&$data)
-{
-    // Modify description of node tokens for our site.
-    $data['tokens']['node']['nid'] = array(
-        'name' => t("Node ID"),
-        'description' => t("The unique ID of the article."),
-    );
-    $data['tokens']['node']['title'] = array(
-        'name' => t("Title"),
-        'description' => t("The title of the article."),
-    );
+function hook_token_info_alter(&$data) {
+  // Modify description of node tokens for our site.
+  $data['tokens']['node']['nid'] = array(
+    'name' => t("Node ID"),
+    'description' => t("The unique ID of the article."),
+  );
+  $data['tokens']['node']['title'] = array(
+    'name' => t("Title"),
+    'description' => t("The title of the article."),
+  );
 
-    // Chained tokens for nodes.
-    $data['tokens']['node']['created'] = array(
-        'name' => t("Date created"),
-        'description' => t("The date the article was posted."),
-        'type' => 'date',
-    );
+  // Chained tokens for nodes.
+  $data['tokens']['node']['created'] = array(
+    'name' => t("Date created"),
+    'description' => t("The date the article was posted."),
+    'type' => 'date',
+  );
 }
 
 /**
@@ -4719,17 +4613,17 @@ function hook_token_info_alter(&$data)
  *
  * @ingroup batch
  */
-function hook_batch_alter(&$batch)
-{
-    // If the current page request is inside the overlay, add ?render=overlay to
-    // the success callback URL, so that it appears correctly within the overlay.
-    if (overlay_get_mode() == 'child') {
-        if (isset($batch['url_options']['query'])) {
-            $batch['url_options']['query']['render'] = 'overlay';
-        } else {
-            $batch['url_options']['query'] = array('render' => 'overlay');
-        }
+function hook_batch_alter(&$batch) {
+  // If the current page request is inside the overlay, add ?render=overlay to
+  // the success callback URL, so that it appears correctly within the overlay.
+  if (overlay_get_mode() == 'child') {
+    if (isset($batch['url_options']['query'])) {
+      $batch['url_options']['query']['render'] = 'overlay';
     }
+    else {
+      $batch['url_options']['query'] = array('render' => 'overlay');
+    }
+  }
 }
 
 /**
@@ -4756,20 +4650,19 @@ function hook_batch_alter(&$batch)
  * @see drupal_get_updaters()
  * @see hook_updater_info_alter()
  */
-function hook_updater_info()
-{
-    return array(
-        'module' => array(
-            'class' => 'ModuleUpdater',
-            'name' => t('Update modules'),
-            'weight' => 0,
-        ),
-        'theme' => array(
-            'class' => 'ThemeUpdater',
-            'name' => t('Update themes'),
-            'weight' => 0,
-        ),
-    );
+function hook_updater_info() {
+  return array(
+    'module' => array(
+      'class' => 'ModuleUpdater',
+      'name' => t('Update modules'),
+      'weight' => 0,
+    ),
+    'theme' => array(
+      'class' => 'ThemeUpdater',
+      'name' => t('Update themes'),
+      'weight' => 0,
+    ),
+  );
 }
 
 /**
@@ -4786,11 +4679,10 @@ function hook_updater_info()
  * @see drupal_get_updaters()
  * @see hook_updater_info()
  */
-function hook_updater_info_alter(&$updaters)
-{
-    // Adjust weight so that the theme Updater gets a chance to handle a given
-    // update task before module updaters.
-    $updaters['theme']['weight'] = -1;
+function hook_updater_info_alter(&$updaters) {
+  // Adjust weight so that the theme Updater gets a chance to handle a given
+  // update task before module updaters.
+  $updaters['theme']['weight'] = -1;
 }
 
 /**
@@ -4802,10 +4694,9 @@ function hook_updater_info_alter(&$updaters)
  * @see country_get_list()
  * @see _country_get_predefined_list()
  */
-function hook_countries_alter(&$countries)
-{
-    // Elbonia is now independent, so add it to the country list.
-    $countries['EB'] = 'Elbonia';
+function hook_countries_alter(&$countries) {
+  // Elbonia is now independent, so add it to the country list.
+  $countries['EB'] = 'Elbonia';
 }
 
 /**
@@ -4826,12 +4717,11 @@ function hook_countries_alter(&$countries)
  *   Contains the system path that is going to be loaded. This is read only,
  *   use hook_url_inbound_alter() to change the path.
  */
-function hook_menu_site_status_alter(&$menu_site_status, $path)
-{
-    // Allow access to my_module/authentication even if site is in offline mode.
-    if ($menu_site_status == MENU_SITE_OFFLINE && user_is_anonymous() && $path == 'my_module/authentication') {
-        $menu_site_status = MENU_SITE_ONLINE;
-    }
+function hook_menu_site_status_alter(&$menu_site_status, $path) {
+  // Allow access to my_module/authentication even if site is in offline mode.
+  if ($menu_site_status == MENU_SITE_OFFLINE && user_is_anonymous() && $path == 'my_module/authentication') {
+    $menu_site_status = MENU_SITE_ONLINE;
+  }
 }
 
 /**
@@ -4869,15 +4759,14 @@ function hook_menu_site_status_alter(&$menu_site_status, $path)
  * @see hook_filetransfer_info_alter()
  * @see drupal_get_filetransfer_info()
  */
-function hook_filetransfer_info()
-{
-    $info['sftp'] = array(
-        'title' => t('SFTP (Secure FTP)'),
-        'file' => 'sftp.filetransfer.inc',
-        'class' => 'FileTransferSFTP',
-        'weight' => 10,
-    );
-    return $info;
+function hook_filetransfer_info() {
+  $info['sftp'] = array(
+    'title' => t('SFTP (Secure FTP)'),
+    'file' => 'sftp.filetransfer.inc',
+    'class' => 'FileTransferSFTP',
+    'weight' => 10,
+  );
+  return $info;
 }
 
 /**
@@ -4889,14 +4778,13 @@ function hook_filetransfer_info()
  *
  * @see hook_filetransfer_info()
  */
-function hook_filetransfer_info_alter(&$filetransfer_info)
-{
-    if (variable_get('paranoia', FALSE)) {
-        // Remove the FTP option entirely.
-        unset($filetransfer_info['ftp']);
-        // Make sure the SSH option is listed first.
-        $filetransfer_info['ssh']['weight'] = -10;
-    }
+function hook_filetransfer_info_alter(&$filetransfer_info) {
+  if (variable_get('paranoia', FALSE)) {
+    // Remove the FTP option entirely.
+    unset($filetransfer_info['ftp']);
+    // Make sure the SSH option is listed first.
+    $filetransfer_info['ssh']['weight'] = -10;
+  }
 }
 
 /**
@@ -4924,11 +4812,10 @@ function hook_filetransfer_info_alter(&$filetransfer_info)
  *
  * @see drupal_cron_run()
  */
-function callback_queue_worker($queue_item_data)
-{
-    $node = node_load($queue_item_data);
-    $node->title = 'Updated title';
-    node_save($node);
+function callback_queue_worker($queue_item_data) {
+  $node = node_load($queue_item_data);
+  $node->title = 'Updated title';
+  node_save($node);
 }
 
 /**
@@ -4946,11 +4833,10 @@ function callback_queue_worker($queue_item_data)
  *   The actual entity URI can be constructed by passing these elements to
  *   url().
  */
-function callback_entity_info_uri($entity)
-{
-    return array(
-        'path' => 'node/' . $entity->nid,
-    );
+function callback_entity_info_uri($entity) {
+  return array(
+    'path' => 'node/' . $entity->nid,
+  );
 }
 
 /**
@@ -4968,9 +4854,8 @@ function callback_entity_info_uri($entity)
  *
  * @see entity_label()
  */
-function callback_entity_info_label($entity, $entity_type)
-{
-    return empty($entity->title) ? 'Untitled entity' : $entity->title;
+function callback_entity_info_label($entity, $entity_type) {
+  return empty($entity->title) ? 'Untitled entity' : $entity->title;
 }
 
 /**
@@ -4991,9 +4876,8 @@ function callback_entity_info_label($entity, $entity_type)
  *
  * @see entity_language()
  */
-function callback_entity_info_language($entity, $entity_type)
-{
-    return $entity->language;
+function callback_entity_info_language($entity, $entity_type) {
+  return $entity->language;
 }
 
 /**

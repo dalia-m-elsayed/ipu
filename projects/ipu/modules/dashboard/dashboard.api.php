@@ -18,12 +18,11 @@
  *   values are the titles that will be displayed in the blocks administration
  *   interface. The keys are also used as theme wrapper functions.
  */
-function hook_dashboard_regions()
-{
-    // Define a new dashboard region. Your module can also then define
-    // theme_mymodule_dashboard_region() as a theme wrapper function to control
-    // the region's appearance.
-    return array('mymodule_dashboard_region' => "My module's dashboard region");
+function hook_dashboard_regions() {
+  // Define a new dashboard region. Your module can also then define
+  // theme_mymodule_dashboard_region() as a theme wrapper function to control
+  // the region's appearance.
+  return array('mymodule_dashboard_region' => "My module's dashboard region");
 }
 
 /**
@@ -33,10 +32,9 @@ function hook_dashboard_regions()
  *   An array containing all dashboard regions, in the format provided by
  *   hook_dashboard_regions().
  */
-function hook_dashboard_regions_alter(&$regions)
-{
-    // Remove the sidebar region defined by the core dashboard module.
-    unset($regions['dashboard_sidebar']);
+function hook_dashboard_regions_alter(&$regions) {
+  // Remove the sidebar region defined by the core dashboard module.
+  unset($regions['dashboard_sidebar']);
 }
 
 /**

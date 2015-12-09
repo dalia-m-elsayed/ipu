@@ -1,0 +1,32 @@
+{
+  "vm": {
+    "ip": "192.168.44.44",
+    "memory": "2048",
+    "synced_folders": [
+      {
+        "host_path": "projects/",
+        "guest_path": "/var/www",
+        "type": "nfs"
+      }
+    ],
+    "forwarded_ports": []
+  },
+  "vdd": {
+    "sites": {
+      "ipu": {
+        "account_name": "root",
+        "account_pass": "root",
+        "account_mail": "dalia@spica.ae",
+        "site_name": "IPU",
+        "site_mail": "dalia@spica.ae",
+        "vhost": {
+          "document_root": "ipu",
+          "url": "ipu.dev",
+          "alias": [
+            "www.ipu.dev"
+          ]
+        }
+      }
+    }
+  }
+}

@@ -55,85 +55,91 @@
  *
  * @ingroup actions
  */
-function actions_do($action_ids, $object = NULL, $context = NULL, $a1 = NULL, $a2 = NULL)
-{
-    // $stack tracks the number of recursive calls.
-    static $stack;
-    $stack++;
-    if ($stack > variable_get('actions_max_stack', 35)) {
-        watchdog('actions', 'Stack overflow: too many calls to actions_do(). Aborting to prevent infinite recursion.', array(), WATCHDOG_ERROR);
-        return;
+function actions_do($action_ids, $object = NULL, $context = NULL, $a1 = NULL, $a2 = NULL) {
+  // $stack tracks the number of recursive calls.
+  static $stack;
+  $stack++;
+  if ($stack > variable_get('actions_max_stack', 35)) {
+    watchdog('actions', 'Stack overflow: too many calls to actions_do(). Aborting to prevent infinite recursion.', array(), WATCHDOG_ERROR);
+    return;
+  }
+  $actions = array();
+  $available_actions = actions_list();
+  $actions_result = array();
+  if (is_array($action_ids)) {
+    $conditions = array();
+    foreach ($action_ids as $action_id) {
+      if (is_numeric($action_id)) {
+        $conditions[] = $action_id;
+      }
+      elseif (isset($available_actions[$action_id])) {
+        $actions[$action_id] = $available_actions[$action_id];
+      }
     }
-    $actions = array();
-    $available_actions = actions_list();
-    $actions_result = array();
-    if (is_array($action_ids)) {
-        $conditions = array();
-        foreach ($action_ids as $action_id) {
-            if (is_numeric($action_id)) {
-                $conditions[] = $action_id;
-            } elseif (isset($available_actions[$action_id])) {
-                $actions[$action_id] = $available_actions[$action_id];
-            }
-        }
 
-        // When we have action instances we must go to the database to retrieve
-        // instance data.
-        if (!empty($conditions)) {
-            $query = db_select('actions');
-            $query->addField('actions', 'aid');
-            $query->addField('actions', 'type');
-            $query->addField('actions', 'callback');
-            $query->addField('actions', 'parameters');
-            $query->condition('aid', $conditions, 'IN');
-            $result = $query->execute();
-            foreach ($result as $action) {
-                $actions[$action->aid] = $action->parameters ? unserialize($action->parameters) : array();
-                $actions[$action->aid]['callback'] = $action->callback;
-                $actions[$action->aid]['type'] = $action->type;
-            }
-        }
+    // When we have action instances we must go to the database to retrieve
+    // instance data.
+    if (!empty($conditions)) {
+      $query = db_select('actions');
+      $query->addField('actions', 'aid');
+      $query->addField('actions', 'type');
+      $query->addField('actions', 'callback');
+      $query->addField('actions', 'parameters');
+      $query->condition('aid', $conditions, 'IN');
+      $result = $query->execute();
+      foreach ($result as $action) {
+        $actions[$action->aid] = $action->parameters ? unserialize($action->parameters) : array();
+        $actions[$action->aid]['callback'] = $action->callback;
+        $actions[$action->aid]['type'] = $action->type;
+      }
+    }
 
-        // Fire actions, in no particular order.
-        foreach ($actions as $action_id => $params) {
-            // Configurable actions need parameters.
-            if (is_numeric($action_id)) {
-                $function = $params['callback'];
-                if (function_exists($function)) {
-                    $context = array_merge($context, $params);
-                    $actions_result[$action_id] = $function($object, $context, $a1, $a2);
-                } else {
-                    $actions_result[$action_id] = FALSE;
-                }
-            } // Singleton action; $action_id is the function name.
-            else {
-                $actions_result[$action_id] = $action_id($object, $context, $a1, $a2);
-            }
+    // Fire actions, in no particular order.
+    foreach ($actions as $action_id => $params) {
+      // Configurable actions need parameters.
+      if (is_numeric($action_id)) {
+        $function = $params['callback'];
+        if (function_exists($function)) {
+          $context = array_merge($context, $params);
+          $actions_result[$action_id] = $function($object, $context, $a1, $a2);
         }
-    } // Optimized execution of a single action.
-    else {
-        // If it's a configurable action, retrieve stored parameters.
-        if (is_numeric($action_ids)) {
-            $action = db_query("SELECT callback, parameters FROM {actions} WHERE aid = :aid", array(':aid' => $action_ids))->fetchObject();
-            $function = $action->callback;
-            if (function_exists($function)) {
-                $context = array_merge($context, unserialize($action->parameters));
-                $actions_result[$action_ids] = $function($object, $context, $a1, $a2);
-            } else {
-                $actions_result[$action_ids] = FALSE;
-            }
-        } // Singleton action; $action_ids is the function name.
         else {
-            if (function_exists($action_ids)) {
-                $actions_result[$action_ids] = $action_ids($object, $context, $a1, $a2);
-            } else {
-                // Set to avoid undefined index error messages later.
-                $actions_result[$action_ids] = FALSE;
-            }
+          $actions_result[$action_id] = FALSE;
         }
+      }
+      // Singleton action; $action_id is the function name.
+      else {
+        $actions_result[$action_id] = $action_id($object, $context, $a1, $a2);
+      }
     }
-    $stack--;
-    return $actions_result;
+  }
+  // Optimized execution of a single action.
+  else {
+    // If it's a configurable action, retrieve stored parameters.
+    if (is_numeric($action_ids)) {
+      $action = db_query("SELECT callback, parameters FROM {actions} WHERE aid = :aid", array(':aid' => $action_ids))->fetchObject();
+      $function = $action->callback;
+      if (function_exists($function)) {
+        $context = array_merge($context, unserialize($action->parameters));
+        $actions_result[$action_ids] = $function($object, $context, $a1, $a2);
+      }
+      else {
+        $actions_result[$action_ids] = FALSE;
+      }
+    }
+    // Singleton action; $action_ids is the function name.
+    else {
+      if (function_exists($action_ids)) {
+        $actions_result[$action_ids] = $action_ids($object, $context, $a1, $a2);
+      }
+      else {
+        // Set to avoid undefined index error messages later.
+        $actions_result[$action_ids] = FALSE;
+      }
+    }
+  }
+  $stack--;
+  return $actions_result;
 }
 
 /**
@@ -153,16 +159,15 @@ function actions_do($action_ids, $object = NULL, $context = NULL, $a1 = NULL, $a
  *
  * @see hook_action_info()
  */
-function actions_list($reset = FALSE)
-{
-    $actions = &drupal_static(__FUNCTION__);
-    if (!isset($actions) || $reset) {
-        $actions = module_invoke_all('action_info');
-        drupal_alter('action_info', $actions);
-    }
+function actions_list($reset = FALSE) {
+  $actions = &drupal_static(__FUNCTION__);
+  if (!isset($actions) || $reset) {
+    $actions = module_invoke_all('action_info');
+    drupal_alter('action_info', $actions);
+  }
 
-    // See module_implements() for an explanation of this cast.
-    return (array)$actions;
+  // See module_implements() for an explanation of this cast.
+  return (array) $actions;
 }
 
 /**
@@ -182,15 +187,14 @@ function actions_list($reset = FALSE)
  *   Associative array keyed by numeric action ID. Each value is an associative
  *   array with keys 'callback', 'label', 'type' and 'configurable'.
  */
-function actions_get_all_actions()
-{
-    $actions = db_query("SELECT aid, type, callback, parameters, label FROM {actions}")->fetchAllAssoc('aid', PDO::FETCH_ASSOC);
-    foreach ($actions as &$action) {
-        $action['configurable'] = (bool)$action['parameters'];
-        unset($action['parameters']);
-        unset($action['aid']);
-    }
-    return $actions;
+function actions_get_all_actions() {
+  $actions = db_query("SELECT aid, type, callback, parameters, label FROM {actions}")->fetchAllAssoc('aid', PDO::FETCH_ASSOC);
+  foreach ($actions as &$action) {
+    $action['configurable'] = (bool) $action['parameters'];
+    unset($action['parameters']);
+    unset($action['aid']);
+  }
+  return $actions;
 }
 
 /**
@@ -209,17 +213,16 @@ function actions_get_all_actions()
  *   whose corresponding values are associative arrays with components
  *   'callback', 'label', 'type', and 'configurable' from the input array.
  */
-function actions_actions_map($actions)
-{
-    $actions_map = array();
-    foreach ($actions as $callback => $array) {
-        $key = drupal_hash_base64($callback);
-        $actions_map[$key]['callback'] = isset($array['callback']) ? $array['callback'] : $callback;
-        $actions_map[$key]['label'] = $array['label'];
-        $actions_map[$key]['type'] = $array['type'];
-        $actions_map[$key]['configurable'] = $array['configurable'];
-    }
-    return $actions_map;
+function actions_actions_map($actions) {
+  $actions_map = array();
+  foreach ($actions as $callback => $array) {
+    $key = drupal_hash_base64($callback);
+    $actions_map[$key]['callback']     = isset($array['callback']) ? $array['callback'] : $callback;
+    $actions_map[$key]['label']        = $array['label'];
+    $actions_map[$key]['type']         = $array['type'];
+    $actions_map[$key]['configurable'] = $array['configurable'];
+  }
+  return $actions_map;
 }
 
 /**
@@ -235,25 +238,24 @@ function actions_actions_map($actions)
  * @return
  *   The corresponding array key, or FALSE if no match is found.
  */
-function actions_function_lookup($hash)
-{
-    // Check for a function name match.
-    $actions_list = actions_list();
-    foreach ($actions_list as $function => $array) {
-        if (drupal_hash_base64($function) == $hash) {
-            return $function;
-        }
+function actions_function_lookup($hash) {
+  // Check for a function name match.
+  $actions_list = actions_list();
+  foreach ($actions_list as $function => $array) {
+    if (drupal_hash_base64($function) == $hash) {
+      return $function;
     }
-    $aid = FALSE;
-    // Must be a configurable action; check database.
-    $result = db_query("SELECT aid FROM {actions} WHERE parameters <> ''")->fetchAll(PDO::FETCH_ASSOC);
-    foreach ($result as $row) {
-        if (drupal_hash_base64($row['aid']) == $hash) {
-            $aid = $row['aid'];
-            break;
-        }
+  }
+  $aid = FALSE;
+  // Must be a configurable action; check database.
+  $result = db_query("SELECT aid FROM {actions} WHERE parameters <> ''")->fetchAll(PDO::FETCH_ASSOC);
+  foreach ($result as $row) {
+    if (drupal_hash_base64($row['aid']) == $hash) {
+      $aid = $row['aid'];
+      break;
     }
-    return $aid;
+  }
+  return $aid;
 }
 
 /**
@@ -269,52 +271,53 @@ function actions_function_lookup($hash)
  *   found in the code (for example, because the module that provides them has
  *   been disabled) will be deleted.
  */
-function actions_synchronize($delete_orphans = FALSE)
-{
-    $actions_in_code = actions_list(TRUE);
-    $actions_in_db = db_query("SELECT aid, callback, label FROM {actions} WHERE parameters = ''")->fetchAllAssoc('callback', PDO::FETCH_ASSOC);
+function actions_synchronize($delete_orphans = FALSE) {
+  $actions_in_code = actions_list(TRUE);
+  $actions_in_db = db_query("SELECT aid, callback, label FROM {actions} WHERE parameters = ''")->fetchAllAssoc('callback', PDO::FETCH_ASSOC);
 
-    // Go through all the actions provided by modules.
-    foreach ($actions_in_code as $callback => $array) {
-        // Ignore configurable actions since their instances get put in when the
-        // user adds the action.
-        if (!$array['configurable']) {
-            // If we already have an action ID for this action, no need to assign aid.
-            if (isset($actions_in_db[$callback])) {
-                unset($actions_in_db[$callback]);
-            } else {
-                // This is a new singleton that we don't have an aid for; assign one.
-                db_insert('actions')
-                    ->fields(array(
-                        'aid' => $callback,
-                        'type' => $array['type'],
-                        'callback' => $callback,
-                        'parameters' => '',
-                        'label' => $array['label'],
-                    ))
-                    ->execute();
-                watchdog('actions', "Action '%action' added.", array('%action' => $array['label']));
-            }
-        }
+  // Go through all the actions provided by modules.
+  foreach ($actions_in_code as $callback => $array) {
+    // Ignore configurable actions since their instances get put in when the
+    // user adds the action.
+    if (!$array['configurable']) {
+      // If we already have an action ID for this action, no need to assign aid.
+      if (isset($actions_in_db[$callback])) {
+        unset($actions_in_db[$callback]);
+      }
+      else {
+        // This is a new singleton that we don't have an aid for; assign one.
+        db_insert('actions')
+          ->fields(array(
+            'aid' => $callback,
+            'type' => $array['type'],
+            'callback' => $callback,
+            'parameters' => '',
+            'label' => $array['label'],
+            ))
+          ->execute();
+        watchdog('actions', "Action '%action' added.", array('%action' => $array['label']));
+      }
     }
+  }
 
-    // Any actions that we have left in $actions_in_db are orphaned.
-    if ($actions_in_db) {
-        $orphaned = array_keys($actions_in_db);
+  // Any actions that we have left in $actions_in_db are orphaned.
+  if ($actions_in_db) {
+    $orphaned = array_keys($actions_in_db);
 
-        if ($delete_orphans) {
-            $actions = db_query('SELECT aid, label FROM {actions} WHERE callback IN (:orphaned)', array(':orphaned' => $orphaned))->fetchAll();
-            foreach ($actions as $action) {
-                actions_delete($action->aid);
-                watchdog('actions', "Removed orphaned action '%action' from database.", array('%action' => $action->label));
-            }
-        } else {
-            $link = l(t('Remove orphaned actions'), 'admin/config/system/actions/orphan');
-            $count = count($actions_in_db);
-            $orphans = implode(', ', $orphaned);
-            watchdog('actions', '@count orphaned actions (%orphans) exist in the actions table. !link', array('@count' => $count, '%orphans' => $orphans, '!link' => $link), WATCHDOG_INFO);
-        }
+    if ($delete_orphans) {
+      $actions = db_query('SELECT aid, label FROM {actions} WHERE callback IN (:orphaned)', array(':orphaned' => $orphaned))->fetchAll();
+      foreach ($actions as $action) {
+        actions_delete($action->aid);
+        watchdog('actions', "Removed orphaned action '%action' from database.", array('%action' => $action->label));
+      }
     }
+    else {
+      $link = l(t('Remove orphaned actions'), 'admin/config/system/actions/orphan');
+      $count = count($actions_in_db);
+      $orphans = implode(', ', $orphaned);
+      watchdog('actions', '@count orphaned actions (%orphans) exist in the actions table. !link', array('@count' => $count, '%orphans' => $orphans, '!link' => $link), WATCHDOG_INFO);
+    }
+  }
 }
 
 /**
@@ -337,26 +340,25 @@ function actions_synchronize($delete_orphans = FALSE)
  * @return
  *   The ID of the action.
  */
-function actions_save($function, $type, $params, $label, $aid = NULL)
-{
-    // aid is the callback for singleton actions so we need to keep a separate
-    // table for numeric aids.
-    if (!$aid) {
-        $aid = db_next_id();
-    }
+function actions_save($function, $type, $params, $label, $aid = NULL) {
+  // aid is the callback for singleton actions so we need to keep a separate
+  // table for numeric aids.
+  if (!$aid) {
+    $aid = db_next_id();
+  }
 
-    db_merge('actions')
-        ->key(array('aid' => $aid))
-        ->fields(array(
-            'callback' => $function,
-            'type' => $type,
-            'parameters' => serialize($params),
-            'label' => $label,
-        ))
-        ->execute();
+  db_merge('actions')
+    ->key(array('aid' => $aid))
+    ->fields(array(
+      'callback' => $function,
+      'type' => $type,
+      'parameters' => serialize($params),
+      'label' => $label,
+    ))
+    ->execute();
 
-    watchdog('actions', 'Action %action saved.', array('%action' => $label));
-    return $aid;
+  watchdog('actions', 'Action %action saved.', array('%action' => $label));
+  return $aid;
 }
 
 /**
@@ -368,9 +370,8 @@ function actions_save($function, $type, $params, $label, $aid = NULL)
  * @return
  *   The appropriate action row from the database as an object.
  */
-function actions_load($aid)
-{
-    return db_query("SELECT aid, type, callback, parameters, label FROM {actions} WHERE aid = :aid", array(':aid' => $aid))->fetchObject();
+function actions_load($aid) {
+  return db_query("SELECT aid, type, callback, parameters, label FROM {actions} WHERE aid = :aid", array(':aid' => $aid))->fetchObject();
 }
 
 /**
@@ -379,10 +380,9 @@ function actions_load($aid)
  * @param $aid
  *   The ID of the action to delete.
  */
-function actions_delete($aid)
-{
-    db_delete('actions')
-        ->condition('aid', $aid)
-        ->execute();
-    module_invoke_all('actions_delete', $aid);
+function actions_delete($aid) {
+  db_delete('actions')
+    ->condition('aid', $aid)
+    ->execute();
+  module_invoke_all('actions_delete', $aid);
 }

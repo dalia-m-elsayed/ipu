@@ -5,25 +5,23 @@
  * Provides Image module hook implementations for testing purposes.
  */
 
-function image_module_test_file_download($uri)
-{
-    if (variable_get('image_module_test_file_download', FALSE) == $uri) {
-        return array('X-Image-Owned-By' => 'image_module_test');
-    }
+function image_module_test_file_download($uri) {
+  if (variable_get('image_module_test_file_download', FALSE) == $uri) {
+    return array('X-Image-Owned-By' => 'image_module_test');
+  }
 }
 
 /**
  * Implements hook_image_effect_info().
  */
-function image_module_test_image_effect_info()
-{
-    $effects = array(
-        'image_module_test_null' => array(
-            'effect callback' => 'image_module_test_null_effect',
-        ),
-    );
+function image_module_test_image_effect_info() {
+  $effects = array(
+    'image_module_test_null' => array(
+    'effect callback' => 'image_module_test_null_effect',
+    ),
+  );
 
-    return $effects;
+  return $effects;
 }
 
 /**
@@ -37,9 +35,8 @@ function image_module_test_image_effect_info()
  * @return
  *   TRUE
  */
-function image_module_test_null_effect(array &$image, array $data)
-{
-    return TRUE;
+function image_module_test_null_effect(array &$image, array $data) {
+  return TRUE;
 }
 
 /**
@@ -47,8 +44,7 @@ function image_module_test_null_effect(array &$image, array $data)
  *
  * Used to keep a count of cache misses in image_effect_definitions().
  */
-function image_module_test_image_effect_info_alter(&$effects)
-{
-    $image_effects_definition_called = &drupal_static(__FUNCTION__, 0);
-    $image_effects_definition_called++;
+function image_module_test_image_effect_info_alter(&$effects) {
+  $image_effects_definition_called = &drupal_static(__FUNCTION__, 0);
+  $image_effects_definition_called++;
 }

@@ -22,14 +22,13 @@
  *
  * @see path_save()
  */
-function hook_path_insert($path)
-{
-    db_insert('mytable')
-        ->fields(array(
-            'alias' => $path['alias'],
-            'pid' => $path['pid'],
-        ))
-        ->execute();
+function hook_path_insert($path) {
+  db_insert('mytable')
+    ->fields(array(
+      'alias' => $path['alias'],
+      'pid' => $path['pid'],
+    ))
+    ->execute();
 }
 
 /**
@@ -44,12 +43,11 @@ function hook_path_insert($path)
  *
  * @see path_save()
  */
-function hook_path_update($path)
-{
-    db_update('mytable')
-        ->fields(array('alias' => $path['alias']))
-        ->condition('pid', $path['pid'])
-        ->execute();
+function hook_path_update($path) {
+  db_update('mytable')
+    ->fields(array('alias' => $path['alias']))
+    ->condition('pid', $path['pid'])
+    ->execute();
 }
 
 /**
@@ -64,11 +62,10 @@ function hook_path_update($path)
  *
  * @see path_delete()
  */
-function hook_path_delete($path)
-{
-    db_delete('mytable')
-        ->condition('pid', $path['pid'])
-        ->execute();
+function hook_path_delete($path) {
+  db_delete('mytable')
+    ->condition('pid', $path['pid'])
+    ->execute();
 }
 
 /**

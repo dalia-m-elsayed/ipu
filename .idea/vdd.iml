@@ -7,10 +7,10 @@
     <orderEntry type="module-library">
       <library name="PHARS">
         <CLASSES>
-          <root url="phar://$MODULE_DIR$/vm/chef/cookbooks/berks/php/files/windows/go-pear.phar/" />
+          <root url="phar://$MODULE_DIR$/chef/cookbooks/berks/php/files/windows/go-pear.phar/" />
         </CLASSES>
         <SOURCES>
-          <root url="phar://$MODULE_DIR$/vm/chef/cookbooks/berks/php/files/windows/go-pear.phar/" />
+          <root url="phar://$MODULE_DIR$/chef/cookbooks/berks/php/files/windows/go-pear.phar/" />
         </SOURCES>
       </library>
     </orderEntry>

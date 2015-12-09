@@ -18,10 +18,9 @@
  * @param $comment
  *   The comment object.
  */
-function hook_comment_presave($comment)
-{
-    // Remove leading & trailing spaces from the comment subject.
-    $comment->subject = trim($comment->subject);
+function hook_comment_presave($comment) {
+  // Remove leading & trailing spaces from the comment subject.
+  $comment->subject = trim($comment->subject);
 }
 
 /**
@@ -30,10 +29,9 @@ function hook_comment_presave($comment)
  * @param $comment
  *   The comment object.
  */
-function hook_comment_insert($comment)
-{
-    // Reindex the node when comments are added.
-    search_touch_node($comment->nid);
+function hook_comment_insert($comment) {
+  // Reindex the node when comments are added.
+  search_touch_node($comment->nid);
 }
 
 /**
@@ -42,10 +40,9 @@ function hook_comment_insert($comment)
  * @param $comment
  *   The comment object.
  */
-function hook_comment_update($comment)
-{
-    // Reindex the node when comments are updated.
-    search_touch_node($comment->nid);
+function hook_comment_update($comment) {
+  // Reindex the node when comments are updated.
+  search_touch_node($comment->nid);
 }
 
 /**
@@ -54,12 +51,11 @@ function hook_comment_update($comment)
  * @param $comments
  *  An array of comment objects indexed by cid.
  */
-function hook_comment_load($comments)
-{
-    $result = db_query('SELECT cid, foo FROM {mytable} WHERE cid IN (:cids)', array(':cids' => array_keys($comments)));
-    foreach ($result as $record) {
-        $comments[$record->cid]->foo = $record->foo;
-    }
+function hook_comment_load($comments) {
+  $result = db_query('SELECT cid, foo FROM {mytable} WHERE cid IN (:cids)', array(':cids' => array_keys($comments)));
+  foreach ($result as $record) {
+    $comments[$record->cid]->foo = $record->foo;
+  }
 }
 
 /**
@@ -74,10 +70,9 @@ function hook_comment_load($comments)
  *
  * @see hook_entity_view()
  */
-function hook_comment_view($comment, $view_mode, $langcode)
-{
-    // how old is the comment
-    $comment->time_ago = time() - $comment->changed;
+function hook_comment_view($comment, $view_mode, $langcode) {
+  // how old is the comment
+  $comment->time_ago = time() - $comment->changed;
 }
 
 /**
@@ -98,16 +93,15 @@ function hook_comment_view($comment, $view_mode, $langcode)
  * @see comment_view()
  * @see hook_entity_view_alter()
  */
-function hook_comment_view_alter(&$build)
-{
-    // Check for the existence of a field added by another module.
-    if ($build['#view_mode'] == 'full' && isset($build['an_additional_field'])) {
-        // Change its weight.
-        $build['an_additional_field']['#weight'] = -10;
-    }
+function hook_comment_view_alter(&$build) {
+  // Check for the existence of a field added by another module.
+  if ($build['#view_mode'] == 'full' && isset($build['an_additional_field'])) {
+    // Change its weight.
+    $build['an_additional_field']['#weight'] = -10;
+  }
 
-    // Add a #post_render callback to act on the rendered HTML of the comment.
-    $build['#post_render'][] = 'my_module_comment_post_render';
+  // Add a #post_render callback to act on the rendered HTML of the comment.
+  $build['#post_render'][] = 'my_module_comment_post_render';
 }
 
 /**
@@ -118,9 +112,8 @@ function hook_comment_view_alter(&$build)
  * @return
  *   Nothing.
  */
-function hook_comment_publish($comment)
-{
-    drupal_set_message(t('Comment: @subject has been published', array('@subject' => $comment->subject)));
+function hook_comment_publish($comment) {
+  drupal_set_message(t('Comment: @subject has been published', array('@subject' => $comment->subject)));
 }
 
 /**
@@ -131,9 +124,8 @@ function hook_comment_publish($comment)
  * @return
  *   Nothing.
  */
-function hook_comment_unpublish($comment)
-{
-    drupal_set_message(t('Comment: @subject has been unpublished', array('@subject' => $comment->subject)));
+function hook_comment_unpublish($comment) {
+  drupal_set_message(t('Comment: @subject has been unpublished', array('@subject' => $comment->subject)));
 }
 
 /**
@@ -144,9 +136,8 @@ function hook_comment_unpublish($comment)
  * @return
  *   Nothing.
  */
-function hook_comment_delete($comment)
-{
-    drupal_set_message(t('Comment: @subject has been deleted', array('@subject' => $comment->subject)));
+function hook_comment_delete($comment) {
+  drupal_set_message(t('Comment: @subject has been deleted', array('@subject' => $comment->subject)));
 }
 
 /**

@@ -39,27 +39,26 @@
  * @see hook_action_info()
  * @see hook_trigger_info_alter()
  */
-function hook_trigger_info()
-{
-    return array(
-        'node' => array(
-            'node_presave' => array(
-                'label' => t('When either saving new content or updating existing content'),
-            ),
-            'node_insert' => array(
-                'label' => t('After saving new content'),
-            ),
-            'node_update' => array(
-                'label' => t('After saving updated content'),
-            ),
-            'node_delete' => array(
-                'label' => t('After deleting content'),
-            ),
-            'node_view' => array(
-                'label' => t('When content is viewed by an authenticated user'),
-            ),
-        ),
-    );
+function hook_trigger_info() {
+  return array(
+    'node' => array(
+      'node_presave' => array(
+        'label' => t('When either saving new content or updating existing content'),
+      ),
+      'node_insert' => array(
+        'label' => t('After saving new content'),
+      ),
+      'node_update' => array(
+        'label' => t('After saving updated content'),
+      ),
+      'node_delete' => array(
+        'label' => t('After deleting content'),
+      ),
+      'node_view' => array(
+        'label' => t('When content is viewed by an authenticated user'),
+      ),
+    ),
+  );
 }
 
 /**
@@ -70,9 +69,8 @@ function hook_trigger_info()
  *   implementations. Modify this array in place. See hook_trigger_info()
  *   for information on what this might contain.
  */
-function hook_trigger_info_alter(&$triggers)
-{
-    $triggers['node']['node_insert']['label'] = t('When content is saved');
+function hook_trigger_info_alter(&$triggers) {
+  $triggers['node']['node_insert']['label'] = t('When content is saved');
 }
 
 /**

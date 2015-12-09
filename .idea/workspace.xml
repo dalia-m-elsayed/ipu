@@ -1,7 +1,546 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="9b86fa86-e259-4b4d-ad4e-e12476779a68" name="Default" comment="" />
+    <list default="true" id="9b86fa86-e259-4b4d-ad4e-e12476779a68" name="Default" comment="first commit">
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/Berksfile" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/Berksfile.lock" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/LICENSE.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/README.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/Berksfile.lock" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/apache2/CHANGELOG.md" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/apache2/README.md" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/apache2/attributes/default.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/apache2/attributes/mod_auth_cas.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/apache2/attributes/mod_auth_openid.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/apache2/attributes/mod_fastcgi.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/apache2/attributes/mod_pagespeed.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/apache2/attributes/mod_ssl.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/apache2/definitions/apache_conf.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/apache2/definitions/apache_module.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/apache2/definitions/apache_site.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/apache2/definitions/web_app.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/apache2/files/default/apache2_module_conf_generate.pl" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/apache2/files/default/tests/minitest/default_test.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/apache2/files/default/tests/minitest/god_monitor_test.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/apache2/files/default/tests/minitest/mod_apreq2_test.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/apache2/files/default/tests/minitest/mod_auth_cas_test.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/apache2/files/default/tests/minitest/mod_auth_openid_test.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/apache2/files/default/tests/minitest/mod_cgi_test.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/apache2/files/default/tests/minitest/mod_dav_svn_test.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/apache2/files/default/tests/minitest/mod_fastcgi.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/apache2/files/default/tests/minitest/mod_include_test.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/apache2/files/default/tests/minitest/mod_perl_test.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/apache2/files/default/tests/minitest/mod_php5_test.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/apache2/files/default/tests/minitest/mod_python_test.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/apache2/files/default/tests/minitest/mod_ssl_test.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/apache2/files/default/tests/minitest/support/helpers.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/apache2/metadata.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/apache2/recipes/default.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/apache2/recipes/god_monitor.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/apache2/recipes/iptables.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/apache2/recipes/logrotate.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/apache2/recipes/mod_actions.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/apache2/recipes/mod_alias.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/apache2/recipes/mod_apreq2.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/apache2/recipes/mod_auth_basic.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/apache2/recipes/mod_auth_cas.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/apache2/recipes/mod_auth_digest.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/apache2/recipes/mod_auth_openid.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/apache2/recipes/mod_authn_file.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/apache2/recipes/mod_authnz_ldap.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/apache2/recipes/mod_authz_default.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/apache2/recipes/mod_authz_groupfile.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/apache2/recipes/mod_authz_host.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/apache2/recipes/mod_authz_user.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/apache2/recipes/mod_autoindex.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/apache2/recipes/mod_cgi.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/apache2/recipes/mod_cloudflare.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/apache2/recipes/mod_dav.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/apache2/recipes/mod_dav_fs.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/apache2/recipes/mod_dav_svn.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/apache2/recipes/mod_deflate.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/apache2/recipes/mod_dir.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/apache2/recipes/mod_env.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/apache2/recipes/mod_expires.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/apache2/recipes/mod_fastcgi.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/apache2/recipes/mod_fcgid.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/apache2/recipes/mod_filter.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/apache2/recipes/mod_headers.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/apache2/recipes/mod_include.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/apache2/recipes/mod_info.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/apache2/recipes/mod_jk.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/apache2/recipes/mod_ldap.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/apache2/recipes/mod_log_config.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/apache2/recipes/mod_logio.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/apache2/recipes/mod_mime.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/apache2/recipes/mod_negotiation.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/apache2/recipes/mod_pagespeed.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/apache2/recipes/mod_perl.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/apache2/recipes/mod_php5.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/apache2/recipes/mod_proxy.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/apache2/recipes/mod_proxy_ajp.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/apache2/recipes/mod_proxy_balancer.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/apache2/recipes/mod_proxy_connect.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/apache2/recipes/mod_proxy_http.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/apache2/recipes/mod_python.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/apache2/recipes/mod_rewrite.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/apache2/recipes/mod_setenvif.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/apache2/recipes/mod_ssl.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/apache2/recipes/mod_status.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/apache2/recipes/mod_userdir.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/apache2/recipes/mod_wsgi.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/apache2/recipes/mod_xsendfile.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/apache2/templates/default/a2dismod.erb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/apache2/templates/default/a2dissite.erb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/apache2/templates/default/a2enmod.erb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/apache2/templates/default/a2ensite.erb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/apache2/templates/default/apache2.conf.erb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/apache2/templates/default/apache2.god.erb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/apache2/templates/default/charset.erb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/apache2/templates/default/default-site.erb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/apache2/templates/default/etc-sysconfig-httpd.erb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/apache2/templates/default/mods/README" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/apache2/templates/default/mods/alias.conf.erb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/apache2/templates/default/mods/auth_cas.conf.erb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/apache2/templates/default/mods/auth_cas.load.erb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/apache2/templates/default/mods/authopenid.load.erb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/apache2/templates/default/mods/autoindex.conf.erb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/apache2/templates/default/mods/deflate.conf.erb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/apache2/templates/default/mods/dir.conf.erb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/apache2/templates/default/mods/fastcgi.conf.erb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/apache2/templates/default/mods/fcgid.conf.erb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/apache2/templates/default/mods/include.conf.erb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/apache2/templates/default/mods/include.erb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/apache2/templates/default/mods/info.conf.erb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/apache2/templates/default/mods/mime.conf.erb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/apache2/templates/default/mods/negotiation.conf.erb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/apache2/templates/default/mods/pagespeed.conf.erb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/apache2/templates/default/mods/php5.conf.erb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/apache2/templates/default/mods/proxy.conf.erb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/apache2/templates/default/mods/setenvif.conf.erb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/apache2/templates/default/mods/ssl.conf.erb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/apache2/templates/default/mods/status.conf.erb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/apache2/templates/default/port_apache.erb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/apache2/templates/default/ports.conf.erb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/apache2/templates/default/security.erb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/apache2/templates/default/web_app.conf.erb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/apt/CHANGELOG.md" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/apt/README.md" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/apt/attributes/default.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/apt/files/default/apt-proxy-v2.conf" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/apt/libraries/helpers.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/apt/libraries/matchers.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/apt/libraries/network.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/apt/metadata.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/apt/providers/preference.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/apt/providers/repository.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/apt/recipes/cacher-client.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/apt/recipes/cacher-ng.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/apt/recipes/default.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/apt/resources/preference.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/apt/resources/repository.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/apt/templates/debian-6.0/acng.conf.erb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/apt/templates/default/01proxy.erb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/apt/templates/default/acng.conf.erb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/apt/templates/ubuntu-10.04/acng.conf.erb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/aws/CHANGELOG.md" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/aws/README.md" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/aws/attributes/default.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/aws/libraries/ec2.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/aws/libraries/elb.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/aws/metadata.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/aws/providers/ebs_raid.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/aws/providers/ebs_volume.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/aws/providers/elastic_ip.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/aws/providers/elastic_lb.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/aws/providers/resource_tag.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/aws/providers/s3_file.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/aws/recipes/default.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/aws/resources/ebs_raid.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/aws/resources/ebs_volume.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/aws/resources/elastic_ip.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/aws/resources/elastic_lb.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/aws/resources/resource_tag.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/aws/resources/s3_file.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/build-essential/CHANGELOG.md" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/build-essential/README.md" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/build-essential/attributes/default.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/build-essential/libraries/matchers.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/build-essential/libraries/timing.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/build-essential/libraries/xcode_command_line_tools.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/build-essential/metadata.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/build-essential/recipes/_debian.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/build-essential/recipes/_fedora.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/build-essential/recipes/_freebsd.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/build-essential/recipes/_mac_os_x.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/build-essential/recipes/_omnios.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/build-essential/recipes/_rhel.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/build-essential/recipes/_smartos.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/build-essential/recipes/_solaris2.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/build-essential/recipes/_suse.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/build-essential/recipes/default.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/chef_handler/CHANGELOG.md" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/chef_handler/README.md" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/chef_handler/attributes/default.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/chef_handler/files/default/handlers/README" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/chef_handler/libraries/matchers.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/chef_handler/metadata.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/chef_handler/providers/default.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/chef_handler/recipes/default.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/chef_handler/recipes/json_file.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/chef_handler/resources/default.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/database/CHANGELOG.md" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/database/README.md" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/database/libraries/matchers.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/database/libraries/provider_database_mysql.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/database/libraries/provider_database_mysql_user.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/database/libraries/provider_database_postgresql.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/database/libraries/provider_database_postgresql_schema.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/database/libraries/provider_database_postgresql_user.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/database/libraries/provider_database_sql_server.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/database/libraries/provider_database_sql_server_user.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/database/libraries/resource_database.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/database/libraries/resource_database_user.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/database/libraries/resource_mysql_database.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/database/libraries/resource_mysql_database_user.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/database/libraries/resource_postgresql_database.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/database/libraries/resource_postgresql_database_schema.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/database/libraries/resource_postgresql_database_user.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/database/libraries/resource_sql_server_database.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/database/libraries/resource_sql_server_database_user.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/database/metadata.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/database/recipes/default.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/database/recipes/ebs_backup.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/database/recipes/ebs_volume.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/database/recipes/master.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/database/recipes/mysql.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/database/recipes/postgresql.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/database/recipes/snapshot.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/database/templates/default/app_grants.sql.erb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/database/templates/default/aws_config.erb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/database/templates/default/chef-solo-database-snapshot.cron.erb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/database/templates/default/chef-solo-database-snapshot.json.erb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/database/templates/default/chef-solo-database-snapshot.rb.erb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/database/templates/default/ebs-backup-cron.erb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/database/templates/default/ebs-db-backup.sh.erb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/database/templates/default/ebs-db-restore.sh.erb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/database/templates/default/s3cfg.erb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/iis/CHANGELOG.md" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/iis/README.md" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/iis/attributes/default.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/iis/libraries/helper.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/iis/metadata.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/iis/providers/app.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/iis/providers/config.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/iis/providers/module.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/iis/providers/pool.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/iis/providers/site.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/iis/recipes/default.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/iis/recipes/mod_application_initialization.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/iis/recipes/mod_aspnet.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/iis/recipes/mod_auth_basic.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/iis/recipes/mod_auth_windows.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/iis/recipes/mod_cgi.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/iis/recipes/mod_compress_dynamic.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/iis/recipes/mod_compress_static.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/iis/recipes/mod_ftp.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/iis/recipes/mod_iis6_metabase_compat.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/iis/recipes/mod_isapi.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/iis/recipes/mod_logging.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/iis/recipes/mod_management.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/iis/recipes/mod_security.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/iis/recipes/mod_tracing.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/iis/recipes/remove_default_site.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/iis/resources/app.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/iis/resources/config.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/iis/resources/module.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/iis/resources/pool.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/iis/resources/site.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/iptables/CHANGELOG.md" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/iptables/README.md" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/iptables/definitions/iptables_rule.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/iptables/metadata.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/iptables/recipes/default.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/iptables/recipes/disabled.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/iptables/templates/default/all_established.erb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/iptables/templates/default/all_icmp.erb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/iptables/templates/default/iptables_load.erb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/iptables/templates/default/rebuild-iptables.erb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/logrotate/Berksfile" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/logrotate/Berksfile.lock" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/logrotate/CHANGELOG.md" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/logrotate/CONTRIBUTING.md" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/logrotate/Gemfile" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/logrotate/Gemfile.lock" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/logrotate/LICENSE" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/logrotate/README.md" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/logrotate/TESTING.md" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/logrotate/attributes/default.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/logrotate/definitions/logrotate_app.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/logrotate/libraries/logrotate_config.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/logrotate/metadata.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/logrotate/recipes/default.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/logrotate/recipes/global.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/logrotate/templates/default/logrotate-global.erb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/logrotate/templates/default/logrotate.erb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/mysql-chef_gem/CHANGELOG.md" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/mysql-chef_gem/README.md" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/mysql-chef_gem/libraries/matchers.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/mysql-chef_gem/libraries/provider_mysql_chef_gem.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/mysql-chef_gem/libraries/resource_mysql_chef_gem.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/mysql-chef_gem/metadata.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/mysql-chef_gem/recipes/default.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/mysql/CHANGELOG.md" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/mysql/README.md" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/mysql/attributes/default.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/mysql/libraries/helpers.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/mysql/libraries/matchers.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/mysql/libraries/provider_mysql_client.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/mysql/libraries/provider_mysql_client_debian.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/mysql/libraries/provider_mysql_client_fedora.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/mysql/libraries/provider_mysql_client_freebsd.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/mysql/libraries/provider_mysql_client_omnios.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/mysql/libraries/provider_mysql_client_rhel.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/mysql/libraries/provider_mysql_client_smartos.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/mysql/libraries/provider_mysql_client_ubuntu.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/mysql/libraries/provider_mysql_service.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/mysql/libraries/provider_mysql_service_debian.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/mysql/libraries/provider_mysql_service_fedora.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/mysql/libraries/provider_mysql_service_freebsd.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/mysql/libraries/provider_mysql_service_omnios.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/mysql/libraries/provider_mysql_service_rhel.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/mysql/libraries/provider_mysql_service_smartos.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/mysql/libraries/provider_mysql_service_ubuntu.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/mysql/libraries/resource_mysql_client.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/mysql/libraries/resource_mysql_service.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/mysql/metadata.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/mysql/recipes/client.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/mysql/recipes/server.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/mysql/recipes/server_deprecated.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/mysql/templates/default/5.0/my.cnf.erb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/mysql/templates/default/5.1/my.cnf.erb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/mysql/templates/default/5.5/my.cnf.erb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/mysql/templates/default/5.6/my.cnf.erb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/mysql/templates/default/apparmor/usr.sbin.mysqld.erb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/mysql/templates/default/debian/debian.cnf.erb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/mysql/templates/default/debian/mysql-server.seed.erb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/mysql/templates/default/deprecated/my.cnf.erb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/mysql/templates/default/grants/grants.sql.erb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/mysql/templates/default/omnios/mysql.xml.erb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/mysql/templates/default/omnios/svc.method.mysqld.erb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/mysql/templates/default/smartos/mysql.xml.erb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/mysql/templates/default/smartos/svc.method.mysqld.erb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/openssl/CHANGELOG.md" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/openssl/README.md" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/openssl/libraries/secure_password.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/openssl/metadata.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/openssl/recipes/default.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/pacman/CHANGELOG.md" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/pacman/CONTRIBUTING" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/pacman/Gemfile" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/pacman/Gemfile.lock" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/pacman/LICENSE" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/pacman/README.md" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/pacman/metadata.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/pacman/providers/aur.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/pacman/providers/group.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/pacman/recipes/default.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/pacman/resources/aur.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/pacman/resources/group.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/pacman/spec/spec_helper.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/php/CHANGELOG.md" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/php/README.md" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/php/attributes/default.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/php/files/windows/go-pear.phar" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/php/libraries/helpers.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/php/metadata.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/php/providers/pear.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/php/providers/pear_channel.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/php/recipes/default.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/php/recipes/ini.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/php/recipes/module_apc.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/php/recipes/module_curl.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/php/recipes/module_fpdf.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/php/recipes/module_gd.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/php/recipes/module_ldap.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/php/recipes/module_memcache.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/php/recipes/module_mysql.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/php/recipes/module_pgsql.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/php/recipes/module_sqlite3.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/php/recipes/package.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/php/recipes/source.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/php/resources/pear.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/php/resources/pear_channel.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/php/templates/centos/php.ini.erb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/php/templates/debian/php.ini.erb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/php/templates/default/extension.ini.erb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/php/templates/default/php.ini.erb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/php/templates/redhat/php.ini.erb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/php/templates/ubuntu/php.ini.erb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/php/templates/windows/pear-options.erb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/php/templates/windows/php.ini.erb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/postgresql/Berksfile" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/postgresql/Berksfile.lock" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/postgresql/CHANGELOG.md" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/postgresql/CONTRIBUTING.md" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/postgresql/Gemfile" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/postgresql/Gemfile.lock" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/postgresql/LICENSE" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/postgresql/README.md" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/postgresql/TESTING.md" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/postgresql/attributes/default.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/postgresql/files/default/tests/minitest/apt_pgdg_postgresql_test.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/postgresql/files/default/tests/minitest/default_test.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/postgresql/files/default/tests/minitest/ruby_test.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/postgresql/files/default/tests/minitest/server_test.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/postgresql/files/default/tests/minitest/support/helpers.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/postgresql/libraries/default.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/postgresql/metadata.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/postgresql/recipes/apt_pgdg_postgresql.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/postgresql/recipes/client.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/postgresql/recipes/config_initdb.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/postgresql/recipes/config_pgtune.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/postgresql/recipes/contrib.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/postgresql/recipes/default.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/postgresql/recipes/ruby.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/postgresql/recipes/server.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/postgresql/recipes/server_debian.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/postgresql/recipes/server_redhat.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/postgresql/recipes/yum_pgdg_postgresql.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/postgresql/templates/default/pg_hba.conf.erb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/postgresql/templates/default/pgsql.sysconfig.erb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/postgresql/templates/default/postgresql.conf.erb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/windows/CHANGELOG.md" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/windows/README.md" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/windows/attributes/default.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/windows/files/default/handlers/windows_reboot_handler.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/windows/libraries/feature_base.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/windows/libraries/matchers.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/windows/libraries/powershell_helper.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/windows/libraries/powershell_out.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/windows/libraries/registry_helper.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/windows/libraries/version.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/windows/libraries/windows_architecture_helper.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/windows/libraries/windows_helper.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/windows/libraries/windows_privileged.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/windows/metadata.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/windows/providers/auto_run.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/windows/providers/batch.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/windows/providers/feature_dism.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/windows/providers/feature_powershell.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/windows/providers/feature_servermanagercmd.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/windows/providers/package.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/windows/providers/pagefile.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/windows/providers/path.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/windows/providers/printer.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/windows/providers/printer_port.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/windows/providers/reboot.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/windows/providers/registry.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/windows/providers/shortcut.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/windows/providers/task.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/windows/providers/zipfile.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/windows/recipes/default.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/windows/recipes/reboot_handler.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/windows/resources/auto_run.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/windows/resources/batch.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/windows/resources/feature.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/windows/resources/package.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/windows/resources/pagefile.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/windows/resources/path.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/windows/resources/printer.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/windows/resources/printer_port.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/windows/resources/reboot.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/windows/resources/registry.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/windows/resources/shortcut.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/windows/resources/task.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/windows/resources/zipfile.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/xfs/CHANGELOG.md" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/xfs/CONTRIBUTING" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/xfs/LICENSE" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/xfs/README.md" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/xfs/metadata.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/xfs/recipes/default.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/xml/CHANGELOG.md" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/xml/README.md" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/xml/attributes/default.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/xml/metadata.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/xml/recipes/default.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/xml/recipes/ruby.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/yum-epel/CHANGELOG.md" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/yum-epel/README.md" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/yum-epel/attributes/epel-debuginfo.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/yum-epel/attributes/epel-source.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/yum-epel/attributes/epel-testing-debuginfo.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/yum-epel/attributes/epel-testing-source.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/yum-epel/attributes/epel-testing.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/yum-epel/attributes/epel.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/yum-epel/metadata.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/yum-epel/recipes/default.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/yum/CHANGELOG.md" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/yum/README.md" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/yum/attributes/main.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/yum/libraries/matchers.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/yum/metadata.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/yum/providers/globalconfig.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/yum/providers/repository.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/yum/recipes/default.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/yum/resources/globalconfig.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/yum/resources/repository.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/yum/templates/default/main.erb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/berks/yum/templates/default/repo.erb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/core/vdd/metadata.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/core/vdd/recipes/apache.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/core/vdd/recipes/apc.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/core/vdd/recipes/composer.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/core/vdd/recipes/curl.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/core/vdd/recipes/default.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/core/vdd/recipes/drush.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/core/vdd/recipes/git.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/core/vdd/recipes/graphviz.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/core/vdd/recipes/mailcatcher.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/core/vdd/recipes/mc.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/core/vdd/recipes/mysql.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/core/vdd/recipes/patchutils.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/core/vdd/recipes/php.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/core/vdd/recipes/phpmyadmin.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/core/vdd/recipes/rsync.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/core/vdd/recipes/siege.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/core/vdd/recipes/uploadprogress.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/core/vdd/recipes/vdd_help.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/core/vdd/recipes/vdd_sites.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/core/vdd/recipes/vim.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/core/vdd/recipes/webgrind.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/core/vdd/recipes/xdebug.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/core/vdd/templates/default/aliases.drushrc.php.erb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/core/vdd/templates/default/drushrc.php.erb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/core/vdd/templates/default/gitconfig.erb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/core/vdd/templates/default/localhost.conf.erb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/core/vdd/templates/default/mailcatcher.upstart.erb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/core/vdd/templates/default/phpmyadmin.deb.conf.erb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/core/vdd/templates/default/vdd_apache.conf.erb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/core/vdd/templates/default/vdd_apc.ini.erb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/core/vdd/templates/default/vdd_help.html.erb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/core/vdd/templates/default/vdd_my.cnf.erb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/core/vdd/templates/default/vdd_php.ini.erb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/core/vdd/templates/default/vdd_xdebug.ini.erb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/core/vdd/templates/ubuntu/README.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/core/vdd/templates/ubuntu/vdd_php.ini.erb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/custom/vdd_example/metadata.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/cookbooks/custom/vdd_example/recipes/default.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/data_bags/.gitignore" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/roles/vdd.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/shell/final.sh" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/shell/initial.sh" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/shell/vdd.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/chef/solo.rb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm/config.json" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/vcs.xml" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/vdd.iml" afterPath="$PROJECT_DIR$/.idea/vdd.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Vagrantfile" afterPath="$PROJECT_DIR$/Vagrantfile" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/projects/index.html" afterPath="$PROJECT_DIR$/projects/index.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/projects/ipu/authorize.php" afterPath="$PROJECT_DIR$/projects/ipu/authorize.php" />
+    </list>
     <ignored path="vdd.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path=".idea/dataSources.local.xml" />
@@ -24,32 +563,32 @@
     <favorites_list name="vdd" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
-      <file leaf-file-name="config.json" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/vm/config.json">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-9.807693">
-              <caret line="15" column="14" selection-start-line="15" selection-start-column="14" selection-end-line="15" selection-end-column="14" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file leaf-file-name="index.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/projects/ipu/index.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-7.1923075">
-              <caret line="20" column="12" selection-start-line="20" selection-start-column="12" selection-end-line="20" selection-end-column="12" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="15" column="3" selection-start-line="15" selection-start-column="3" selection-end-line="15" selection-end-column="3" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="css_input_with_import.css" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/projects/ipu/modules/simpletest/files/css_test_files/css_input_with_import.css">
+      <file leaf-file-name="Vagrantfile" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/Vagrantfile">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="0" column="13" selection-start-line="0" selection-start-column="13" selection-end-line="0" selection-end-column="13" />
+            <state vertical-scroll-proportion="0.76083916">
+              <caret line="32" column="57" selection-start-line="32" selection-start-column="57" selection-end-line="32" selection-end-column="57" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="config.json" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/config.json">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-5.230769">
+              <caret line="8" column="20" selection-start-line="8" selection-start-column="20" selection-end-line="8" selection-end-column="20" />
               <folding />
             </state>
           </provider>
@@ -65,10 +604,11 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="D:/vdd - core/config.json" />
+        <option value="$PROJECT_DIR$/projects/ipu/index.php" />
+        <option value="$PROJECT_DIR$/projects/ipu/authorize.php" />
+        <option value="$PROJECT_DIR$/vm/config.json" />
         <option value="$PROJECT_DIR$/config.json" />
         <option value="$PROJECT_DIR$/Vagrantfile" />
-        <option value="$PROJECT_DIR$/vm/config.json" />
-        <option value="$PROJECT_DIR$/projects/ipu/index.php" />
       </list>
     </option>
   </component>
@@ -119,7 +659,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -135,20 +674,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="ipu" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="vdd" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="ipu" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="vm" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -186,6 +711,7 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
       <pane id="Scratches" />
     </panes>
   </component>
@@ -220,6 +746,11 @@
       <method />
     </configuration>
     <configuration default="true" type="js.build_tools.gulp" factoryName="Gulp.js">
+      <node-options />
+      <gulpfile />
+      <tasks />
+      <arguments />
+      <envs />
       <method />
     </configuration>
     <configuration default="true" type="js.build_tools.npm" factoryName="npm">
@@ -282,28 +813,36 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1616" height="876" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32974428" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32974428" sideWeight="0.4974293" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32974428" sideWeight="0.5025707" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32974428" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4293405" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32974428" sideWeight="0.4974293" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Remote Host" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32969153" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25642672" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2596401" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32974428" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32974428" sideWeight="0.5025707" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32974428" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32974428" sideWeight="0.4974293" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39973083" sideWeight="0.4974293" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32974428" sideWeight="0.4974293" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4293405" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39973083" sideWeight="0.4974293" order="3" side_tool="false" content_ui="tabs" />
     </layout>
+  </component>
+  <component name="Vcs.Log.UiProperties">
+    <option name="RECENTLY_FILTERED_USER_GROUPS">
+      <collection />
+    </option>
+    <option name="RECENTLY_FILTERED_BRANCH_GROUPS">
+      <collection />
+    </option>
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
@@ -321,7 +860,23 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/projects/phpinfo.php">
+    <entry file="file://$PROJECT_DIR$/projects/ipu/index.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="15" column="3" selection-start-line="15" selection-start-column="3" selection-end-line="15" selection-end-column="3" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Vagrantfile">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="35" column="85" selection-start-line="35" selection-start-column="85" selection-end-line="35" selection-end-column="85" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/config.json">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
@@ -329,11 +884,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Vagrantfile">
+    <entry file="file://$PROJECT_DIR$/projects/phpinfo.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.28531468">
+        <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -341,15 +895,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.22972973">
           <caret line="5" column="7" selection-start-line="5" selection-start-column="7" selection-end-line="5" selection-end-column="7" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vm/config.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-9.807693">
-          <caret line="15" column="14" selection-start-line="15" selection-start-column="14" selection-end-line="15" selection-end-column="14" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -357,27 +902,43 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.7372449">
           <caret line="20" column="0" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
-          <folding>
-            <marker date="1449572224872" expanded="true" signature="29056:29121" placeholder="SELECT filen..." />
-            <marker date="1449572224872" expanded="true" signature="32032:32066" placeholder="SELECT name,..." />
-            <marker date="1449572224872" expanded="true" signature="67733:67775" placeholder="SELECT 1 FRO..." />
-            <marker date="1449572224872" expanded="true" signature="98760:98815" placeholder="SELECT * FRO..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/projects/ipu/index.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-7.1923075">
-          <caret line="20" column="12" selection-start-line="20" selection-start-column="12" selection-end-line="20" selection-end-column="12" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/projects/ipu/modules/simpletest/files/css_test_files/css_input_with_import.css">
       <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.42117116">
+          <caret line="11" column="1" selection-start-line="11" selection-start-column="1" selection-end-line="11" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/projects/ipu/index.php">
+      <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="13" selection-start-line="0" selection-start-column="13" selection-end-line="0" selection-end-column="13" />
+          <caret line="15" column="3" selection-start-line="15" selection-start-column="3" selection-end-line="15" selection-end-column="3" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/projects/ipu/authorize.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.616836">
+          <caret line="55" column="3" selection-start-line="55" selection-start-column="3" selection-end-line="55" selection-end-column="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/config.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-5.230769">
+          <caret line="8" column="20" selection-start-line="8" selection-start-column="20" selection-end-line="8" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Vagrantfile">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.76083916">
+          <caret line="32" column="57" selection-start-line="32" selection-start-column="57" selection-end-line="32" selection-end-column="57" />
           <folding />
         </state>
       </provider>

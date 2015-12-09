@@ -1,3 +1,4 @@
+
 /**
  * Reset CSS styles.
  *
@@ -70,15 +71,15 @@ thead,
 tr,
 th,
 td,
-    /* Drupal: system-menus.css */
+/* Drupal: system-menus.css */
 td.menu-disabled,
 ul.links,
 ul.links.inline,
 ul.links li,
 .block ul,
-    /* Drupal: admin.css */
+/* Drupal: admin.css */
 div.admin,
-    /* Drupal: system.css */
+/* Drupal: system.css */
 tr.even,
 tr.odd,
 tr.drag,
@@ -119,12 +120,11 @@ ul.secondary li,
 ul.secondary a,
 ul.secondary a.active,
 .resizable-textarea {
-    margin: 0;
-    padding: 0;
-    border: 0;
-    vertical-align: baseline;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  vertical-align: baseline;
 }
-
 /* Drupal: system-menus.css */
 ul.links,
 ul.links.inline,
@@ -134,35 +134,32 @@ ol,
 ul,
 .item-list ul,
 .item-list ul li {
-    list-style: none;
+  list-style: none;
 }
-
 blockquote,
 q {
-    quotes: none;
+  quotes: none;
 }
-
 blockquote:before,
 blockquote:after,
 q:before,
 q:after {
-    content: '';
-    content: none;
+  content: '';
+  content: none;
 }
 
 /* Remember to highlight inserts somehow! */
 ins {
-    text-decoration: none;
+  text-decoration: none;
 }
-
 del {
-    text-decoration: line-through;
+  text-decoration: line-through;
 }
 
 /* Tables still need 'cellspacing="0"' in the markup. */
 table {
-    border-collapse: collapse;
-    border-spacing: 0;
+  border-collapse: collapse;
+  border-spacing: 0;
 }
 
 /**
@@ -174,14 +171,12 @@ table {
 input,
 select,
 textarea {
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
-
 textarea {
-    font-size: 1em;
-    line-height: 1.538em;
+  font-size: 1em;
+  line-height: 1.538em;
 }
-
 /**
  * Markup free clearing.
  *
@@ -192,32 +187,30 @@ textarea {
 ul.links:after,
 div.admin-panel .body:after,
 .clearfix:after {
-    content: ".";
-    display: block;
-    height: 0;
-    clear: both;
-    visibility: hidden;
+  content: ".";
+  display: block;
+  height: 0;
+  clear: both;
+  visibility: hidden;
 }
 
 /* Exclude inline links from clearfix behavior */
 ul.inline:after {
-    content: "";
-    display: none;
-    clear: none;
+  content: "";
+  display: none;
+  clear: none;
 }
-
 /* IE6 */
 * html .form-item,
 * html ul.links,
 * html div.admin-panel .body,
 * html .clearfix {
-    height: 1%;
+  height: 1%;
 }
-
 /* IE7 */
 *:first-child + html .form-item,
 *:first-child + html ul.links,
 *:first-child + html div.admin-panel .body,
 *:first-child + html .clearfix {
-    min-height: 1%;
+  min-height: 1%;
 }

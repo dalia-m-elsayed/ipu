@@ -8,9 +8,8 @@
 /**
  * Implements hook_uninstall().
  */
-function syslog_uninstall()
-{
-    variable_del('syslog_identity');
-    variable_del('syslog_facility');
-    variable_del('syslog_format');
+function syslog_uninstall() {
+  variable_del('syslog_identity');
+  variable_del('syslog_facility');
+  variable_del('syslog_format');
 }

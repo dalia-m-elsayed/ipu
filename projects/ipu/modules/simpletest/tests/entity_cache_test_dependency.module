@@ -8,11 +8,10 @@
 /**
  * Implements hook_entity_info().
  */
-function entity_cache_test_dependency_entity_info()
-{
-    return array(
-        'entity_cache_test' => array(
-            'label' => variable_get('entity_cache_test_label', 'Entity Cache Test'),
-        ),
-    );
+function entity_cache_test_dependency_entity_info() {
+  return array(
+    'entity_cache_test' => array(
+      'label' => variable_get('entity_cache_test_label', 'Entity Cache Test'),
+    ),
+  );
 }

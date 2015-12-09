@@ -35,20 +35,19 @@
  *
  * @see hook_image_effect_info_alter()
  */
-function hook_image_effect_info()
-{
-    $effects = array();
+function hook_image_effect_info() {
+  $effects = array();
 
-    $effects['mymodule_resize'] = array(
-        'label' => t('Resize'),
-        'help' => t('Resize an image to an exact set of dimensions, ignoring aspect ratio.'),
-        'effect callback' => 'mymodule_resize_effect',
-        'dimensions callback' => 'mymodule_resize_dimensions',
-        'form callback' => 'mymodule_resize_form',
-        'summary theme' => 'mymodule_resize_summary',
-    );
+  $effects['mymodule_resize'] = array(
+    'label' => t('Resize'),
+    'help' => t('Resize an image to an exact set of dimensions, ignoring aspect ratio.'),
+    'effect callback' => 'mymodule_resize_effect',
+    'dimensions callback' => 'mymodule_resize_dimensions',
+    'form callback' => 'mymodule_resize_form',
+    'summary theme' => 'mymodule_resize_summary',
+  );
 
-    return $effects;
+  return $effects;
 }
 
 /**
@@ -59,12 +58,11 @@ function hook_image_effect_info()
  *
  * @see hook_image_effect_info()
  */
-function hook_image_effect_info_alter(&$effects)
-{
-    // Override the Image module's crop effect with more options.
-    $effects['image_crop']['effect callback'] = 'mymodule_crop_effect';
-    $effects['image_crop']['dimensions callback'] = 'mymodule_crop_dimensions';
-    $effects['image_crop']['form callback'] = 'mymodule_crop_form';
+function hook_image_effect_info_alter(&$effects) {
+  // Override the Image module's crop effect with more options.
+  $effects['image_crop']['effect callback'] = 'mymodule_crop_effect';
+  $effects['image_crop']['dimensions callback'] = 'mymodule_crop_dimensions';
+  $effects['image_crop']['form callback'] = 'mymodule_crop_form';
 }
 
 /**
@@ -77,13 +75,12 @@ function hook_image_effect_info_alter(&$effects)
  * @param $style
  *   The image style array that is being updated.
  */
-function hook_image_style_save($style)
-{
-    // If a module defines an image style and that style is renamed by the user
-    // the module should update any references to that style.
-    if (isset($style['old_name']) && $style['old_name'] == variable_get('mymodule_image_style', '')) {
-        variable_set('mymodule_image_style', $style['name']);
-    }
+function hook_image_style_save($style) {
+  // If a module defines an image style and that style is renamed by the user
+  // the module should update any references to that style.
+  if (isset($style['old_name']) && $style['old_name'] == variable_get('mymodule_image_style', '')) {
+    variable_set('mymodule_image_style', $style['name']);
+  }
 }
 
 /**
@@ -97,13 +94,12 @@ function hook_image_style_save($style)
  * @param $style
  *   The image style array that being deleted.
  */
-function hook_image_style_delete($style)
-{
-    // Administrators can choose an optional replacement style when deleting.
-    // Update the modules style variable accordingly.
-    if (isset($style['old_name']) && $style['old_name'] == variable_get('mymodule_image_style', '')) {
-        variable_set('mymodule_image_style', $style['name']);
-    }
+function hook_image_style_delete($style) {
+  // Administrators can choose an optional replacement style when deleting.
+  // Update the modules style variable accordingly.
+  if (isset($style['old_name']) && $style['old_name'] == variable_get('mymodule_image_style', '')) {
+    variable_set('mymodule_image_style', $style['name']);
+  }
 }
 
 /**
@@ -118,10 +114,9 @@ function hook_image_style_delete($style)
  * @param $style
  *   The image style array that is being flushed.
  */
-function hook_image_style_flush($style)
-{
-    // Empty cached data that contains information about the style.
-    cache_clear_all('*', 'cache_mymodule', TRUE);
+function hook_image_style_flush($style) {
+  // Empty cached data that contains information about the style.
+  cache_clear_all('*', 'cache_mymodule', TRUE);
 }
 
 /**
@@ -144,18 +139,17 @@ function hook_image_style_flush($style)
  *
  * @see hook_image_default_styles()
  */
-function hook_image_styles_alter(&$styles)
-{
-    // Check that we only affect a default style.
-    if ($styles['thumbnail']['storage'] == IMAGE_STORAGE_DEFAULT) {
-        // Add an additional effect to the thumbnail style.
-        $styles['thumbnail']['effects'][] = array(
-            'name' => 'image_desaturate',
-            'data' => array(),
-            'weight' => 1,
-            'effect callback' => 'image_desaturate_effect',
-        );
-    }
+function hook_image_styles_alter(&$styles) {
+  // Check that we only affect a default style.
+  if ($styles['thumbnail']['storage'] == IMAGE_STORAGE_DEFAULT) {
+    // Add an additional effect to the thumbnail style.
+    $styles['thumbnail']['effects'][] = array(
+      'name' => 'image_desaturate',
+      'data' => array(),
+      'weight' => 1,
+      'effect callback' => 'image_desaturate_effect',
+    );
+  }
 }
 
 /**
@@ -179,29 +173,28 @@ function hook_image_styles_alter(&$styles)
  *   An array of image styles, keyed by the style name.
  * @see image_image_default_styles()
  */
-function hook_image_default_styles()
-{
-    $styles = array();
+function hook_image_default_styles() {
+  $styles = array();
 
-    $styles['mymodule_preview'] = array(
-        'label' => 'My module preview',
-        'effects' => array(
-            array(
-                'name' => 'image_scale',
-                'data' => array('width' => 400, 'height' => 400, 'upscale' => 1),
-                'weight' => 0,
-            ),
-            array(
-                'name' => 'image_desaturate',
-                'data' => array(),
-                'weight' => 1,
-            ),
-        ),
-    );
+  $styles['mymodule_preview'] = array(
+    'label' => 'My module preview',
+    'effects' => array(
+      array(
+        'name' => 'image_scale',
+        'data' => array('width' => 400, 'height' => 400, 'upscale' => 1),
+        'weight' => 0,
+      ),
+      array(
+        'name' => 'image_desaturate',
+        'data' => array(),
+        'weight' => 1,
+      ),
+    ),
+  );
 
-    return $styles;
+  return $styles;
 }
 
-/**
- * @} End of "addtogroup hooks".
- */
+ /**
+  * @} End of "addtogroup hooks".
+  */

@@ -16,12 +16,11 @@
  * @param $op
  *   Type of operation. Currently, only supports 'groups'.
  */
-function hook_locale($op = 'groups')
-{
-    switch ($op) {
-        case 'groups':
-            return array('custom' => t('Custom'));
-    }
+function hook_locale($op = 'groups') {
+  switch ($op) {
+    case 'groups':
+      return array('custom' => t('Custom'));
+  }
 }
 
 /**
@@ -33,9 +32,8 @@ function hook_locale($op = 'groups')
  * this way system components could properly react to the change of the enabled
  * languages number.
  */
-function hook_multilingual_settings_changed()
-{
-    field_info_cache_clear();
+function hook_multilingual_settings_changed() {
+  field_info_cache_clear();
 }
 
 /**

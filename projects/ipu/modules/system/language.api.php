@@ -23,19 +23,18 @@
  * modules implementing hook_boot() should be aware that language initialization
  * did not happen yet and thus they cannot rely on translated variables.
  */
-function hook_language_init()
-{
-    global $language, $conf;
+function hook_language_init() {
+  global $language, $conf;
 
-    switch ($language->language) {
-        case 'it':
-            $conf['site_name'] = 'Il mio sito Drupal';
-            break;
+  switch ($language->language) {
+    case 'it':
+      $conf['site_name'] = 'Il mio sito Drupal';
+      break;
 
-        case 'fr':
-            $conf['site_name'] = 'Mon site Drupal';
-            break;
-    }
+    case 'fr':
+      $conf['site_name'] = 'Mon site Drupal';
+      break;
+  }
 }
 
 /**
@@ -52,15 +51,14 @@ function hook_language_init()
  * @param $path
  *   The current path.
  */
-function hook_language_switch_links_alter(array &$links, $type, $path)
-{
-    global $language;
+function hook_language_switch_links_alter(array &$links, $type, $path) {
+  global $language;
 
-    if ($type == LANGUAGE_TYPE_CONTENT && isset($links[$language->language])) {
-        foreach ($links[$language->language] as $link) {
-            $link['attributes']['class'][] = 'active-language';
-        }
+  if ($type == LANGUAGE_TYPE_CONTENT && isset($links[$language->language])) {
+    foreach ($links[$language->language] as $link) {
+      $link['attributes']['class'][] = 'active-language';
     }
+  }
 }
 
 /**
@@ -81,17 +79,16 @@ function hook_language_switch_links_alter(array &$links, $type, $path)
  * @see hook_language_types_info_alter()
  * @ingroup language_negotiation
  */
-function hook_language_types_info()
-{
-    return array(
-        'custom_language_type' => array(
-            'name' => t('Custom language'),
-            'description' => t('A custom language type.'),
-        ),
-        'fixed_custom_language_type' => array(
-            'fixed' => array('custom_language_provider'),
-        ),
-    );
+function hook_language_types_info() {
+  return array(
+    'custom_language_type' => array(
+      'name' => t('Custom language'),
+      'description' => t('A custom language type.'),
+    ),
+    'fixed_custom_language_type' => array(
+      'fixed' => array('custom_language_provider'),
+    ),
+  );
 }
 
 /**
@@ -103,11 +100,10 @@ function hook_language_types_info()
  * @see hook_language_types_info()
  * @ingroup language_negotiation
  */
-function hook_language_types_info_alter(array &$language_types)
-{
-    if (isset($language_types['custom_language_type'])) {
-        $language_types['custom_language_type_custom']['description'] = t('A far better description.');
-    }
+function hook_language_types_info_alter(array &$language_types) {
+  if (isset($language_types['custom_language_type'])) {
+    $language_types['custom_language_type_custom']['description'] = t('A far better description.');
+  }
 }
 
 /**
@@ -141,23 +137,22 @@ function hook_language_types_info_alter(array &$language_types)
  * @see hook_language_negotiation_info_alter()
  * @ingroup language_negotiation
  */
-function hook_language_negotiation_info()
-{
-    return array(
-        'custom_language_provider' => array(
-            'callbacks' => array(
-                'language' => 'custom_language_provider_callback',
-                'switcher' => 'custom_language_switcher_callback',
-                'url_rewrite' => 'custom_language_url_rewrite_callback',
-            ),
-            'file' => drupal_get_path('module', 'custom') . '/custom.module',
-            'weight' => -4,
-            'types' => array('custom_language_type'),
-            'name' => t('Custom language negotiation provider'),
-            'description' => t('This is a custom language negotiation provider.'),
-            'cache' => 0,
-        ),
-    );
+function hook_language_negotiation_info() {
+  return array(
+    'custom_language_provider' => array(
+      'callbacks' => array(
+        'language' => 'custom_language_provider_callback',
+        'switcher' => 'custom_language_switcher_callback',
+        'url_rewrite' => 'custom_language_url_rewrite_callback',
+      ),
+      'file' => drupal_get_path('module', 'custom') . '/custom.module',
+      'weight' => -4,
+      'types' => array('custom_language_type'),
+      'name' => t('Custom language negotiation provider'),
+      'description' => t('This is a custom language negotiation provider.'),
+      'cache' => 0,
+    ),
+  );
 }
 
 /**
@@ -169,11 +164,10 @@ function hook_language_negotiation_info()
  * @see hook_language_negotiation_info()
  * @ingroup language_negotiation
  */
-function hook_language_negotiation_info_alter(array &$language_providers)
-{
-    if (isset($language_providers['custom_language_provider'])) {
-        $language_providers['custom_language_provider']['config'] = 'admin/config/regional/language/configure/custom-language-provider';
-    }
+function hook_language_negotiation_info_alter(array &$language_providers) {
+  if (isset($language_providers['custom_language_provider'])) {
+    $language_providers['custom_language_provider']['config'] = 'admin/config/regional/language/configure/custom-language-provider';
+  }
 }
 
 /**
@@ -183,9 +177,8 @@ function hook_language_negotiation_info_alter(array &$language_providers)
  *   An array of language codes whose order will determine the language fallback
  *   order.
  */
-function hook_language_fallback_candidates_alter(array &$fallback_candidates)
-{
-    $fallback_candidates = array_reverse($fallback_candidates);
+function hook_language_fallback_candidates_alter(array &$fallback_candidates) {
+  $fallback_candidates = array_reverse($fallback_candidates);
 }
 
 /**

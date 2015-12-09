@@ -76,179 +76,176 @@ define('UPDATE_MAX_FETCH_TIME', 30);
 /**
  * Implements hook_help().
  */
-function update_help($path, $arg)
-{
-    switch ($path) {
-        case 'admin/reports/updates':
-            return '<p>' . t('Here you can find information about available updates for your installed modules and themes. Note that each module or theme is part of a "project", which may or may not have the same name, and might include multiple modules or themes within it.') . '</p>';
+function update_help($path, $arg) {
+  switch ($path) {
+    case 'admin/reports/updates':
+      return '<p>' . t('Here you can find information about available updates for your installed modules and themes. Note that each module or theme is part of a "project", which may or may not have the same name, and might include multiple modules or themes within it.') . '</p>';
 
-        case 'admin/help#update':
-            $output = '';
-            $output .= '<h3>' . t('About') . '</h3>';
-            $output .= '<p>' . t("The Update manager module periodically checks for new versions of your site's software (including contributed modules and themes), and alerts administrators to available updates. In order to provide update information, anonymous usage statistics are sent to Drupal.org. If desired, you may disable the Update manager module from the <a href='@modules'>Module administration page</a>. For more information, see the online handbook entry for <a href='@update'>Update manager module</a>.", array('@update' => 'http://drupal.org/documentation/modules/update', '@modules' => url('admin/modules'))) . '</p>';
-            // Only explain the Update manager if it has not been disabled.
-            if (update_manager_access()) {
-                $output .= '<p>' . t('The Update manager also allows administrators to update and install modules and themes through the administration interface.') . '</p>';
-            }
-            $output .= '<h3>' . t('Uses') . '</h3>';
-            $output .= '<dl>';
-            $output .= '<dt>' . t('Checking for available updates') . '</dt>';
-            $output .= '<dd>' . t('A report of <a href="@update-report">available updates</a> will alert you when new releases are available for download. You may configure options for the frequency for checking updates (which are performed during <a href="@cron">cron</a> runs) and e-mail notifications at the <a href="@update-settings">Update manager settings</a>  page.', array('@update-report' => url('admin/reports/updates'), '@cron' => 'http://drupal.org/cron', '@update-settings' => url('admin/reports/updates/settings'))) . '</dd>';
-            // Only explain the Update manager if it has not been disabled.
-            if (update_manager_access()) {
-                $output .= '<dt>' . t('Performing updates through the user interface') . '</dt>';
-                $output .= '<dd>' . t('The Update manager module allows administrators to perform updates directly through the administration interface. At the top of the <a href="@modules_page">modules</a> and <a href="@themes_page">themes</a> pages you will see a link to update to new releases. This will direct you to the <a href="@update-page">update page</a> where you see a listing of all the missing updates and confirm which ones you want to upgrade. From there, you are prompted for your FTP/SSH password, which then transfers the files into your Drupal installation, overwriting your old files. More detailed instructions can be found in the <a href="@update">online handbook</a>.', array('@modules_page' => url('admin/modules'), '@themes_page' => url('admin/appearance'), '@update-page' => url('admin/reports/updates/update'), '@update' => 'http://drupal.org/documentation/modules/update')) . '</dd>';
-                $output .= '<dt>' . t('Installing new modules and themes through the user interface') . '</dt>';
-                $output .= '<dd>' . t('You can also install new modules and themes in the same fashion, through the <a href="@install">install page</a>, or by clicking the <em>Install new module/theme</em> link at the top of the <a href="@modules_page">modules</a> and <a href="@themes_page">themes</a> pages. In this case, you are prompted to provide either the URL to the download, or to upload a packaged release file from your local computer.', array('@modules_page' => url('admin/modules'), '@themes_page' => url('admin/appearance'), '@install' => url('admin/reports/updates/install'))) . '</dd>';
-            }
-            $output .= '</dl>';
-            return $output;
-    }
+    case 'admin/help#update':
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t("The Update manager module periodically checks for new versions of your site's software (including contributed modules and themes), and alerts administrators to available updates. In order to provide update information, anonymous usage statistics are sent to Drupal.org. If desired, you may disable the Update manager module from the <a href='@modules'>Module administration page</a>. For more information, see the online handbook entry for <a href='@update'>Update manager module</a>.", array('@update' => 'http://drupal.org/documentation/modules/update', '@modules' => url('admin/modules'))) . '</p>';
+      // Only explain the Update manager if it has not been disabled.
+      if (update_manager_access()) {
+        $output .= '<p>' . t('The Update manager also allows administrators to update and install modules and themes through the administration interface.') . '</p>';
+      }
+      $output .= '<h3>' . t('Uses') . '</h3>';
+      $output .= '<dl>';
+      $output .= '<dt>' . t('Checking for available updates') . '</dt>';
+      $output .= '<dd>' . t('A report of <a href="@update-report">available updates</a> will alert you when new releases are available for download. You may configure options for the frequency for checking updates (which are performed during <a href="@cron">cron</a> runs) and e-mail notifications at the <a href="@update-settings">Update manager settings</a>  page.', array('@update-report' => url('admin/reports/updates'), '@cron' => 'http://drupal.org/cron', '@update-settings' => url('admin/reports/updates/settings'))) . '</dd>';
+      // Only explain the Update manager if it has not been disabled.
+      if (update_manager_access()) {
+        $output .= '<dt>' . t('Performing updates through the user interface') . '</dt>';
+        $output .= '<dd>' . t('The Update manager module allows administrators to perform updates directly through the administration interface. At the top of the <a href="@modules_page">modules</a> and <a href="@themes_page">themes</a> pages you will see a link to update to new releases. This will direct you to the <a href="@update-page">update page</a> where you see a listing of all the missing updates and confirm which ones you want to upgrade. From there, you are prompted for your FTP/SSH password, which then transfers the files into your Drupal installation, overwriting your old files. More detailed instructions can be found in the <a href="@update">online handbook</a>.', array('@modules_page' => url('admin/modules'), '@themes_page' => url('admin/appearance'),  '@update-page' => url('admin/reports/updates/update'), '@update' => 'http://drupal.org/documentation/modules/update')) . '</dd>';
+        $output .= '<dt>' . t('Installing new modules and themes through the user interface') . '</dt>';
+        $output .= '<dd>' . t('You can also install new modules and themes in the same fashion, through the <a href="@install">install page</a>, or by clicking the <em>Install new module/theme</em> link at the top of the <a href="@modules_page">modules</a> and <a href="@themes_page">themes</a> pages. In this case, you are prompted to provide either the URL to the download, or to upload a packaged release file from your local computer.', array('@modules_page' => url('admin/modules'), '@themes_page' => url('admin/appearance'), '@install' => url('admin/reports/updates/install'))) . '</dd>';
+      }
+      $output .= '</dl>';
+      return $output;
+  }
 }
 
 /**
  * Implements hook_init().
  */
-function update_init()
-{
-    if (arg(0) == 'admin' && user_access('administer site configuration')) {
-        switch ($_GET['q']) {
-            // These pages don't need additional nagging.
-            case 'admin/appearance/update':
-            case 'admin/appearance/install':
-            case 'admin/modules/update':
-            case 'admin/modules/install':
-            case 'admin/reports/updates':
-            case 'admin/reports/updates/update':
-            case 'admin/reports/updates/install':
-            case 'admin/reports/updates/settings':
-            case 'admin/reports/status':
-            case 'admin/update/ready':
-                return;
+function update_init() {
+  if (arg(0) == 'admin' && user_access('administer site configuration')) {
+    switch ($_GET['q']) {
+      // These pages don't need additional nagging.
+      case 'admin/appearance/update':
+      case 'admin/appearance/install':
+      case 'admin/modules/update':
+      case 'admin/modules/install':
+      case 'admin/reports/updates':
+      case 'admin/reports/updates/update':
+      case 'admin/reports/updates/install':
+      case 'admin/reports/updates/settings':
+      case 'admin/reports/status':
+      case 'admin/update/ready':
+        return;
 
-            // If we are on the appearance or modules list, display a detailed report
-            // of the update status.
-            case 'admin/appearance':
-            case 'admin/modules':
-                $verbose = TRUE;
-                break;
+      // If we are on the appearance or modules list, display a detailed report
+      // of the update status.
+      case 'admin/appearance':
+      case 'admin/modules':
+        $verbose = TRUE;
+        break;
 
-        }
-        module_load_install('update');
-        $status = update_requirements('runtime');
-        foreach (array('core', 'contrib') as $report_type) {
-            $type = 'update_' . $report_type;
-            if (!empty($verbose)) {
-                if (isset($status[$type]['severity'])) {
-                    if ($status[$type]['severity'] == REQUIREMENT_ERROR) {
-                        drupal_set_message($status[$type]['description'], 'error', FALSE);
-                    } elseif ($status[$type]['severity'] == REQUIREMENT_WARNING) {
-                        drupal_set_message($status[$type]['description'], 'warning', FALSE);
-                    }
-                }
-            }
-            // Otherwise, if we're on *any* admin page and there's a security
-            // update missing, print an error message about it.
-            else {
-                if (isset($status[$type])
-                    && isset($status[$type]['reason'])
-                    && $status[$type]['reason'] === UPDATE_NOT_SECURE
-                ) {
-                    drupal_set_message($status[$type]['description'], 'error', FALSE);
-                }
-            }
-        }
     }
+    module_load_install('update');
+    $status = update_requirements('runtime');
+    foreach (array('core', 'contrib') as $report_type) {
+      $type = 'update_' . $report_type;
+      if (!empty($verbose)) {
+        if (isset($status[$type]['severity'])) {
+          if ($status[$type]['severity'] == REQUIREMENT_ERROR) {
+            drupal_set_message($status[$type]['description'], 'error', FALSE);
+          }
+          elseif ($status[$type]['severity'] == REQUIREMENT_WARNING) {
+            drupal_set_message($status[$type]['description'], 'warning', FALSE);
+          }
+        }
+      }
+      // Otherwise, if we're on *any* admin page and there's a security
+      // update missing, print an error message about it.
+      else {
+        if (isset($status[$type])
+            && isset($status[$type]['reason'])
+            && $status[$type]['reason'] === UPDATE_NOT_SECURE) {
+          drupal_set_message($status[$type]['description'], 'error', FALSE);
+        }
+      }
+    }
+  }
 }
 
 /**
  * Implements hook_menu().
  */
-function update_menu()
-{
-    $items = array();
+function update_menu() {
+  $items = array();
 
-    $items['admin/reports/updates'] = array(
-        'title' => 'Available updates',
-        'description' => 'Get a status report about available updates for your installed modules and themes.',
-        'page callback' => 'update_status',
-        'access arguments' => array('administer site configuration'),
-        'weight' => -50,
-        'file' => 'update.report.inc',
-    );
-    $items['admin/reports/updates/list'] = array(
-        'title' => 'List',
-        'access arguments' => array('administer site configuration'),
-        'type' => MENU_DEFAULT_LOCAL_TASK,
-    );
-    $items['admin/reports/updates/settings'] = array(
-        'title' => 'Settings',
-        'page callback' => 'drupal_get_form',
-        'page arguments' => array('update_settings'),
-        'access arguments' => array('administer site configuration'),
-        'file' => 'update.settings.inc',
-        'type' => MENU_LOCAL_TASK,
-        'weight' => 50,
-    );
-    $items['admin/reports/updates/check'] = array(
-        'title' => 'Manual update check',
-        'page callback' => 'update_manual_status',
-        'access arguments' => array('administer site configuration'),
-        'type' => MENU_CALLBACK,
-        'file' => 'update.fetch.inc',
-    );
+  $items['admin/reports/updates'] = array(
+    'title' => 'Available updates',
+    'description' => 'Get a status report about available updates for your installed modules and themes.',
+    'page callback' => 'update_status',
+    'access arguments' => array('administer site configuration'),
+    'weight' => -50,
+    'file' => 'update.report.inc',
+  );
+  $items['admin/reports/updates/list'] = array(
+    'title' => 'List',
+    'access arguments' => array('administer site configuration'),
+    'type' => MENU_DEFAULT_LOCAL_TASK,
+  );
+  $items['admin/reports/updates/settings'] = array(
+    'title' => 'Settings',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('update_settings'),
+    'access arguments' => array('administer site configuration'),
+    'file' => 'update.settings.inc',
+    'type' => MENU_LOCAL_TASK,
+    'weight' => 50,
+  );
+  $items['admin/reports/updates/check'] = array(
+    'title' => 'Manual update check',
+    'page callback' => 'update_manual_status',
+    'access arguments' => array('administer site configuration'),
+    'type' => MENU_CALLBACK,
+    'file' => 'update.fetch.inc',
+  );
 
-    // We want action links for updating projects at a few different locations:
-    // both the module and theme administration pages, and on the available
-    // updates report itself. The menu items will be mostly identical, except the
-    // paths and titles, so we just define them in a loop. We pass in a string
-    // indicating what context we're entering the action from, so that can
-    // customize the appearance as needed.
-    $paths = array(
-        'report' => 'admin/reports/updates',
-        'module' => 'admin/modules',
-        'theme' => 'admin/appearance',
+  // We want action links for updating projects at a few different locations:
+  // both the module and theme administration pages, and on the available
+  // updates report itself. The menu items will be mostly identical, except the
+  // paths and titles, so we just define them in a loop. We pass in a string
+  // indicating what context we're entering the action from, so that can
+  // customize the appearance as needed.
+  $paths = array(
+    'report' => 'admin/reports/updates',
+    'module' => 'admin/modules',
+    'theme' => 'admin/appearance',
+  );
+  foreach ($paths as $context => $path) {
+    $items[$path . '/install'] = array(
+      'page callback' => 'drupal_get_form',
+      'page arguments' => array('update_manager_install_form', $context),
+      'access callback' => 'update_manager_access',
+      'access arguments' => array(),
+      'weight' => 25,
+      'type' => MENU_LOCAL_ACTION,
+      'file' => 'update.manager.inc',
     );
-    foreach ($paths as $context => $path) {
-        $items[$path . '/install'] = array(
-            'page callback' => 'drupal_get_form',
-            'page arguments' => array('update_manager_install_form', $context),
-            'access callback' => 'update_manager_access',
-            'access arguments' => array(),
-            'weight' => 25,
-            'type' => MENU_LOCAL_ACTION,
-            'file' => 'update.manager.inc',
-        );
-        $items[$path . '/update'] = array(
-            'page callback' => 'drupal_get_form',
-            'page arguments' => array('update_manager_update_form', $context),
-            'access callback' => 'update_manager_access',
-            'access arguments' => array(),
-            'weight' => 10,
-            'title' => 'Update',
-            'type' => MENU_LOCAL_TASK,
-            'file' => 'update.manager.inc',
-        );
-    }
-    // Customize the titles of the action links depending on where they appear.
-    // We use += array() to let the translation extractor find these menu titles.
-    $items['admin/reports/updates/install'] += array('title' => 'Install new module or theme');
-    $items['admin/modules/install'] += array('title' => 'Install new module');
-    $items['admin/appearance/install'] += array('title' => 'Install new theme');
-
-    // Menu callback used for the confirmation page after all the releases
-    // have been downloaded, asking you to backup before installing updates.
-    $items['admin/update/ready'] = array(
-        'title' => 'Ready to update',
-        'page callback' => 'drupal_get_form',
-        'page arguments' => array('update_manager_update_ready_form'),
-        'access callback' => 'update_manager_access',
-        'access arguments' => array(),
-        'type' => MENU_CALLBACK,
-        'file' => 'update.manager.inc',
+    $items[$path . '/update'] = array(
+      'page callback' => 'drupal_get_form',
+      'page arguments' => array('update_manager_update_form', $context),
+      'access callback' => 'update_manager_access',
+      'access arguments' => array(),
+      'weight' => 10,
+      'title' => 'Update',
+      'type' => MENU_LOCAL_TASK,
+      'file' => 'update.manager.inc',
     );
+  }
+  // Customize the titles of the action links depending on where they appear.
+  // We use += array() to let the translation extractor find these menu titles.
+  $items['admin/reports/updates/install'] += array('title' => 'Install new module or theme');
+  $items['admin/modules/install'] += array('title' => 'Install new module');
+  $items['admin/appearance/install'] += array('title' => 'Install new theme');
 
-    return $items;
+  // Menu callback used for the confirmation page after all the releases
+  // have been downloaded, asking you to backup before installing updates.
+  $items['admin/update/ready'] = array(
+    'title' => 'Ready to update',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('update_manager_update_ready_form'),
+    'access callback' => 'update_manager_access',
+    'access arguments' => array(),
+    'type' => MENU_CALLBACK,
+    'file' => 'update.manager.inc',
+  );
+
+  return $items;
 }
 
 /**
@@ -263,66 +260,64 @@ function update_menu()
  *
  * @see update_menu()
  */
-function update_manager_access()
-{
-    return variable_get('allow_authorize_operations', TRUE) && user_access('administer software updates');
+function update_manager_access() {
+  return variable_get('allow_authorize_operations', TRUE) && user_access('administer software updates');
 }
 
 /**
  * Implements hook_theme().
  */
-function update_theme()
-{
-    return array(
-        'update_manager_update_form' => array(
-            'render element' => 'form',
-            'file' => 'update.manager.inc',
-        ),
-        'update_last_check' => array(
-            'variables' => array('last' => NULL),
-        ),
-        'update_report' => array(
-            'variables' => array('data' => NULL),
-            'file' => 'update.report.inc',
-        ),
-        'update_version' => array(
-            'variables' => array('version' => NULL, 'tag' => NULL, 'class' => array()),
-            'file' => 'update.report.inc',
-        ),
-        'update_status_label' => array(
-            'variables' => array('status' => NULL),
-            'file' => 'update.report.inc',
-        ),
-    );
+function update_theme() {
+  return array(
+    'update_manager_update_form' => array(
+      'render element' => 'form',
+      'file' => 'update.manager.inc',
+    ),
+    'update_last_check' => array(
+      'variables' => array('last' => NULL),
+    ),
+    'update_report' => array(
+      'variables' => array('data' => NULL),
+      'file' => 'update.report.inc',
+    ),
+    'update_version' => array(
+      'variables' => array('version' => NULL, 'tag' => NULL, 'class' => array()),
+      'file' => 'update.report.inc',
+    ),
+    'update_status_label' => array(
+      'variables' => array('status' => NULL),
+      'file' => 'update.report.inc',
+    ),
+  );
 }
 
 /**
  * Implements hook_cron().
  */
-function update_cron()
-{
-    $frequency = variable_get('update_check_frequency', 1);
-    $interval = 60 * 60 * 24 * $frequency;
-    if ((REQUEST_TIME - variable_get('update_last_check', 0)) > $interval) {
-        // If the configured update interval has elapsed, we want to invalidate
-        // the cached data for all projects, attempt to re-fetch, and trigger any
-        // configured notifications about the new status.
-        update_refresh();
-        update_fetch_data();
-    } else {
-        // Otherwise, see if any individual projects are now stale or still
-        // missing data, and if so, try to fetch the data.
-        update_get_available(TRUE);
-    }
-    if ((REQUEST_TIME - variable_get('update_last_email_notification', 0)) > $interval) {
-        // If configured time between notifications elapsed, send email about
-        // updates possibly available.
-        module_load_include('inc', 'update', 'update.fetch');
-        _update_cron_notify();
-    }
+function update_cron() {
+  $frequency = variable_get('update_check_frequency', 1);
+  $interval = 60 * 60 * 24 * $frequency;
+  if ((REQUEST_TIME - variable_get('update_last_check', 0)) > $interval) {
+    // If the configured update interval has elapsed, we want to invalidate
+    // the cached data for all projects, attempt to re-fetch, and trigger any
+    // configured notifications about the new status.
+    update_refresh();
+    update_fetch_data();
+  }
+  else {
+    // Otherwise, see if any individual projects are now stale or still
+    // missing data, and if so, try to fetch the data.
+    update_get_available(TRUE);
+  }
+  if ((REQUEST_TIME - variable_get('update_last_email_notification', 0)) > $interval) {
+    // If configured time between notifications elapsed, send email about
+    // updates possibly available.
+    module_load_include('inc', 'update', 'update.fetch');
+    _update_cron_notify();
+  }
 
-    // Clear garbage from disk.
-    update_clear_update_disk_cache();
+  // Clear garbage from disk.
+  update_clear_update_disk_cache();
 }
 
 /**
@@ -330,10 +325,9 @@ function update_cron()
  *
  * If themes are enabled, we invalidate the cache of available updates.
  */
-function update_themes_enabled($themes)
-{
-    // Clear all update module caches.
-    _update_cache_clear();
+function update_themes_enabled($themes) {
+  // Clear all update module caches.
+  _update_cache_clear();
 }
 
 /**
@@ -341,10 +335,9 @@ function update_themes_enabled($themes)
  *
  * If themes are disabled, we invalidate the cache of available updates.
  */
-function update_themes_disabled($themes)
-{
-    // Clear all update module caches.
-    _update_cache_clear();
+function update_themes_disabled($themes) {
+  // Clear all update module caches.
+  _update_cache_clear();
 }
 
 /**
@@ -355,9 +348,8 @@ function update_themes_disabled($themes)
  *
  * @see _update_cache_clear()
  */
-function update_form_system_modules_alter(&$form, $form_state)
-{
-    $form['#submit'][] = 'update_cache_clear_submit';
+function update_form_system_modules_alter(&$form, $form_state) {
+  $form['#submit'][] = 'update_cache_clear_submit';
 }
 
 /**
@@ -365,22 +357,20 @@ function update_form_system_modules_alter(&$form, $form_state)
  *
  * @see update_form_system_modules_alter()
  */
-function update_cache_clear_submit($form, &$form_state)
-{
-    // Clear all update module caches.
-    _update_cache_clear();
+function update_cache_clear_submit($form, &$form_state) {
+  // Clear all update module caches.
+  _update_cache_clear();
 }
 
 /**
  * Returns a warning message when there is no data about available updates.
  */
-function _update_no_data()
-{
-    $destination = drupal_get_destination();
-    return t('No update information available. <a href="@run_cron">Run cron</a> or <a href="@check_manually">check manually</a>.', array(
-        '@run_cron' => url('admin/reports/status/run-cron', array('query' => $destination)),
-        '@check_manually' => url('admin/reports/updates/check', array('query' => $destination)),
-    ));
+function _update_no_data() {
+  $destination = drupal_get_destination();
+  return t('No update information available. <a href="@run_cron">Run cron</a> or <a href="@check_manually">check manually</a>.', array(
+    '@run_cron' => url('admin/reports/status/run-cron', array('query' => $destination)),
+    '@check_manually' => url('admin/reports/updates/check', array('query' => $destination)),
+  ));
 }
 
 /**
@@ -404,56 +394,55 @@ function _update_no_data()
  * @see update_refresh()
  * @see update_get_projects()
  */
-function update_get_available($refresh = FALSE)
-{
-    module_load_include('inc', 'update', 'update.compare');
-    $needs_refresh = FALSE;
+function update_get_available($refresh = FALSE) {
+  module_load_include('inc', 'update', 'update.compare');
+  $needs_refresh = FALSE;
 
-    // Grab whatever data we currently have cached in the DB.
+  // Grab whatever data we currently have cached in the DB.
+  $available = _update_get_cached_available_releases();
+  $num_avail = count($available);
+
+  $projects = update_get_projects();
+  foreach ($projects as $key => $project) {
+    // If there's no data at all, we clearly need to fetch some.
+    if (empty($available[$key])) {
+      update_create_fetch_task($project);
+      $needs_refresh = TRUE;
+      continue;
+    }
+
+    // See if the .info file is newer than the last time we checked for data,
+    // and if so, mark this project's data as needing to be re-fetched. Any
+    // time an admin upgrades their local installation, the .info file will
+    // be changed, so this is the only way we can be sure we're not showing
+    // bogus information right after they upgrade.
+    if ($project['info']['_info_file_ctime'] > $available[$key]['last_fetch']) {
+      $available[$key]['fetch_status'] = UPDATE_FETCH_PENDING;
+    }
+
+    // If we have project data but no release data, we need to fetch. This
+    // can be triggered when we fail to contact a release history server.
+    if (empty($available[$key]['releases'])) {
+      $available[$key]['fetch_status'] = UPDATE_FETCH_PENDING;
+    }
+
+    // If we think this project needs to fetch, actually create the task now
+    // and remember that we think we're missing some data.
+    if (!empty($available[$key]['fetch_status']) && $available[$key]['fetch_status'] == UPDATE_FETCH_PENDING) {
+      update_create_fetch_task($project);
+      $needs_refresh = TRUE;
+    }
+  }
+
+  if ($needs_refresh && $refresh) {
+    // Attempt to drain the queue of fetch tasks.
+    update_fetch_data();
+    // After processing the queue, we've (hopefully) got better data, so pull
+    // the latest from the cache again and use that directly.
     $available = _update_get_cached_available_releases();
-    $num_avail = count($available);
+  }
 
-    $projects = update_get_projects();
-    foreach ($projects as $key => $project) {
-        // If there's no data at all, we clearly need to fetch some.
-        if (empty($available[$key])) {
-            update_create_fetch_task($project);
-            $needs_refresh = TRUE;
-            continue;
-        }
-
-        // See if the .info file is newer than the last time we checked for data,
-        // and if so, mark this project's data as needing to be re-fetched. Any
-        // time an admin upgrades their local installation, the .info file will
-        // be changed, so this is the only way we can be sure we're not showing
-        // bogus information right after they upgrade.
-        if ($project['info']['_info_file_ctime'] > $available[$key]['last_fetch']) {
-            $available[$key]['fetch_status'] = UPDATE_FETCH_PENDING;
-        }
-
-        // If we have project data but no release data, we need to fetch. This
-        // can be triggered when we fail to contact a release history server.
-        if (empty($available[$key]['releases'])) {
-            $available[$key]['fetch_status'] = UPDATE_FETCH_PENDING;
-        }
-
-        // If we think this project needs to fetch, actually create the task now
-        // and remember that we think we're missing some data.
-        if (!empty($available[$key]['fetch_status']) && $available[$key]['fetch_status'] == UPDATE_FETCH_PENDING) {
-            update_create_fetch_task($project);
-            $needs_refresh = TRUE;
-        }
-    }
-
-    if ($needs_refresh && $refresh) {
-        // Attempt to drain the queue of fetch tasks.
-        update_fetch_data();
-        // After processing the queue, we've (hopefully) got better data, so pull
-        // the latest from the cache again and use that directly.
-        $available = _update_get_cached_available_releases();
-    }
-
-    return $available;
+  return $available;
 }
 
 /**
@@ -465,10 +454,9 @@ function update_get_available($refresh = FALSE)
  *
  * @see _update_create_fetch_task()
  */
-function update_create_fetch_task($project)
-{
-    module_load_include('inc', 'update', 'update.fetch');
-    return _update_create_fetch_task($project);
+function update_create_fetch_task($project) {
+  module_load_include('inc', 'update', 'update.fetch');
+  return _update_create_fetch_task($project);
 }
 
 /**
@@ -476,10 +464,9 @@ function update_create_fetch_task($project)
  *
  * @see _update_refresh()
  */
-function update_refresh()
-{
-    module_load_include('inc', 'update', 'update.fetch');
-    return _update_refresh();
+function update_refresh() {
+  module_load_include('inc', 'update', 'update.fetch');
+  return _update_refresh();
 }
 
 /**
@@ -487,10 +474,9 @@ function update_refresh()
  *
  * @see _update_fetch_data()
  */
-function update_fetch_data()
-{
-    module_load_include('inc', 'update', 'update.fetch');
-    return _update_fetch_data();
+function update_fetch_data() {
+  module_load_include('inc', 'update', 'update.fetch');
+  return _update_fetch_data();
 }
 
 /**
@@ -499,22 +485,21 @@ function update_fetch_data()
  * @return
  *   Array of data about available releases, keyed by project shortname.
  */
-function _update_get_cached_available_releases()
-{
-    $data = array();
-    $cache_items = _update_get_cache_multiple('available_releases');
-    foreach ($cache_items as $cid => $cache) {
-        $cache->data['last_fetch'] = $cache->created;
-        if ($cache->expire < REQUEST_TIME) {
-            $cache->data['fetch_status'] = UPDATE_FETCH_PENDING;
-        }
-        // The project shortname is embedded in the cache ID, even if there's no
-        // data for this project in the DB at all, so use that for the indexes in
-        // the array.
-        $parts = explode('::', $cid, 2);
-        $data[$parts[1]] = $cache->data;
+function _update_get_cached_available_releases() {
+  $data = array();
+  $cache_items = _update_get_cache_multiple('available_releases');
+  foreach ($cache_items as $cid => $cache) {
+    $cache->data['last_fetch'] = $cache->created;
+    if ($cache->expire < REQUEST_TIME) {
+      $cache->data['fetch_status'] = UPDATE_FETCH_PENDING;
     }
-    return $data;
+    // The project shortname is embedded in the cache ID, even if there's no
+    // data for this project in the DB at all, so use that for the indexes in
+    // the array.
+    $parts = explode('::', $cid, 2);
+    $data[$parts[1]] = $cache->data;
+  }
+  return $data;
 }
 
 /**
@@ -536,24 +521,24 @@ function _update_get_cached_available_releases()
  * @see _update_cron_notify()
  * @see _update_message_text()
  */
-function update_mail($key, &$message, $params)
-{
-    $language = $message['language'];
-    $langcode = $language->language;
-    $message['subject'] .= t('New release(s) available for !site_name', array('!site_name' => variable_get('site_name', 'Drupal')), array('langcode' => $langcode));
-    foreach ($params as $msg_type => $msg_reason) {
-        $message['body'][] = _update_message_text($msg_type, $msg_reason, FALSE, $language);
-    }
-    $message['body'][] = t('See the available updates page for more information:', array(), array('langcode' => $langcode)) . "\n" . url('admin/reports/updates', array('absolute' => TRUE, 'language' => $language));
-    if (update_manager_access()) {
-        $message['body'][] = t('You can automatically install your missing updates using the Update manager:', array(), array('langcode' => $langcode)) . "\n" . url('admin/reports/updates/update', array('absolute' => TRUE, 'language' => $language));
-    }
-    $settings_url = url('admin/reports/updates/settings', array('absolute' => TRUE));
-    if (variable_get('update_notification_threshold', 'all') == 'all') {
-        $message['body'][] = t('Your site is currently configured to send these emails when any updates are available. To get notified only for security updates, !url.', array('!url' => $settings_url));
-    } else {
-        $message['body'][] = t('Your site is currently configured to send these emails only when security updates are available. To get notified for any available updates, !url.', array('!url' => $settings_url));
-    }
+function update_mail($key, &$message, $params) {
+  $language = $message['language'];
+  $langcode = $language->language;
+  $message['subject'] .= t('New release(s) available for !site_name', array('!site_name' => variable_get('site_name', 'Drupal')), array('langcode' => $langcode));
+  foreach ($params as $msg_type => $msg_reason) {
+    $message['body'][] = _update_message_text($msg_type, $msg_reason, FALSE, $language);
+  }
+  $message['body'][] = t('See the available updates page for more information:', array(), array('langcode' => $langcode)) . "\n" . url('admin/reports/updates', array('absolute' => TRUE, 'language' => $language));
+  if (update_manager_access()) {
+    $message['body'][] = t('You can automatically install your missing updates using the Update manager:', array(), array('langcode' => $langcode)) . "\n" . url('admin/reports/updates/update', array('absolute' => TRUE, 'language' => $language));
+  }
+  $settings_url = url('admin/reports/updates/settings', array('absolute' => TRUE));
+  if (variable_get('update_notification_threshold', 'all') == 'all') {
+    $message['body'][] = t('Your site is currently configured to send these emails when any updates are available. To get notified only for security updates, !url.', array('!url' => $settings_url));
+  }
+  else {
+    $message['body'][] = t('Your site is currently configured to send these emails only when security updates are available. To get notified for any available updates, !url.', array('!url' => $settings_url));
+  }
 }
 
 /**
@@ -577,64 +562,69 @@ function update_mail($key, &$message, $params)
  * @return
  *   The properly translated error message for the given key.
  */
-function _update_message_text($msg_type, $msg_reason, $report_link = FALSE, $language = NULL)
-{
-    $langcode = isset($language) ? $language->language : NULL;
-    $text = '';
-    switch ($msg_reason) {
-        case UPDATE_NOT_SECURE:
-            if ($msg_type == 'core') {
-                $text = t('There is a security update available for your version of Drupal. To ensure the security of your server, you should update immediately!', array(), array('langcode' => $langcode));
-            } else {
-                $text = t('There are security updates available for one or more of your modules or themes. To ensure the security of your server, you should update immediately!', array(), array('langcode' => $langcode));
-            }
-            break;
+function _update_message_text($msg_type, $msg_reason, $report_link = FALSE, $language = NULL) {
+  $langcode = isset($language) ? $language->language : NULL;
+  $text = '';
+  switch ($msg_reason) {
+    case UPDATE_NOT_SECURE:
+      if ($msg_type == 'core') {
+        $text = t('There is a security update available for your version of Drupal. To ensure the security of your server, you should update immediately!', array(), array('langcode' => $langcode));
+      }
+      else {
+        $text = t('There are security updates available for one or more of your modules or themes. To ensure the security of your server, you should update immediately!', array(), array('langcode' => $langcode));
+      }
+      break;
 
-        case UPDATE_REVOKED:
-            if ($msg_type == 'core') {
-                $text = t('Your version of Drupal has been revoked and is no longer available for download. Upgrading is strongly recommended!', array(), array('langcode' => $langcode));
-            } else {
-                $text = t('The installed version of at least one of your modules or themes has been revoked and is no longer available for download. Upgrading or disabling is strongly recommended!', array(), array('langcode' => $langcode));
-            }
-            break;
+    case UPDATE_REVOKED:
+      if ($msg_type == 'core') {
+        $text = t('Your version of Drupal has been revoked and is no longer available for download. Upgrading is strongly recommended!', array(), array('langcode' => $langcode));
+      }
+      else {
+        $text = t('The installed version of at least one of your modules or themes has been revoked and is no longer available for download. Upgrading or disabling is strongly recommended!', array(), array('langcode' => $langcode));
+      }
+      break;
 
-        case UPDATE_NOT_SUPPORTED:
-            if ($msg_type == 'core') {
-                $text = t('Your version of Drupal is no longer supported. Upgrading is strongly recommended!', array(), array('langcode' => $langcode));
-            } else {
-                $text = t('The installed version of at least one of your modules or themes is no longer supported. Upgrading or disabling is strongly recommended. See the project homepage for more details.', array(), array('langcode' => $langcode));
-            }
-            break;
+    case UPDATE_NOT_SUPPORTED:
+      if ($msg_type == 'core') {
+        $text = t('Your version of Drupal is no longer supported. Upgrading is strongly recommended!', array(), array('langcode' => $langcode));
+      }
+      else {
+        $text = t('The installed version of at least one of your modules or themes is no longer supported. Upgrading or disabling is strongly recommended. See the project homepage for more details.', array(), array('langcode' => $langcode));
+      }
+      break;
 
-        case UPDATE_NOT_CURRENT:
-            if ($msg_type == 'core') {
-                $text = t('There are updates available for your version of Drupal. To ensure the proper functioning of your site, you should update as soon as possible.', array(), array('langcode' => $langcode));
-            } else {
-                $text = t('There are updates available for one or more of your modules or themes. To ensure the proper functioning of your site, you should update as soon as possible.', array(), array('langcode' => $langcode));
-            }
-            break;
+    case UPDATE_NOT_CURRENT:
+      if ($msg_type == 'core') {
+        $text = t('There are updates available for your version of Drupal. To ensure the proper functioning of your site, you should update as soon as possible.', array(), array('langcode' => $langcode));
+      }
+      else {
+        $text = t('There are updates available for one or more of your modules or themes. To ensure the proper functioning of your site, you should update as soon as possible.', array(), array('langcode' => $langcode));
+      }
+      break;
 
-        case UPDATE_UNKNOWN:
-        case UPDATE_NOT_CHECKED:
-        case UPDATE_NOT_FETCHED:
-        case UPDATE_FETCH_PENDING:
-            if ($msg_type == 'core') {
-                $text = t('There was a problem checking <a href="@update-report">available updates</a> for Drupal.', array('@update-report' => url('admin/reports/updates')), array('langcode' => $langcode));
-            } else {
-                $text = t('There was a problem checking <a href="@update-report">available updates</a> for your modules or themes.', array('@update-report' => url('admin/reports/updates')), array('langcode' => $langcode));
-            }
-            break;
+    case UPDATE_UNKNOWN:
+    case UPDATE_NOT_CHECKED:
+    case UPDATE_NOT_FETCHED:
+    case UPDATE_FETCH_PENDING:
+      if ($msg_type == 'core') {
+        $text = t('There was a problem checking <a href="@update-report">available updates</a> for Drupal.', array('@update-report' => url('admin/reports/updates')), array('langcode' => $langcode));
+      }
+      else {
+        $text = t('There was a problem checking <a href="@update-report">available updates</a> for your modules or themes.', array('@update-report' => url('admin/reports/updates')), array('langcode' => $langcode));
+      }
+      break;
+  }
+
+  if ($report_link) {
+    if (update_manager_access()) {
+      $text .= ' ' . t('See the <a href="@available_updates">available updates</a> page for more information and to install your missing updates.', array('@available_updates' => url('admin/reports/updates/update', array('language' => $language))), array('langcode' => $langcode));
     }
-
-    if ($report_link) {
-        if (update_manager_access()) {
-            $text .= ' ' . t('See the <a href="@available_updates">available updates</a> page for more information and to install your missing updates.', array('@available_updates' => url('admin/reports/updates/update', array('language' => $language))), array('langcode' => $langcode));
-        } else {
-            $text .= ' ' . t('See the <a href="@available_updates">available updates</a> page for more information.', array('@available_updates' => url('admin/reports/updates', array('language' => $language))), array('langcode' => $langcode));
-        }
+    else {
+      $text .= ' ' . t('See the <a href="@available_updates">available updates</a> page for more information.', array('@available_updates' => url('admin/reports/updates', array('language' => $language))), array('langcode' => $langcode));
     }
+  }
 
-    return $text;
+  return $text;
 }
 
 /**
@@ -642,15 +632,14 @@ function _update_message_text($msg_type, $msg_reason, $report_link = FALSE, $lan
  *
  * Callback for uasort() within update_requirements().
  */
-function _update_project_status_sort($a, $b)
-{
-    // The status constants are numerically in the right order, so we can
-    // usually subtract the two to compare in the order we want. However,
-    // negative status values should be treated as if they are huge, since we
-    // always want them at the bottom of the list.
-    $a_status = $a['status'] > 0 ? $a['status'] : (-10 * $a['status']);
-    $b_status = $b['status'] > 0 ? $b['status'] : (-10 * $b['status']);
-    return $a_status - $b_status;
+function _update_project_status_sort($a, $b) {
+  // The status constants are numerically in the right order, so we can
+  // usually subtract the two to compare in the order we want. However,
+  // negative status values should be treated as if they are huge, since we
+  // always want them at the bottom of the list.
+  $a_status = $a['status'] > 0 ? $a['status'] : (-10 * $a['status']);
+  $b_status = $b['status'] > 0 ? $b['status'] : (-10 * $b['status']);
+  return $a_status - $b_status;
 }
 
 /**
@@ -668,14 +657,13 @@ function _update_project_status_sort($a, $b)
  * @see theme_update_available_updates_form()
  * @ingroup themeable
  */
-function theme_update_last_check($variables)
-{
-    $last = $variables['last'];
-    $output = '<div class="update checked">';
-    $output .= $last ? t('Last checked: @time ago', array('@time' => format_interval(REQUEST_TIME - $last))) : t('Last checked: never');
-    $output .= ' <span class="check-manually">(' . l(t('Check manually'), 'admin/reports/updates/check', array('query' => drupal_get_destination())) . ')</span>';
-    $output .= "</div>\n";
-    return $output;
+function theme_update_last_check($variables) {
+  $last = $variables['last'];
+  $output = '<div class="update checked">';
+  $output .= $last ? t('Last checked: @time ago', array('@time' => format_interval(REQUEST_TIME - $last))) : t('Last checked: never');
+  $output .= ' <span class="check-manually">(' . l(t('Check manually'), 'admin/reports/updates/check', array('query' => drupal_get_destination())) . ')</span>';
+  $output .= "</div>\n";
+  return $output;
 }
 
 /**
@@ -691,56 +679,57 @@ function theme_update_last_check($variables)
  * @see drupal_system_listing()
  * @see _system_rebuild_module_data()
  */
-function update_verify_update_archive($project, $archive_file, $directory)
-{
-    $errors = array();
+function update_verify_update_archive($project, $archive_file, $directory) {
+  $errors = array();
 
-    // Make sure this isn't a tarball of Drupal core.
-    if (
-        file_exists("$directory/$project/index.php")
-        && file_exists("$directory/$project/update.php")
-        && file_exists("$directory/$project/includes/bootstrap.inc")
-        && file_exists("$directory/$project/modules/node/node.module")
-        && file_exists("$directory/$project/modules/system/system.module")
-    ) {
-        return array(
-            'no-core' => t('Automatic updating of Drupal core is not supported. See the <a href="@upgrade-guide">upgrade guide</a> for information on how to update Drupal core manually.', array('@upgrade-guide' => 'http://drupal.org/upgrade')),
-        );
+  // Make sure this isn't a tarball of Drupal core.
+  if (
+    file_exists("$directory/$project/index.php")
+    && file_exists("$directory/$project/update.php")
+    && file_exists("$directory/$project/includes/bootstrap.inc")
+    && file_exists("$directory/$project/modules/node/node.module")
+    && file_exists("$directory/$project/modules/system/system.module")
+  ) {
+    return array(
+      'no-core' => t('Automatic updating of Drupal core is not supported. See the <a href="@upgrade-guide">upgrade guide</a> for information on how to update Drupal core manually.', array('@upgrade-guide' => 'http://drupal.org/upgrade')),
+    );
+  }
+
+  // Parse all the .info files and make sure at least one is compatible with
+  // this version of Drupal core. If one is compatible, then the project as a
+  // whole is considered compatible (since, for example, the project may ship
+  // with some out-of-date modules that are not necessary for its overall
+  // functionality).
+  $compatible_project = FALSE;
+  $incompatible = array();
+  $files = file_scan_directory("$directory/$project", '/^' . DRUPAL_PHP_FUNCTION_PATTERN . '\.info$/', array('key' => 'name', 'min_depth' => 0));
+  foreach ($files as $key => $file) {
+    // Get the .info file for the module or theme this file belongs to.
+    $info = drupal_parse_info_file($file->uri);
+
+    // If the module or theme is incompatible with Drupal core, set an error.
+    if (empty($info['core']) || $info['core'] != DRUPAL_CORE_COMPATIBILITY) {
+      $incompatible[] = !empty($info['name']) ? $info['name'] : t('Unknown');
     }
-
-    // Parse all the .info files and make sure at least one is compatible with
-    // this version of Drupal core. If one is compatible, then the project as a
-    // whole is considered compatible (since, for example, the project may ship
-    // with some out-of-date modules that are not necessary for its overall
-    // functionality).
-    $compatible_project = FALSE;
-    $incompatible = array();
-    $files = file_scan_directory("$directory/$project", '/^' . DRUPAL_PHP_FUNCTION_PATTERN . '\.info$/', array('key' => 'name', 'min_depth' => 0));
-    foreach ($files as $key => $file) {
-        // Get the .info file for the module or theme this file belongs to.
-        $info = drupal_parse_info_file($file->uri);
-
-        // If the module or theme is incompatible with Drupal core, set an error.
-        if (empty($info['core']) || $info['core'] != DRUPAL_CORE_COMPATIBILITY) {
-            $incompatible[] = !empty($info['name']) ? $info['name'] : t('Unknown');
-        } else {
-            $compatible_project = TRUE;
-            break;
-        }
+    else {
+      $compatible_project = TRUE;
+      break;
     }
+  }
 
-    if (empty($files)) {
-        $errors[] = t('%archive_file does not contain any .info files.', array('%archive_file' => drupal_basename($archive_file)));
-    } elseif (!$compatible_project) {
-        $errors[] = format_plural(
-            count($incompatible),
-            '%archive_file contains a version of %names that is not compatible with Drupal !version.',
-            '%archive_file contains versions of modules or themes that are not compatible with Drupal !version: %names',
-            array('!version' => DRUPAL_CORE_COMPATIBILITY, '%archive_file' => drupal_basename($archive_file), '%names' => implode(', ', $incompatible))
-        );
-    }
+  if (empty($files)) {
+    $errors[] = t('%archive_file does not contain any .info files.', array('%archive_file' => drupal_basename($archive_file)));
+  }
+  elseif (!$compatible_project) {
+    $errors[] = format_plural(
+      count($incompatible),
+      '%archive_file contains a version of %names that is not compatible with Drupal !version.',
+      '%archive_file contains versions of modules or themes that are not compatible with Drupal !version: %names',
+      array('!version' => DRUPAL_CORE_COMPATIBILITY, '%archive_file' => drupal_basename($archive_file), '%names' => implode(', ', $incompatible))
+    );
+  }
 
-    return $errors;
+  return $errors;
 }
 
 /**
@@ -780,23 +769,23 @@ function update_verify_update_archive($project, $archive_file, $directory)
  *
  * @see _update_cache_get()
  */
-function _update_cache_set($cid, $data, $expire)
-{
-    $fields = array(
-        'created' => REQUEST_TIME,
-        'expire' => $expire,
-    );
-    if (!is_string($data)) {
-        $fields['data'] = serialize($data);
-        $fields['serialized'] = 1;
-    } else {
-        $fields['data'] = $data;
-        $fields['serialized'] = 0;
-    }
-    db_merge('cache_update')
-        ->key(array('cid' => $cid))
-        ->fields($fields)
-        ->execute();
+function _update_cache_set($cid, $data, $expire) {
+  $fields = array(
+    'created' => REQUEST_TIME,
+    'expire' => $expire,
+  );
+  if (!is_string($data)) {
+    $fields['data'] = serialize($data);
+    $fields['serialized'] = 1;
+  }
+  else {
+    $fields['data'] = $data;
+    $fields['serialized'] = 0;
+  }
+  db_merge('cache_update')
+    ->key(array('cid' => $cid))
+    ->fields($fields)
+    ->execute();
 }
 
 /**
@@ -810,15 +799,14 @@ function _update_cache_set($cid, $data, $expire)
  *
  * @see _update_cache_set()
  */
-function _update_cache_get($cid)
-{
-    $cache = db_query("SELECT data, created, expire, serialized FROM {cache_update} WHERE cid = :cid", array(':cid' => $cid))->fetchObject();
-    if (isset($cache->data)) {
-        if ($cache->serialized) {
-            $cache->data = unserialize($cache->data);
-        }
+function _update_cache_get($cid) {
+  $cache = db_query("SELECT data, created, expire, serialized FROM {cache_update} WHERE cid = :cid", array(':cid' => $cid))->fetchObject();
+  if (isset($cache->data)) {
+    if ($cache->serialized) {
+      $cache->data = unserialize($cache->data);
     }
-    return $cache;
+  }
+  return $cache;
 }
 
 /**
@@ -830,22 +818,21 @@ function _update_cache_get($cid)
  * @return
  *   Associative array of cache items, keyed by cache ID.
  */
-function _update_get_cache_multiple($cid_prefix)
-{
-    $data = array();
-    $result = db_select('cache_update')
-        ->fields('cache_update', array('cid', 'data', 'created', 'expire', 'serialized'))
-        ->condition('cache_update.cid', $cid_prefix . '::%', 'LIKE')
-        ->execute();
-    foreach ($result as $cache) {
-        if ($cache) {
-            if ($cache->serialized) {
-                $cache->data = unserialize($cache->data);
-            }
-            $data[$cache->cid] = $cache;
-        }
+function _update_get_cache_multiple($cid_prefix) {
+  $data = array();
+  $result = db_select('cache_update')
+    ->fields('cache_update', array('cid', 'data', 'created', 'expire', 'serialized'))
+    ->condition('cache_update.cid', $cid_prefix . '::%', 'LIKE')
+    ->execute();
+  foreach ($result as $cache) {
+    if ($cache) {
+      if ($cache->serialized) {
+        $cache->data = unserialize($cache->data);
+      }
+      $data[$cache->cid] = $cache;
     }
-    return $data;
+  }
+  return $data;
 }
 
 /**
@@ -859,23 +846,24 @@ function _update_get_cache_multiple($cid_prefix)
  *   (optional) If TRUE, cache IDs starting with $cid are deleted in addition to
  *   the exact cache ID specified by $cid. Defaults to FALSE.
  */
-function _update_cache_clear($cid = NULL, $wildcard = FALSE)
-{
-    if (empty($cid)) {
-        db_delete('cache_update')
-            // Clear everything except fetch task information because these are used
-            // to ensure that the fetch task queue items are not added multiple times.
-            ->condition('cid', 'fetch_task::%', 'NOT LIKE')
-            ->execute();
-    } else {
-        $query = db_delete('cache_update');
-        if ($wildcard) {
-            $query->condition('cid', $cid . '%', 'LIKE');
-        } else {
-            $query->condition('cid', $cid);
-        }
-        $query->execute();
+function _update_cache_clear($cid = NULL, $wildcard = FALSE) {
+  if (empty($cid)) {
+    db_delete('cache_update')
+      // Clear everything except fetch task information because these are used
+      // to ensure that the fetch task queue items are not added multiple times.
+      ->condition('cid', 'fetch_task::%', 'NOT LIKE')
+      ->execute();
+  }
+  else {
+    $query = db_delete('cache_update');
+    if ($wildcard) {
+      $query->condition('cid', $cid . '%', 'LIKE');
     }
+    else {
+      $query->condition('cid', $cid);
+    }
+    $query->execute();
+  }
 }
 
 /**
@@ -894,12 +882,11 @@ function _update_cache_clear($cid = NULL, $wildcard = FALSE)
  * the site is in MAINTENANCE_MODE == 'update' (which indicates update.php is
  * running, not update module... alas for overloaded names).
  */
-function update_flush_caches()
-{
-    if (defined('MAINTENANCE_MODE') && MAINTENANCE_MODE == 'update') {
-        _update_cache_clear();
-    }
-    return array();
+function update_flush_caches() {
+  if (defined('MAINTENANCE_MODE') && MAINTENANCE_MODE == 'update') {
+    _update_cache_clear();
+  }
+  return array();
 }
 
 /**
@@ -912,13 +899,12 @@ function update_flush_caches()
  * @return
  *   An eight character string uniquely identifying this Drupal installation.
  */
-function _update_manager_unique_identifier()
-{
-    $id = &drupal_static(__FUNCTION__, '');
-    if (empty($id)) {
-        $id = substr(hash('sha256', drupal_get_hash_salt()), 0, 8);
-    }
-    return $id;
+function _update_manager_unique_identifier() {
+  $id = &drupal_static(__FUNCTION__, '');
+  if (empty($id)) {
+    $id = substr(hash('sha256', drupal_get_hash_salt()), 0, 8);
+  }
+  return $id;
 }
 
 /**
@@ -932,16 +918,15 @@ function _update_manager_unique_identifier()
  *   The full path to the temporary directory where update file archives should
  *   be extracted.
  */
-function _update_manager_extract_directory($create = TRUE)
-{
-    $directory = &drupal_static(__FUNCTION__, '');
-    if (empty($directory)) {
-        $directory = 'temporary://update-extraction-' . _update_manager_unique_identifier();
-        if ($create && !file_exists($directory)) {
-            mkdir($directory);
-        }
+function _update_manager_extract_directory($create = TRUE) {
+  $directory = &drupal_static(__FUNCTION__, '');
+  if (empty($directory)) {
+    $directory = 'temporary://update-extraction-' . _update_manager_unique_identifier();
+    if ($create && !file_exists($directory)) {
+      mkdir($directory);
     }
-    return $directory;
+  }
+  return $directory;
 }
 
 /**
@@ -955,34 +940,32 @@ function _update_manager_extract_directory($create = TRUE)
  *   The full path to the temporary directory where update file archives should
  *   be cached.
  */
-function _update_manager_cache_directory($create = TRUE)
-{
-    $directory = &drupal_static(__FUNCTION__, '');
-    if (empty($directory)) {
-        $directory = 'temporary://update-cache-' . _update_manager_unique_identifier();
-        if ($create && !file_exists($directory)) {
-            mkdir($directory);
-        }
+function _update_manager_cache_directory($create = TRUE) {
+  $directory = &drupal_static(__FUNCTION__, '');
+  if (empty($directory)) {
+    $directory = 'temporary://update-cache-' . _update_manager_unique_identifier();
+    if ($create && !file_exists($directory)) {
+      mkdir($directory);
     }
-    return $directory;
+  }
+  return $directory;
 }
 
 /**
  * Clears the temporary files and directories based on file age from disk.
  */
-function update_clear_update_disk_cache()
-{
-    // List of update module cache directories. Do not create the directories if
-    // they do not exist.
-    $directories = array(
-        _update_manager_cache_directory(FALSE),
-        _update_manager_extract_directory(FALSE),
-    );
+function update_clear_update_disk_cache() {
+  // List of update module cache directories. Do not create the directories if
+  // they do not exist.
+  $directories = array(
+    _update_manager_cache_directory(FALSE),
+    _update_manager_extract_directory(FALSE),
+  );
 
-    // Search for files and directories in base folder only without recursion.
-    foreach ($directories as $directory) {
-        file_scan_directory($directory, '/.*/', array('callback' => 'update_delete_file_if_stale', 'recurse' => FALSE));
-    }
+  // Search for files and directories in base folder only without recursion.
+  foreach ($directories as $directory) {
+    file_scan_directory($directory, '/.*/', array('callback' => 'update_delete_file_if_stale', 'recurse' => FALSE));
+  }
 }
 
 /**
@@ -1003,12 +986,11 @@ function update_clear_update_disk_cache()
  * @param $path
  *   A string containing a file path or (streamwrapper) URI.
  */
-function update_delete_file_if_stale($path)
-{
-    if (file_exists($path)) {
-        $filectime = filectime($path);
-        if (REQUEST_TIME - $filectime > DRUPAL_MAXIMUM_TEMP_FILE_AGE || (preg_match('/.*-dev\.(tar\.gz|zip)/i', $path) && REQUEST_TIME - $filectime > 300)) {
-            file_unmanaged_delete_recursive($path);
-        }
+function update_delete_file_if_stale($path) {
+  if (file_exists($path)) {
+    $filectime = filectime($path);
+    if (REQUEST_TIME - $filectime > DRUPAL_MAXIMUM_TEMP_FILE_AGE || (preg_match('/.*-dev\.(tar\.gz|zip)/i', $path) && REQUEST_TIME - $filectime > 300)) {
+      file_unmanaged_delete_recursive($path);
     }
+  }
 }

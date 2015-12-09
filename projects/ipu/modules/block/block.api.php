@@ -102,20 +102,19 @@
  * @see hook_block_view()
  * @see hook_block_info_alter()
  */
-function hook_block_info()
-{
-    // This example comes from node.module.
-    $blocks['syndicate'] = array(
-        'info' => t('Syndicate'),
-        'cache' => DRUPAL_NO_CACHE
-    );
+function hook_block_info() {
+  // This example comes from node.module.
+  $blocks['syndicate'] = array(
+    'info' => t('Syndicate'),
+    'cache' => DRUPAL_NO_CACHE
+  );
 
-    $blocks['recent'] = array(
-        'info' => t('Recent content'),
-        // DRUPAL_CACHE_PER_ROLE will be assumed.
-    );
+  $blocks['recent'] = array(
+    'info' => t('Recent content'),
+    // DRUPAL_CACHE_PER_ROLE will be assumed.
+  );
 
-    return $blocks;
+  return $blocks;
 }
 
 /**
@@ -134,10 +133,9 @@ function hook_block_info()
  *
  * @see hook_block_info()
  */
-function hook_block_info_alter(&$blocks, $theme, $code_blocks)
-{
-    // Disable the login block.
-    $blocks['user']['login']['status'] = 0;
+function hook_block_info_alter(&$blocks, $theme, $code_blocks) {
+  // Disable the login block.
+  $blocks['user']['login']['status'] = 0;
 }
 
 /**
@@ -156,19 +154,18 @@ function hook_block_info_alter(&$blocks, $theme, $code_blocks)
  * @see hook_block_info()
  * @see hook_block_save()
  */
-function hook_block_configure($delta = '')
-{
-    // This example comes from node.module.
-    $form = array();
-    if ($delta == 'recent') {
-        $form['node_recent_block_count'] = array(
-            '#type' => 'select',
-            '#title' => t('Number of recent content items to display'),
-            '#default_value' => variable_get('node_recent_block_count', 10),
-            '#options' => drupal_map_assoc(array(2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 25, 30)),
-        );
-    }
-    return $form;
+function hook_block_configure($delta = '') {
+  // This example comes from node.module.
+  $form = array();
+  if ($delta == 'recent') {
+    $form['node_recent_block_count'] = array(
+      '#type' => 'select',
+      '#title' => t('Number of recent content items to display'),
+      '#default_value' => variable_get('node_recent_block_count', 10),
+      '#options' => drupal_map_assoc(array(2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 25, 30)),
+    );
+  }
+  return $form;
 }
 
 /**
@@ -188,12 +185,11 @@ function hook_block_configure($delta = '')
  * @see hook_block_configure()
  * @see hook_block_info()
  */
-function hook_block_save($delta = '', $edit = array())
-{
-    // This example comes from node.module.
-    if ($delta == 'recent') {
-        variable_set('node_recent_block_count', $edit['node_recent_block_count']);
-    }
+function hook_block_save($delta = '', $edit = array()) {
+  // This example comes from node.module.
+  if ($delta == 'recent') {
+    variable_set('node_recent_block_count', $edit['node_recent_block_count']);
+  }
 }
 
 /**
@@ -218,36 +214,35 @@ function hook_block_save($delta = '', $edit = array())
  * @see hook_block_view_alter()
  * @see hook_block_view_MODULE_DELTA_alter()
  */
-function hook_block_view($delta = '')
-{
-    // This example is adapted from node.module.
-    $block = array();
+function hook_block_view($delta = '') {
+  // This example is adapted from node.module.
+  $block = array();
 
-    switch ($delta) {
-        case 'syndicate':
-            $block['subject'] = t('Syndicate');
-            $block['content'] = array(
-                '#theme' => 'feed_icon',
-                '#url' => 'rss.xml',
-                '#title' => t('Syndicate'),
-            );
-            break;
+  switch ($delta) {
+    case 'syndicate':
+      $block['subject'] = t('Syndicate');
+      $block['content'] = array(
+        '#theme' => 'feed_icon',
+        '#url' => 'rss.xml',
+        '#title' => t('Syndicate'),
+      );
+      break;
 
-        case 'recent':
-            if (user_access('access content')) {
-                $block['subject'] = t('Recent content');
-                if ($nodes = node_get_recent(variable_get('node_recent_block_count', 10))) {
-                    $block['content'] = array(
-                        '#theme' => 'node_recent_block',
-                        '#nodes' => $nodes,
-                    );
-                } else {
-                    $block['content'] = t('No content available.');
-                }
-            }
-            break;
-    }
-    return $block;
+    case 'recent':
+      if (user_access('access content')) {
+        $block['subject'] = t('Recent content');
+        if ($nodes = node_get_recent(variable_get('node_recent_block_count', 10))) {
+          $block['content'] = array(
+            '#theme' => 'node_recent_block',
+            '#nodes' => $nodes,
+          );
+        } else {
+          $block['content'] = t('No content available.');
+        }
+      }
+      break;
+  }
+  return $block;
 }
 
 /**
@@ -276,17 +271,16 @@ function hook_block_view($delta = '')
  * @see hook_block_view_MODULE_DELTA_alter()
  * @see hook_block_view()
  */
-function hook_block_view_alter(&$data, $block)
-{
-    // Remove the contextual links on all blocks that provide them.
-    if (is_array($data['content']) && isset($data['content']['#contextual_links'])) {
-        unset($data['content']['#contextual_links']);
-    }
-    // Add a theme wrapper function defined by the current module to all blocks
-    // provided by the "somemodule" module.
-    if (is_array($data['content']) && $block->module == 'somemodule') {
-        $data['content']['#theme_wrappers'][] = 'mymodule_special_block';
-    }
+function hook_block_view_alter(&$data, $block) {
+  // Remove the contextual links on all blocks that provide them.
+  if (is_array($data['content']) && isset($data['content']['#contextual_links'])) {
+    unset($data['content']['#contextual_links']);
+  }
+  // Add a theme wrapper function defined by the current module to all blocks
+  // provided by the "somemodule" module.
+  if (is_array($data['content']) && $block->module == 'somemodule') {
+    $data['content']['#theme_wrappers'][] = 'mymodule_special_block';
+  }
 }
 
 /**
@@ -312,15 +306,14 @@ function hook_block_view_alter(&$data, $block)
  * @see hook_block_view_alter()
  * @see hook_block_view()
  */
-function hook_block_view_MODULE_DELTA_alter(&$data, $block)
-{
-    // This code will only run for a specific block. For example, if MODULE_DELTA
-    // in the function definition above is set to "mymodule_somedelta", the code
-    // will only run on the "somedelta" block provided by the "mymodule" module.
+function hook_block_view_MODULE_DELTA_alter(&$data, $block) {
+  // This code will only run for a specific block. For example, if MODULE_DELTA
+  // in the function definition above is set to "mymodule_somedelta", the code
+  // will only run on the "somedelta" block provided by the "mymodule" module.
 
-    // Change the title of the "somedelta" block provided by the "mymodule"
-    // module.
-    $data['subject'] = t('New title of the block');
+  // Change the title of the "somedelta" block provided by the "mymodule"
+  // module.
+  $data['subject'] = t('New title of the block');
 }
 
 /**
@@ -337,38 +330,37 @@ function hook_block_view_MODULE_DELTA_alter(&$data, $block)
  * @param $blocks
  *   An array of $blocks, keyed by the block ID.
  */
-function hook_block_list_alter(&$blocks)
-{
-    global $language, $theme_key;
+function hook_block_list_alter(&$blocks) {
+  global $language, $theme_key;
 
-    // This example shows how to achieve language specific visibility setting for
-    // blocks.
+  // This example shows how to achieve language specific visibility setting for
+  // blocks.
 
-    $result = db_query('SELECT module, delta, language FROM {my_table}');
-    $block_languages = array();
-    foreach ($result as $record) {
-        $block_languages[$record->module][$record->delta][$record->language] = TRUE;
+  $result = db_query('SELECT module, delta, language FROM {my_table}');
+  $block_languages = array();
+  foreach ($result as $record) {
+    $block_languages[$record->module][$record->delta][$record->language] = TRUE;
+  }
+
+  foreach ($blocks as $key => $block) {
+    // Any module using this alter should inspect the data before changing it,
+    // to ensure it is what they expect.
+    if (!isset($block->theme) || !isset($block->status) || $block->theme != $theme_key || $block->status != 1) {
+      // This block was added by a contrib module, leave it in the list.
+      continue;
     }
 
-    foreach ($blocks as $key => $block) {
-        // Any module using this alter should inspect the data before changing it,
-        // to ensure it is what they expect.
-        if (!isset($block->theme) || !isset($block->status) || $block->theme != $theme_key || $block->status != 1) {
-            // This block was added by a contrib module, leave it in the list.
-            continue;
-        }
-
-        if (!isset($block_languages[$block->module][$block->delta])) {
-            // No language setting for this block, leave it in the list.
-            continue;
-        }
-
-        if (!isset($block_languages[$block->module][$block->delta][$language->language])) {
-            // This block should not be displayed with the active language, remove
-            // from the list.
-            unset($blocks[$key]);
-        }
+    if (!isset($block_languages[$block->module][$block->delta])) {
+      // No language setting for this block, leave it in the list.
+      continue;
     }
+
+    if (!isset($block_languages[$block->module][$block->delta][$language->language])) {
+      // This block should not be displayed with the active language, remove
+      // from the list.
+      unset($blocks[$key]);
+    }
+  }
 }
 
 /**
@@ -390,11 +382,10 @@ function hook_block_list_alter(&$blocks)
  *
  * @see _block_get_cache_id()
  */
-function hook_block_cid_parts_alter(&$cid_parts, $block)
-{
-    global $user;
-    // This example shows how to cache a block based on the user's timezone.
-    $cid_parts[] = $user->timezone;
+function hook_block_cid_parts_alter(&$cid_parts, $block) {
+  global $user;
+  // This example shows how to cache a block based on the user's timezone.
+  $cid_parts[] = $user->timezone;
 }
 
 /**

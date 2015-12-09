@@ -18,10 +18,9 @@
  * need to take action to accommodate the possibility of the overlay appearing
  * within a Drupal page.
  */
-function hook_overlay_parent_initialize()
-{
-    // Add our custom JavaScript.
-    drupal_add_js(drupal_get_path('module', 'hook') . '/hook-overlay.js');
+function hook_overlay_parent_initialize() {
+  // Add our custom JavaScript.
+  drupal_add_js(drupal_get_path('module', 'hook') . '/hook-overlay.js');
 }
 
 /**
@@ -31,10 +30,9 @@ function hook_overlay_parent_initialize()
  * overlay, so modules can act here if they need to take action to work from
  * within the confines of the overlay.
  */
-function hook_overlay_child_initialize()
-{
-    // Add our custom JavaScript.
-    drupal_add_js(drupal_get_path('module', 'hook') . '/hook-overlay-child.js');
+function hook_overlay_child_initialize() {
+  // Add our custom JavaScript.
+  drupal_add_js(drupal_get_path('module', 'hook') . '/hook-overlay-child.js');
 }
 
 /**

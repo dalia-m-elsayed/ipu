@@ -25,77 +25,74 @@
  * @see _update_message_text()
  * @see _update_cron_notify()
  */
-function update_requirements($phase)
-{
-    $requirements = array();
-    if ($phase == 'runtime') {
-        if ($available = update_get_available(FALSE)) {
-            module_load_include('inc', 'update', 'update.compare');
-            $data = update_calculate_project_data($available);
-            // First, populate the requirements for core:
-            $requirements['update_core'] = _update_requirement_check($data['drupal'], 'core');
-            // We don't want to check drupal a second time.
-            unset($data['drupal']);
-            if (!empty($data)) {
-                // Now, sort our $data array based on each project's status. The
-                // status constants are numbered in the right order of precedence, so
-                // we just need to make sure the projects are sorted in ascending
-                // order of status, and we can look at the first project we find.
-                uasort($data, '_update_project_status_sort');
-                $first_project = reset($data);
-                $requirements['update_contrib'] = _update_requirement_check($first_project, 'contrib');
-            }
-        } else {
-            $requirements['update_core']['title'] = t('Drupal core update status');
-            $requirements['update_core']['value'] = t('No update data available');
-            $requirements['update_core']['severity'] = REQUIREMENT_WARNING;
-            $requirements['update_core']['reason'] = UPDATE_UNKNOWN;
-            $requirements['update_core']['description'] = _update_no_data();
-        }
+function update_requirements($phase) {
+  $requirements = array();
+  if ($phase == 'runtime') {
+    if ($available = update_get_available(FALSE)) {
+      module_load_include('inc', 'update', 'update.compare');
+      $data = update_calculate_project_data($available);
+      // First, populate the requirements for core:
+      $requirements['update_core'] = _update_requirement_check($data['drupal'], 'core');
+      // We don't want to check drupal a second time.
+      unset($data['drupal']);
+      if (!empty($data)) {
+        // Now, sort our $data array based on each project's status. The
+        // status constants are numbered in the right order of precedence, so
+        // we just need to make sure the projects are sorted in ascending
+        // order of status, and we can look at the first project we find.
+        uasort($data, '_update_project_status_sort');
+        $first_project = reset($data);
+        $requirements['update_contrib'] = _update_requirement_check($first_project, 'contrib');
+      }
     }
-    return $requirements;
+    else {
+      $requirements['update_core']['title'] = t('Drupal core update status');
+      $requirements['update_core']['value'] = t('No update data available');
+      $requirements['update_core']['severity'] = REQUIREMENT_WARNING;
+      $requirements['update_core']['reason'] = UPDATE_UNKNOWN;
+      $requirements['update_core']['description'] = _update_no_data();
+    }
+  }
+  return $requirements;
 }
 
 /**
  * Implements hook_schema().
  */
-function update_schema()
-{
-    $schema['cache_update'] = drupal_get_schema_unprocessed('system', 'cache');
-    $schema['cache_update']['description'] = 'Cache table for the Update module to store information about available releases, fetched from central server.';
-    return $schema;
+function update_schema() {
+  $schema['cache_update'] = drupal_get_schema_unprocessed('system', 'cache');
+  $schema['cache_update']['description'] = 'Cache table for the Update module to store information about available releases, fetched from central server.';
+  return $schema;
 }
 
 /**
  * Implements hook_install().
  */
-function update_install()
-{
-    $queue = DrupalQueue::get('update_fetch_tasks', TRUE);
-    $queue->createQueue();
+function update_install() {
+  $queue = DrupalQueue::get('update_fetch_tasks', TRUE);
+  $queue->createQueue();
 }
 
 /**
  * Implements hook_uninstall().
  */
-function update_uninstall()
-{
-    // Clear any variables that might be in use
-    $variables = array(
-        'update_check_frequency',
-        'update_fetch_url',
-        'update_last_check',
-        'update_last_email_notification',
-        'update_notification_threshold',
-        'update_notify_emails',
-        'update_max_fetch_attempts',
-        'update_max_fetch_time',
-    );
-    foreach ($variables as $variable) {
-        variable_del($variable);
-    }
-    $queue = DrupalQueue::get('update_fetch_tasks');
-    $queue->deleteQueue();
+function update_uninstall() {
+  // Clear any variables that might be in use
+  $variables = array(
+    'update_check_frequency',
+    'update_fetch_url',
+    'update_last_check',
+    'update_last_email_notification',
+    'update_notification_threshold',
+    'update_notify_emails',
+    'update_max_fetch_attempts',
+    'update_max_fetch_time',
+  );
+  foreach ($variables as $variable) {
+    variable_del($variable);
+  }
+  $queue = DrupalQueue::get('update_fetch_tasks');
+  $queue->deleteQueue();
 }
 
 /**
@@ -117,48 +114,48 @@ function update_uninstall()
  * @see update_requirements()
  * @see update_calculate_project_data()
  */
-function _update_requirement_check($project, $type)
-{
-    $requirement = array();
-    if ($type == 'core') {
-        $requirement['title'] = t('Drupal core update status');
-    } else {
-        $requirement['title'] = t('Module and theme update status');
-    }
-    $status = $project['status'];
-    if ($status != UPDATE_CURRENT) {
-        $requirement['reason'] = $status;
-        $requirement['description'] = _update_message_text($type, $status, TRUE);
-        $requirement['severity'] = REQUIREMENT_ERROR;
-    }
-    switch ($status) {
-        case UPDATE_NOT_SECURE:
-            $requirement_label = t('Not secure!');
-            break;
-        case UPDATE_REVOKED:
-            $requirement_label = t('Revoked!');
-            break;
-        case UPDATE_NOT_SUPPORTED:
-            $requirement_label = t('Unsupported release');
-            break;
-        case UPDATE_NOT_CURRENT:
-            $requirement_label = t('Out of date');
-            $requirement['severity'] = REQUIREMENT_WARNING;
-            break;
-        case UPDATE_UNKNOWN:
-        case UPDATE_NOT_CHECKED:
-        case UPDATE_NOT_FETCHED:
-            $requirement_label = isset($project['reason']) ? $project['reason'] : t('Can not determine status');
-            $requirement['severity'] = REQUIREMENT_WARNING;
-            break;
-        default:
-            $requirement_label = t('Up to date');
-    }
-    if ($status != UPDATE_CURRENT && $type == 'core' && isset($project['recommended'])) {
-        $requirement_label .= ' ' . t('(version @version available)', array('@version' => $project['recommended']));
-    }
-    $requirement['value'] = l($requirement_label, update_manager_access() ? 'admin/reports/updates/update' : 'admin/reports/updates');
-    return $requirement;
+function _update_requirement_check($project, $type) {
+  $requirement = array();
+  if ($type == 'core') {
+    $requirement['title'] = t('Drupal core update status');
+  }
+  else {
+    $requirement['title'] = t('Module and theme update status');
+  }
+  $status = $project['status'];
+  if ($status != UPDATE_CURRENT) {
+    $requirement['reason'] = $status;
+    $requirement['description'] = _update_message_text($type, $status, TRUE);
+    $requirement['severity'] = REQUIREMENT_ERROR;
+  }
+  switch ($status) {
+    case UPDATE_NOT_SECURE:
+      $requirement_label = t('Not secure!');
+      break;
+    case UPDATE_REVOKED:
+      $requirement_label = t('Revoked!');
+      break;
+    case UPDATE_NOT_SUPPORTED:
+      $requirement_label = t('Unsupported release');
+      break;
+    case UPDATE_NOT_CURRENT:
+      $requirement_label = t('Out of date');
+      $requirement['severity'] = REQUIREMENT_WARNING;
+      break;
+    case UPDATE_UNKNOWN:
+    case UPDATE_NOT_CHECKED:
+    case UPDATE_NOT_FETCHED:
+      $requirement_label = isset($project['reason']) ? $project['reason'] : t('Can not determine status');
+      $requirement['severity'] = REQUIREMENT_WARNING;
+      break;
+    default:
+      $requirement_label = t('Up to date');
+  }
+  if ($status != UPDATE_CURRENT && $type == 'core' && isset($project['recommended'])) {
+    $requirement_label .= ' ' . t('(version @version available)', array('@version' => $project['recommended']));
+  }
+  $requirement['value'] = l($requirement_label, update_manager_access() ? 'admin/reports/updates/update' : 'admin/reports/updates');
+  return $requirement;
 }
 
 /**
@@ -169,11 +166,10 @@ function _update_requirement_check($project, $type)
 /**
  * Create a queue to store tasks for requests to fetch available update data.
  */
-function update_update_7000()
-{
-    module_load_include('inc', 'system', 'system.queue');
-    $queue = DrupalQueue::get('update_fetch_tasks');
-    $queue->createQueue();
+function update_update_7000() {
+  module_load_include('inc', 'system', 'system.queue');
+  $queue = DrupalQueue::get('update_fetch_tasks');
+  $queue->createQueue();
 }
 
 /**
@@ -182,12 +178,11 @@ function update_update_7000()
  * Converts fields that hold serialized variables from text to blob.
  * Removes 'headers' column.
  */
-function update_update_7001()
-{
-    $schema = system_schema_cache_7054();
+function update_update_7001() {
+  $schema = system_schema_cache_7054();
 
-    db_drop_table('cache_update');
-    db_create_table('cache_update', $schema);
+  db_drop_table('cache_update');
+  db_create_table('cache_update', $schema);
 }
 
 /**

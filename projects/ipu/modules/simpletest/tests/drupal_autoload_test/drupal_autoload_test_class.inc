@@ -8,6 +8,4 @@
 /**
  * This class is empty because we only care if Drupal can find it.
  */
-class DrupalAutoloadTestClass implements DrupalAutoloadTestInterface
-{
-}
+class DrupalAutoloadTestClass implements DrupalAutoloadTestInterface {}

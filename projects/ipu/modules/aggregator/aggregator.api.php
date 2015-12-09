@@ -36,9 +36,8 @@
  *
  * @ingroup aggregator
  */
-function hook_aggregator_fetch($feed)
-{
-    $feed->source_string = mymodule_fetch($feed->url);
+function hook_aggregator_fetch($feed) {
+  $feed->source_string = mymodule_fetch($feed->url);
 }
 
 /**
@@ -59,12 +58,11 @@ function hook_aggregator_fetch($feed)
  *
  * @ingroup aggregator
  */
-function hook_aggregator_fetch_info()
-{
-    return array(
-        'title' => t('Default fetcher'),
-        'description' => t('Default fetcher for resources available by URL.'),
-    );
+function hook_aggregator_fetch_info() {
+  return array(
+    'title' => t('Default fetcher'),
+    'description' => t('Default fetcher for resources available by URL.'),
+  );
 }
 
 /**
@@ -109,13 +107,12 @@ function hook_aggregator_fetch_info()
  *
  * @ingroup aggregator
  */
-function hook_aggregator_parse($feed)
-{
-    if ($items = mymodule_parse($feed->source_string)) {
-        $feed->items = $items;
-        return TRUE;
-    }
-    return FALSE;
+function hook_aggregator_parse($feed) {
+  if ($items = mymodule_parse($feed->source_string)) {
+    $feed->items = $items;
+    return TRUE;
+  }
+  return FALSE;
 }
 
 /**
@@ -136,12 +133,11 @@ function hook_aggregator_parse($feed)
  *
  * @ingroup aggregator
  */
-function hook_aggregator_parse_info()
-{
-    return array(
-        'title' => t('Default parser'),
-        'description' => t('Default parser for RSS, Atom and RDF feeds.'),
-    );
+function hook_aggregator_parse_info() {
+  return array(
+    'title' => t('Default parser'),
+    'description' => t('Default parser for RSS, Atom and RDF feeds.'),
+  );
 }
 
 /**
@@ -169,11 +165,10 @@ function hook_aggregator_parse_info()
  *
  * @ingroup aggregator
  */
-function hook_aggregator_process($feed)
-{
-    foreach ($feed->items as $item) {
-        mymodule_save($item);
-    }
+function hook_aggregator_process($feed) {
+  foreach ($feed->items as $item) {
+    mymodule_save($item);
+  }
 }
 
 /**
@@ -194,12 +189,11 @@ function hook_aggregator_process($feed)
  *
  * @ingroup aggregator
  */
-function hook_aggregator_process_info()
-{
-    return array(
-        'title' => t('Default processor'),
-        'description' => t('Creates lightweight records of feed items.'),
-    );
+function hook_aggregator_process_info() {
+  return array(
+    'title' => t('Default processor'),
+    'description' => t('Creates lightweight records of feed items.'),
+  );
 }
 
 /**
@@ -217,9 +211,8 @@ function hook_aggregator_process_info()
  *
  * @ingroup aggregator
  */
-function hook_aggregator_remove($feed)
-{
-    mymodule_remove_items($feed->fid);
+function hook_aggregator_remove($feed) {
+  mymodule_remove_items($feed->fid);
 }
 
 /**

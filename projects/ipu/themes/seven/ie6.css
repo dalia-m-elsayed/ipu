@@ -5,15 +5,13 @@ ul.links li,
 ul.links li a,
 .action-links,
 #page {
-    height: 1%;
+  height: 1%;
 }
-
 #block-system-main ul.admin-list li a {
-    height: 1px;
-    position: relative;
-    display: block;
+  height: 1px;
+  position: relative;
+  display: block;
 }
-
 #block-system-main ul.admin-list li div.description a {
-    display: inline;
+  display: inline;
 }

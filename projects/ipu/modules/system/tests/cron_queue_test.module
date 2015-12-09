@@ -3,29 +3,25 @@
 /**
  * Implements hook_cron_queue_info().
  */
-function cron_queue_test_cron_queue_info()
-{
-    $queues['cron_queue_test_exception'] = array(
-        'worker callback' => 'cron_queue_test_exception',
-    );
-    $queues['cron_queue_test_callback'] = array(
-        'worker callback' => array('CronQueueTestCallbackClass', 'foo'),
-    );
+function cron_queue_test_cron_queue_info() {
+  $queues['cron_queue_test_exception'] = array(
+    'worker callback' => 'cron_queue_test_exception',
+  );
+  $queues['cron_queue_test_callback'] = array(
+    'worker callback' => array('CronQueueTestCallbackClass', 'foo'),
+  );
 
-    return $queues;
+  return $queues;
 }
 
-function cron_queue_test_exception($item)
-{
-    throw new Exception('That is not supposed to happen.');
+function cron_queue_test_exception($item) {
+  throw new Exception('That is not supposed to happen.');
 }
 
-class CronQueueTestCallbackClass
-{
+class CronQueueTestCallbackClass {
 
-    static public function foo()
-    {
-        // Do nothing.
-    }
+  static public function foo() {
+    // Do nothing.
+  }
 
 }

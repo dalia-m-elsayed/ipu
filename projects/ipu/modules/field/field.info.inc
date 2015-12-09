@@ -11,25 +11,24 @@
  * @return FieldInfo
  *   An instance of the FieldInfo class.
  */
-function _field_info_field_cache()
-{
-    // Use the advanced drupal_static() pattern, since this is called very often.
-    static $drupal_static_fast;
+function _field_info_field_cache() {
+  // Use the advanced drupal_static() pattern, since this is called very often.
+  static $drupal_static_fast;
 
-    if (!isset($drupal_static_fast)) {
-        $drupal_static_fast['field_info_field_cache'] = &drupal_static(__FUNCTION__);
-    }
-    $field_info = &$drupal_static_fast['field_info_field_cache'];
+  if (!isset($drupal_static_fast)) {
+    $drupal_static_fast['field_info_field_cache'] = &drupal_static(__FUNCTION__);
+  }
+  $field_info = &$drupal_static_fast['field_info_field_cache'];
 
-    if (!isset($field_info)) {
-        // @todo The registry should save the need for an explicit include, but not
-        // a couple upgrade tests (DisabledNodeTypeTestCase,
-        // FilterFormatUpgradePathTestCase...) break in a strange way without it.
-        include_once dirname(__FILE__) . '/field.info.class.inc';
-        $field_info = new FieldInfo();
-    }
+  if (!isset($field_info)) {
+    // @todo The registry should save the need for an explicit include, but not
+    // a couple upgrade tests (DisabledNodeTypeTestCase,
+    // FilterFormatUpgradePathTestCase...) break in a strange way without it.
+    include_once dirname(__FILE__) . '/field.info.class.inc';
+    $field_info = new FieldInfo();
+  }
 
-    return $field_info;
+  return $field_info;
 }
 
 /**
@@ -52,17 +51,16 @@ function _field_info_field_cache()
  * need to remove the purged records, but no actual field data items
  * are affected.
  */
-function field_info_cache_clear()
-{
-    drupal_static_reset('field_view_mode_settings');
-    drupal_static_reset('field_available_languages');
+function field_info_cache_clear() {
+  drupal_static_reset('field_view_mode_settings');
+  drupal_static_reset('field_available_languages');
 
-    // @todo: Remove this when field_attach_*_bundle() bundle management
-    // functions are moved to the entity API.
-    entity_info_cache_clear();
+  // @todo: Remove this when field_attach_*_bundle() bundle management
+  // functions are moved to the entity API.
+  entity_info_cache_clear();
 
-    _field_info_collate_types(TRUE);
-    _field_info_field_cache()->flush();
+  _field_info_collate_types(TRUE);
+  _field_info_field_cache()->flush();
 }
 
 /**
@@ -75,38 +73,37 @@ function field_info_cache_clear()
  * Use the regular field_info_*() API functions to access the information, or
  * field_info_cache_clear() to clear the cached data.
  */
-function _field_info_collate_fields($reset = FALSE)
-{
-    if ($reset) {
-        _field_info_field_cache()->flush();
-        return;
+function _field_info_collate_fields($reset = FALSE) {
+  if ($reset) {
+    _field_info_field_cache()->flush();
+    return;
+  }
+
+  $cache = _field_info_field_cache();
+
+  // Collect fields, and build the array of IDs keyed by field_name.
+  $fields = $cache->getFields();
+  $field_ids = array();
+  foreach ($fields as $id => $field) {
+    if (!$field['deleted']) {
+      $field_ids[$field['field_name']] = $id;
     }
+  }
 
-    $cache = _field_info_field_cache();
-
-    // Collect fields, and build the array of IDs keyed by field_name.
-    $fields = $cache->getFields();
-    $field_ids = array();
-    foreach ($fields as $id => $field) {
-        if (!$field['deleted']) {
-            $field_ids[$field['field_name']] = $id;
-        }
+  // Collect extra fields for all entity types.
+  $extra_fields = array();
+  foreach (field_info_bundles() as $entity_type => $bundles) {
+    foreach ($bundles as $bundle => $info) {
+      $extra_fields[$entity_type][$bundle] = $cache->getBundleExtraFields($entity_type, $bundle);
     }
+  }
 
-    // Collect extra fields for all entity types.
-    $extra_fields = array();
-    foreach (field_info_bundles() as $entity_type => $bundles) {
-        foreach ($bundles as $bundle => $info) {
-            $extra_fields[$entity_type][$bundle] = $cache->getBundleExtraFields($entity_type, $bundle);
-        }
-    }
-
-    return array(
-        'fields' => $fields,
-        'field_ids' => $field_ids,
-        'instances' => $cache->getInstances(),
-        'extra_fields' => $extra_fields,
-    );
+  return array(
+    'fields' => $fields,
+    'field_ids' => $field_ids,
+    'instances' => $cache->getInstances(),
+    'extra_fields' => $extra_fields,
+  );
 }
 
 /**
@@ -141,100 +138,100 @@ function _field_info_collate_fields($reset = FALSE)
  *     revision key, bundle key, cacheable, and bundles from hook_entity_info(),
  *     as well as module, giving the module that exposes the entity type.
  */
-function _field_info_collate_types($reset = FALSE)
-{
-    global $language;
-    static $info;
+function _field_info_collate_types($reset = FALSE) {
+  global $language;
+  static $info;
 
-    // The _info() hooks invoked below include translated strings, so each
-    // language is cached separately.
-    $langcode = $language->language;
+  // The _info() hooks invoked below include translated strings, so each
+  // language is cached separately.
+  $langcode = $language->language;
 
-    if ($reset) {
-        $info = NULL;
-        // Clear all languages.
-        cache_clear_all('field_info_types:', 'cache_field', TRUE);
-        return;
+  if ($reset) {
+    $info = NULL;
+    // Clear all languages.
+    cache_clear_all('field_info_types:', 'cache_field', TRUE);
+    return;
+  }
+
+  if (!isset($info)) {
+    if ($cached = cache_get("field_info_types:$langcode", 'cache_field')) {
+      $info = $cached->data;
     }
+    else {
+      $info = array(
+        'field types' => array(),
+        'widget types' => array(),
+        'formatter types' => array(),
+        'storage types' => array(),
+      );
 
-    if (!isset($info)) {
-        if ($cached = cache_get("field_info_types:$langcode", 'cache_field')) {
-            $info = $cached->data;
-        } else {
-            $info = array(
-                'field types' => array(),
-                'widget types' => array(),
-                'formatter types' => array(),
-                'storage types' => array(),
-            );
-
-            // Populate field types.
-            foreach (module_implements('field_info') as $module) {
-                $field_types = (array)module_invoke($module, 'field_info');
-                foreach ($field_types as $name => $field_info) {
-                    // Provide defaults.
-                    $field_info += array(
-                        'settings' => array(),
-                        'instance_settings' => array(),
-                    );
-                    $info['field types'][$name] = $field_info;
-                    $info['field types'][$name]['module'] = $module;
-                }
-            }
-            drupal_alter('field_info', $info['field types']);
-
-            // Populate widget types.
-            foreach (module_implements('field_widget_info') as $module) {
-                $widget_types = (array)module_invoke($module, 'field_widget_info');
-                foreach ($widget_types as $name => $widget_info) {
-                    // Provide defaults.
-                    $widget_info += array(
-                        'settings' => array(),
-                    );
-                    $info['widget types'][$name] = $widget_info;
-                    $info['widget types'][$name]['module'] = $module;
-                }
-            }
-            drupal_alter('field_widget_info', $info['widget types']);
-            uasort($info['widget types'], 'drupal_sort_weight');
-
-            // Populate formatter types.
-            foreach (module_implements('field_formatter_info') as $module) {
-                $formatter_types = (array)module_invoke($module, 'field_formatter_info');
-                foreach ($formatter_types as $name => $formatter_info) {
-                    // Provide defaults.
-                    $formatter_info += array(
-                        'settings' => array(),
-                    );
-                    $info['formatter types'][$name] = $formatter_info;
-                    $info['formatter types'][$name]['module'] = $module;
-                }
-            }
-            drupal_alter('field_formatter_info', $info['formatter types']);
-
-            // Populate storage types.
-            foreach (module_implements('field_storage_info') as $module) {
-                $storage_types = (array)module_invoke($module, 'field_storage_info');
-                foreach ($storage_types as $name => $storage_info) {
-                    // Provide defaults.
-                    $storage_info += array(
-                        'settings' => array(),
-                    );
-                    $info['storage types'][$name] = $storage_info;
-                    $info['storage types'][$name]['module'] = $module;
-                }
-            }
-            drupal_alter('field_storage_info', $info['storage types']);
-
-            // Set the cache if we can acquire a lock.
-            if (lock_acquire("field_info_types:$langcode")) {
-                cache_set("field_info_types:$langcode", $info, 'cache_field');
-                lock_release("field_info_types:$langcode");
-            }
+      // Populate field types.
+      foreach (module_implements('field_info') as $module) {
+        $field_types = (array) module_invoke($module, 'field_info');
+        foreach ($field_types as $name => $field_info) {
+          // Provide defaults.
+          $field_info += array(
+            'settings' => array(),
+            'instance_settings' => array(),
+          );
+          $info['field types'][$name] = $field_info;
+          $info['field types'][$name]['module'] = $module;
         }
-    }
+      }
+      drupal_alter('field_info', $info['field types']);
 
-    return $info;
+      // Populate widget types.
+      foreach (module_implements('field_widget_info') as $module) {
+        $widget_types = (array) module_invoke($module, 'field_widget_info');
+        foreach ($widget_types as $name => $widget_info) {
+          // Provide defaults.
+          $widget_info += array(
+            'settings' => array(),
+          );
+          $info['widget types'][$name] = $widget_info;
+          $info['widget types'][$name]['module'] = $module;
+        }
+      }
+      drupal_alter('field_widget_info', $info['widget types']);
+      uasort($info['widget types'], 'drupal_sort_weight');
+
+      // Populate formatter types.
+      foreach (module_implements('field_formatter_info') as $module) {
+        $formatter_types = (array) module_invoke($module, 'field_formatter_info');
+        foreach ($formatter_types as $name => $formatter_info) {
+          // Provide defaults.
+          $formatter_info += array(
+            'settings' => array(),
+          );
+          $info['formatter types'][$name] = $formatter_info;
+          $info['formatter types'][$name]['module'] = $module;
+        }
+      }
+      drupal_alter('field_formatter_info', $info['formatter types']);
+
+      // Populate storage types.
+      foreach (module_implements('field_storage_info') as $module) {
+        $storage_types = (array) module_invoke($module, 'field_storage_info');
+        foreach ($storage_types as $name => $storage_info) {
+          // Provide defaults.
+          $storage_info += array(
+            'settings' => array(),
+          );
+          $info['storage types'][$name] = $storage_info;
+          $info['storage types'][$name]['module'] = $module;
+        }
+      }
+      drupal_alter('field_storage_info', $info['storage types']);
+
+      // Set the cache if we can acquire a lock.
+      if (lock_acquire("field_info_types:$langcode")) {
+        cache_set("field_info_types:$langcode", $info, 'cache_field');
+        lock_release("field_info_types:$langcode");
+      }
+    }
+  }
+
+  return $info;
 }
 
 /**
@@ -245,10 +242,9 @@ function _field_info_collate_types($reset = FALSE)
  *
  * @see FieldInfo::prepareField()
  */
-function _field_info_prepare_field($field)
-{
-    $cache = _field_info_field_cache();
-    return $cache->prepareField($field);
+function _field_info_prepare_field($field) {
+  $cache = _field_info_field_cache();
+  return $cache->prepareField($field);
 }
 
 /**
@@ -259,10 +255,9 @@ function _field_info_prepare_field($field)
  *
  * @see FieldInfo::prepareInstance()
  */
-function _field_info_prepare_instance($instance, $field)
-{
-    $cache = _field_info_field_cache();
-    return $cache->prepareInstance($instance, $field['type']);
+function _field_info_prepare_instance($instance, $field) {
+  $cache = _field_info_field_cache();
+  return $cache->prepareInstance($instance, $field['type']);
 }
 
 /**
@@ -273,10 +268,9 @@ function _field_info_prepare_instance($instance, $field)
  *
  * @see FieldInfo::prepareInstanceDisplay()
  */
-function _field_info_prepare_instance_display($field, $display)
-{
-    $cache = _field_info_field_cache();
-    return $cache->prepareInstanceDisplay($display, $field['type']);
+function _field_info_prepare_instance_display($field, $display) {
+  $cache = _field_info_field_cache();
+  return $cache->prepareInstanceDisplay($display, $field['type']);
 }
 
 /**
@@ -287,10 +281,9 @@ function _field_info_prepare_instance_display($field, $display)
  *
  * @see FieldInfo::prepareInstanceWidget()
  */
-function _field_info_prepare_instance_widget($field, $widget)
-{
-    $cache = _field_info_field_cache();
-    return $cache->prepareInstanceWidget($widget, $field['type']);
+function _field_info_prepare_instance_widget($field, $widget) {
+  $cache = _field_info_field_cache();
+  return $cache->prepareInstanceWidget($widget, $field['type']);
 }
 
 /**
@@ -301,10 +294,9 @@ function _field_info_prepare_instance_widget($field, $widget)
  *
  * @see FieldInfo::prepareExtraFields()
  */
-function _field_info_prepare_extra_fields($extra_fields, $entity_type, $bundle)
-{
-    $cache = _field_info_field_cache();
-    return $cache->prepareExtraFields($extra_fields, $entity_type, $bundle);
+function _field_info_prepare_extra_fields($extra_fields, $entity_type, $bundle) {
+  $cache = _field_info_field_cache();
+  return $cache->prepareExtraFields($extra_fields, $entity_type, $bundle);
 }
 
 /**
@@ -322,10 +314,9 @@ function _field_info_prepare_extra_fields($extra_fields, $entity_type, $bundle)
  *   - FIELD_BEHAVIOR_CUSTOM: Use the widget's callback function.
  *   - FIELD_BEHAVIOR_DEFAULT: Use field.module default behavior.
  */
-function field_behaviors_widget($op, $instance)
-{
-    $info = field_info_widget_types($instance['widget']['type']);
-    return isset($info['behaviors'][$op]) ? $info['behaviors'][$op] : FIELD_BEHAVIOR_DEFAULT;
+function field_behaviors_widget($op, $instance) {
+  $info = field_info_widget_types($instance['widget']['type']);
+  return isset($info['behaviors'][$op]) ? $info['behaviors'][$op] : FIELD_BEHAVIOR_DEFAULT;
 }
 
 /**
@@ -339,17 +330,17 @@ function field_behaviors_widget($op, $instance)
  *   Either a field type description, as provided by hook_field_info(), or an
  *   array of all existing field types, keyed by field type name.
  */
-function field_info_field_types($field_type = NULL)
-{
-    $info = _field_info_collate_types();
-    $field_types = $info['field types'];
-    if ($field_type) {
-        if (isset($field_types[$field_type])) {
-            return $field_types[$field_type];
-        }
-    } else {
-        return $field_types;
+function field_info_field_types($field_type = NULL) {
+  $info = _field_info_collate_types();
+  $field_types = $info['field types'];
+  if ($field_type) {
+    if (isset($field_types[$field_type])) {
+      return $field_types[$field_type];
     }
+  }
+  else {
+    return $field_types;
+  }
 }
 
 /**
@@ -364,17 +355,17 @@ function field_info_field_types($field_type = NULL)
  *   hook_field_widget_info(), or an array of all existing widget types, keyed
  *   by widget type name.
  */
-function field_info_widget_types($widget_type = NULL)
-{
-    $info = _field_info_collate_types();
-    $widget_types = $info['widget types'];
-    if ($widget_type) {
-        if (isset($widget_types[$widget_type])) {
-            return $widget_types[$widget_type];
-        }
-    } else {
-        return $widget_types;
+function field_info_widget_types($widget_type = NULL) {
+  $info = _field_info_collate_types();
+  $widget_types = $info['widget types'];
+  if ($widget_type) {
+    if (isset($widget_types[$widget_type])) {
+      return $widget_types[$widget_type];
     }
+  }
+  else {
+    return $widget_types;
+  }
 }
 
 /**
@@ -389,17 +380,17 @@ function field_info_widget_types($widget_type = NULL)
  *   hook_field_formatter_info(), or an array of all existing formatter types,
  *   keyed by formatter type name.
  */
-function field_info_formatter_types($formatter_type = NULL)
-{
-    $info = _field_info_collate_types();
-    $formatter_types = $info['formatter types'];
-    if ($formatter_type) {
-        if (isset($formatter_types[$formatter_type])) {
-            return $formatter_types[$formatter_type];
-        }
-    } else {
-        return $formatter_types;
+function field_info_formatter_types($formatter_type = NULL) {
+  $info = _field_info_collate_types();
+  $formatter_types = $info['formatter types'];
+  if ($formatter_type) {
+    if (isset($formatter_types[$formatter_type])) {
+      return $formatter_types[$formatter_type];
     }
+  }
+  else {
+    return $formatter_types;
+  }
 }
 
 /**
@@ -414,17 +405,17 @@ function field_info_formatter_types($formatter_type = NULL)
  *   hook_field_storage_info(), or an array of all existing storage types,
  *   keyed by storage type name.
  */
-function field_info_storage_types($storage_type = NULL)
-{
-    $info = _field_info_collate_types();
-    $storage_types = $info['storage types'];
-    if ($storage_type) {
-        if (isset($storage_types[$storage_type])) {
-            return $storage_types[$storage_type];
-        }
-    } else {
-        return $storage_types;
+function field_info_storage_types($storage_type = NULL) {
+  $info = _field_info_collate_types();
+  $storage_types = $info['storage types'];
+  if ($storage_type) {
+    if (isset($storage_types[$storage_type])) {
+      return $storage_types[$storage_type];
     }
+  }
+  else {
+    return $storage_types;
+  }
 }
 
 /**
@@ -438,19 +429,18 @@ function field_info_storage_types($storage_type = NULL)
  *   or, if no $entity_type was provided, the array of all existing bundles,
  *   keyed by entity type.
  */
-function field_info_bundles($entity_type = NULL)
-{
-    $info = entity_get_info();
+function field_info_bundles($entity_type = NULL) {
+  $info = entity_get_info();
 
-    if ($entity_type) {
-        return isset($info[$entity_type]['bundles']) ? $info[$entity_type]['bundles'] : array();
-    }
+  if ($entity_type) {
+    return isset($info[$entity_type]['bundles']) ? $info[$entity_type]['bundles'] : array();
+  }
 
-    $bundles = array();
-    foreach ($info as $type => $entity_info) {
-        $bundles[$type] = $entity_info['bundles'];
-    }
-    return $bundles;
+  $bundles = array();
+  foreach ($info as $type => $entity_info) {
+    $bundles[$type] = $entity_info['bundles'];
+  }
+  return $bundles;
 }
 
 /**
@@ -475,10 +465,9 @@ function field_info_bundles($entity_type = NULL)
  * );
  * @endcode
  */
-function field_info_field_map()
-{
-    $cache = _field_info_field_cache();
-    return $cache->getFieldMap();
+function field_info_field_map() {
+  $cache = _field_info_field_cache();
+  return $cache->getFieldMap();
 }
 
 /**
@@ -499,19 +488,18 @@ function field_info_field_map()
  *
  * @see field_info_field_map()
  */
-function field_info_fields()
-{
-    $cache = _field_info_field_cache();
-    $info = $cache->getFields();
+function field_info_fields() {
+  $cache = _field_info_field_cache();
+  $info = $cache->getFields();
 
-    $fields = array();
-    foreach ($info as $key => $field) {
-        if (!$field['deleted']) {
-            $fields[$field['field_name']] = $field;
-        }
+  $fields = array();
+  foreach ($info as $key => $field) {
+    if (!$field['deleted']) {
+      $fields[$field['field_name']] = $field;
     }
+  }
 
-    return $fields;
+  return $fields;
 }
 
 /**
@@ -531,10 +519,9 @@ function field_info_fields()
  *
  * @see field_info_field_by_id()
  */
-function field_info_field($field_name)
-{
-    $cache = _field_info_field_cache();
-    return $cache->getField($field_name);
+function field_info_field($field_name) {
+  $cache = _field_info_field_cache();
+  return $cache->getField($field_name);
 }
 
 /**
@@ -551,10 +538,9 @@ function field_info_field($field_name)
  *
  * @see field_info_field()
  */
-function field_info_field_by_id($field_id)
-{
-    $cache = _field_info_field_cache();
-    return $cache->getFieldById($field_id);
+function field_info_field_by_id($field_id) {
+  $cache = _field_info_field_cache();
+  return $cache->getFieldById($field_id);
 }
 
 /**
@@ -575,10 +561,9 @@ function field_info_field_by_id($field_id)
  * @see field_info_field()
  * @see field_info_field_by_id()
  */
-function field_info_field_by_ids()
-{
-    $cache = _field_info_field_cache();
-    return $cache->getFields();
+function field_info_field_by_ids() {
+  $cache = _field_info_field_cache();
+  return $cache->getFields();
 }
 
 /**
@@ -608,18 +593,17 @@ function field_info_field_by_ids()
  *
  * @see field_info_field_map()
  */
-function field_info_instances($entity_type = NULL, $bundle_name = NULL)
-{
-    $cache = _field_info_field_cache();
+function field_info_instances($entity_type = NULL, $bundle_name = NULL) {
+  $cache = _field_info_field_cache();
 
-    if (!isset($entity_type)) {
-        return $cache->getInstances();
-    }
-    if (!isset($bundle_name)) {
-        return $cache->getInstances($entity_type);
-    }
+  if (!isset($entity_type)) {
+    return $cache->getInstances();
+  }
+  if (!isset($bundle_name)) {
+    return $cache->getInstances($entity_type);
+  }
 
-    return $cache->getBundleInstances($entity_type, $bundle_name);
+  return $cache->getBundleInstances($entity_type, $bundle_name);
 }
 
 /**
@@ -640,13 +624,12 @@ function field_info_instances($entity_type = NULL, $bundle_name = NULL)
  *   An associative array of instance data for the specific field and bundle;
  *   NULL if the instance does not exist.
  */
-function field_info_instance($entity_type, $field_name, $bundle_name)
-{
-    $cache = _field_info_field_cache();
-    $info = $cache->getBundleInstances($entity_type, $bundle_name);
-    if (isset($info[$field_name])) {
-        return $info[$field_name];
-    }
+function field_info_instance($entity_type, $field_name, $bundle_name) {
+  $cache = _field_info_field_cache();
+  $info = $cache->getBundleInstances($entity_type, $bundle_name);
+  if (isset($info[$field_name])) {
+    return $info[$field_name];
+  }
 }
 
 /**
@@ -702,12 +685,11 @@ function field_info_instance($entity_type, $field_name, $bundle_name)
  * @return
  *   The array of pseudo-field elements in the bundle.
  */
-function field_info_extra_fields($entity_type, $bundle, $context)
-{
-    $cache = _field_info_field_cache();
-    $info = $cache->getBundleExtraFields($entity_type, $bundle);
+function field_info_extra_fields($entity_type, $bundle, $context) {
+  $cache = _field_info_field_cache();
+  $info = $cache->getBundleExtraFields($entity_type, $bundle);
 
-    return isset($info[$context]) ? $info[$context] : array();
+  return isset($info[$context]) ? $info[$context] : array();
 }
 
 /**
@@ -727,28 +709,28 @@ function field_info_extra_fields($entity_type, $bundle, $context)
  *   The maximum weight of the entity's components, or NULL if no components
  *   were found.
  */
-function field_info_max_weight($entity_type, $bundle, $context)
-{
-    $weights = array();
+function field_info_max_weight($entity_type, $bundle, $context) {
+  $weights = array();
 
-    // Collect weights for fields.
-    foreach (field_info_instances($entity_type, $bundle) as $instance) {
-        if ($context == 'form') {
-            $weights[] = $instance['widget']['weight'];
-        } elseif (isset($instance['display'][$context]['weight'])) {
-            $weights[] = $instance['display'][$context]['weight'];
-        }
+  // Collect weights for fields.
+  foreach (field_info_instances($entity_type, $bundle) as $instance) {
+    if ($context == 'form') {
+      $weights[] = $instance['widget']['weight'];
     }
-    // Collect weights for extra fields.
-    foreach (field_info_extra_fields($entity_type, $bundle, $context) as $extra) {
-        $weights[] = $extra['weight'];
+    elseif (isset($instance['display'][$context]['weight'])) {
+      $weights[] = $instance['display'][$context]['weight'];
     }
+  }
+  // Collect weights for extra fields.
+  foreach (field_info_extra_fields($entity_type, $bundle, $context) as $extra) {
+    $weights[] = $extra['weight'];
+  }
 
-    // Let other modules feedback about their own additions.
-    $weights = array_merge($weights, module_invoke_all('field_info_max_weight', $entity_type, $bundle, $context));
-    $max_weight = $weights ? max($weights) : NULL;
+  // Let other modules feedback about their own additions.
+  $weights = array_merge($weights, module_invoke_all('field_info_max_weight', $entity_type, $bundle, $context));
+  $max_weight = $weights ? max($weights) : NULL;
 
-    return $max_weight;
+  return $max_weight;
 }
 
 /**
@@ -761,10 +743,9 @@ function field_info_max_weight($entity_type, $bundle, $context)
  *   The field type's default settings, as provided by hook_field_info(), or an
  *   empty array if type or settings are not defined.
  */
-function field_info_field_settings($type)
-{
-    $info = field_info_field_types($type);
-    return isset($info['settings']) ? $info['settings'] : array();
+function field_info_field_settings($type) {
+  $info = field_info_field_types($type);
+  return isset($info['settings']) ? $info['settings'] : array();
 }
 
 /**
@@ -777,10 +758,9 @@ function field_info_field_settings($type)
  *   The field type's default instance settings, as provided by
  *   hook_field_info(), or an empty array if type or settings are not defined.
  */
-function field_info_instance_settings($type)
-{
-    $info = field_info_field_types($type);
-    return isset($info['instance_settings']) ? $info['instance_settings'] : array();
+function field_info_instance_settings($type) {
+  $info = field_info_field_types($type);
+  return isset($info['instance_settings']) ? $info['instance_settings'] : array();
 }
 
 /**
@@ -794,10 +774,9 @@ function field_info_instance_settings($type)
  *   hook_field_widget_info(), or an empty array if type or settings are
  *   undefined.
  */
-function field_info_widget_settings($type)
-{
-    $info = field_info_widget_types($type);
-    return isset($info['settings']) ? $info['settings'] : array();
+function field_info_widget_settings($type) {
+  $info = field_info_widget_types($type);
+  return isset($info['settings']) ? $info['settings'] : array();
 }
 
 /**
@@ -811,10 +790,9 @@ function field_info_widget_settings($type)
  *   hook_field_formatter_info(), or an empty array if type or settings are
  *   undefined.
  */
-function field_info_formatter_settings($type)
-{
-    $info = field_info_formatter_types($type);
-    return isset($info['settings']) ? $info['settings'] : array();
+function field_info_formatter_settings($type) {
+  $info = field_info_formatter_types($type);
+  return isset($info['settings']) ? $info['settings'] : array();
 }
 
 /**
@@ -828,10 +806,9 @@ function field_info_formatter_settings($type)
  *   hook_field_storage_info(), or an empty array if type or settings are
  *   undefined.
  */
-function field_info_storage_settings($type)
-{
-    $info = field_info_storage_types($type);
-    return isset($info['settings']) ? $info['settings'] : array();
+function field_info_storage_settings($type) {
+  $info = field_info_storage_types($type);
+  return isset($info['settings']) ? $info['settings'] : array();
 }
 
 /**
