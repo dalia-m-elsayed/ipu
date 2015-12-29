@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Theme settings file for the omega-ipu theme.
+ * Theme settings file for the Omega IPU theme.
  */
 
 require_once dirname(__FILE__) . '/template.php';

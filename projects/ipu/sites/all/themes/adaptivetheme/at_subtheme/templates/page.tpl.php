@@ -148,6 +148,12 @@
         <?php print render($page['secondary_content']); ?>
 
         <div id="columns" class="columns clearfix">
+
+            <!-- !Sidebar Regions -->
+            <?php $sidebar_first = render($page['sidebar_first']); print $sidebar_first; ?>
+            <?php $sidebar_second = render($page['sidebar_second']); print $sidebar_second; ?>
+
+
             <main id="content-column" class="content-column" role="main">
                 <div class="content-inner">
 
@@ -209,9 +215,7 @@
         </div><!-- /end .content-inner -->
         </main><!-- /end #content-column -->
 
-        <!-- !Sidebar Regions -->
-        <?php $sidebar_first = render($page['sidebar_first']); print $sidebar_first; ?>
-        <?php $sidebar_second = render($page['sidebar_second']); print $sidebar_second; ?>
+
 
     </div><!-- /end #columns -->
 
