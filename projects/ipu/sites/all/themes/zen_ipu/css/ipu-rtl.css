@@ -1,0 +1,41 @@
+/**
+ * @file
+ * RTL companion for the ipu.css file.
+ */
+
+/* Custom IPU rtl styles */
+
+.region-sidebar-first{
+    border-right: 0px solid #dedede;
+    border-left: 1px solid #dedede;
+    padding-right: 0px;
+    padding-left: 0px;
+}
+
+.region-sidebar-first #block-system-main-menu ul.menu li a{
+    padding-left: 0px;
+    padding-right: 10px;
+}
+
+.region-sidebar-first #block-system-main-menu ul.menu li.is-expanded ul.menu{
+    padding-left: 0px;
+    padding-right: 20px;
+}
+
+.region-sidebar-first #block-locale-language-content{
+    float: right;
+}
+
+.region-sidebar-first #block-locale-language-content ul li a{
+    margin-right: 0px;
+    margin-left: 5px;
+}
+
+#footer .block{
+    float: right;
+}
+
+#footer .ipu-contact{
+    padding-left: 50px;
+    padding-right: 0px;
+}

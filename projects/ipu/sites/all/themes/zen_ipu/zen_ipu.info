@@ -46,6 +46,8 @@ base theme  = zen
 
 ; First we remove the system's menu and message styling since Zen has its own.
 stylesheets[all][] = system.menus.css
+stylesheets[all][] = system.menus-rtl.css
+
 stylesheets[all][] = system.messages.css
 stylesheets[all][] = system.theme.css
 
