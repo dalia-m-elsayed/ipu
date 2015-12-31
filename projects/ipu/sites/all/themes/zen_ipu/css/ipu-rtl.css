@@ -31,6 +31,10 @@
     margin-left: 5px;
 }
 
+.region-sidebar-first .newsletter-subscription .form-item .form-text{
+    background-position: right;
+}
+
 #footer .block{
     float: right;
 }

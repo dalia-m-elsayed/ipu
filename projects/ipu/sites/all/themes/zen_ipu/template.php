@@ -133,8 +133,20 @@ function zen_ipu_preprocess_block(&$variables, $hook) {
 
 // hiding search form button
 function zen_ipu_form_alter(&$form, &$form_state, $form_id) {
+
     if ($form_id == 'search_block_form') {
+        //hide submit btn
         $form['actions']['#attributes']['class'][] = 'element-invisible';
+        //add placeholder
         $form['search_block_form']['#attributes']['placeholder'] = t('SEARCH');
+    }
+
+    if ($form_id == 'mailchimp_signup_subscribe_block_newsletter_subscription_form') {
+        //add placeholder
+        $form['mergevars']['EMAIL']['#attributes']['placeholder'] = t('type your email');
+        //hide field label
+        $form['mergevars']['EMAIL']['#title_display'] =  'invisible';
+        //hide submit btn
+//        $form['actions']['submit']['#attributes']['class'][] = 'element-invisible';
     }
 }
