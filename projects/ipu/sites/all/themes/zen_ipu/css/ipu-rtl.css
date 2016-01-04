@@ -5,6 +5,21 @@
 
 /* Custom IPU rtl styles */
 
+
+#homepage table tbody tr td{
+    padding-left: 20px;
+    padding-right: 0px;
+}
+
+#homepage .views-field-field-date{
+    background-image: url("../images/calendar.png");
+    background-repeat:no-repeat ;
+    padding-right: 40px;
+    padding-left: 0px;
+    background-position: right;
+}
+
+
 .region-sidebar-first{
     border-right: 0px solid #dedede;
     border-left: 1px solid #dedede;

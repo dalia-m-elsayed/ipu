@@ -2,7 +2,6 @@
 
 body{
     font-family: Calibri, Candara, Segoe, 'Segoe UI', Optima, Arial, sans-serif;
-    font-size: 24px;
     font-style: normal;
     font-variant: normal;
     font-weight: 100;
@@ -14,6 +13,88 @@ li{
 
 #main{
     padding-top: 0px;
+}
+
+#homepage h2{
+    font-size: 39px;
+    color: #1493a6;
+    line-height: 39px;
+    margin: 0px;
+    margin-bottom: 10px;
+    font-weight: 100;
+}
+
+#homepage table tbody tr td{
+    width: 25%;
+    vertical-align: top;
+    padding-right: 20px;
+}
+
+#homepage .views-field-title a{
+    font-size: 20px;
+    color: #4d4d4d;
+    margin-top: 15px;
+    text-decoration: none;
+}
+
+#homepage .views-field-title a:hover{
+    color: #1493a6;
+}
+
+#homepage .views-field-title a:after{
+    content: ' ››';
+}
+
+#homepage .views-field-field-image{
+    height:140px;
+    margin-bottom: 10px;
+}
+
+#homepage .views-field-field-location{
+    height:140px;
+    margin-bottom: 10px;
+}
+
+#homepage .views-field-field-youtube{
+    float: left;
+    margin-right: 20px;
+}
+
+#homepage .views-field-field-type{
+    font-size: 20px;
+    color: #1493a6;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+}
+
+#homepage .views-field-field-theme{
+    font-size: 20px;
+    color: #1493a6;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+}
+
+#homepage .featured-content-hp .event .views-label-field-date{
+    font-size: 20px;
+    color: #1493a6;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+}
+
+#homepage .views-field-created{
+    font-size: 15px;
+}
+
+#homepage .views-field-field-date .field-content{
+    text-transform: uppercase;
+    background-image: url("../images/calendar.png");
+    background-repeat:no-repeat ;
+    padding-left: 40px;
+    margin-bottom: 5px;
+}
+
+#homepage .twitter-president h2{
+    visibility: hidden;
 }
 
 .region-sidebar-first{
@@ -122,13 +203,13 @@ li{
 .region-sidebar-first .social-media{
     background-color: #19bad3;
     margin-bottom: 0px;
+    text-align: center;
 }
 
-.region-sidebar-first .social-media .widgets-style-horizontal{
-    display: table;
-    margin:0 auto;
-    padding: 3px;
-    padding-bottom: 0px;
+.region-sidebar-first .social-media span{
+    display: inline-block;
+    margin: 5px;
+    margin-top: 10px;
 }
 
 .region-sidebar-first .newsletter-subscription{

@@ -29,10 +29,16 @@
   <?php endif; ?>
   <?php if (! empty($block_settings['full_nodes'])): ?>
     <div class="featured-content-block-content">
-      <?php $node_views = $block_settings['full_nodes']; ?>
-      <?php foreach ($node_views as $node_view): ?>
-      <?php print $node_view; ?><br/>
-      <?php endforeach; ?>
+        <table>
+            <tr>
+                  <?php $node_views = $block_settings['full_nodes'];?>
+                  <?php foreach ($node_views as $node_view): ?>
+                  <td>
+                    <?php print $node_view; ?>
+                  </td>
+                  <?php endforeach; ?>
+            </tr>
+      </table>
     </div>
   <?php elseif (! empty($block_settings['links'])): ?>
     <?php if (! isset($block_settings['style']) || $block_settings['style'] == 'div'): ?>

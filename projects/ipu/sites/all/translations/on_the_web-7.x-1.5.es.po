@@ -1,0 +1,28 @@
+# Spanish translation of Social media presence On The Web (7.x-1.5)
+# Copyright (c) 2015 by the Spanish translation team
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Social media presence On The Web (7.x-1.5)\n"
+"POT-Creation-Date: 2015-02-15 09:35+0000\n"
+"PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
+"Language-Team: Spanish\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+
+msgid "Submit"
+msgstr "Enviar"
+msgid "Weight"
+msgstr "Peso"
+msgid "Icon"
+msgstr "Icono"
+msgid "URL"
+msgstr "URL"
+msgid "Icons"
+msgstr "Iconos"
+msgid "Automatic"
+msgstr "Automático"
+msgid "Icon size"
+msgstr "Tamaño de icono"

@@ -375,6 +375,7 @@ function featured_content_block_view($delta, $type = NULL) {
             else {
               $full_node = node_load($node->nid);
             }
+
             // Display selected view mode.
             $node_view = node_view($full_node, $view_mode);
             $full_nodes[] = drupal_render($node_view);

@@ -1,0 +1,26 @@
+# French translation of Social media presence On The Web (7.x-1.5)
+# Copyright (c) 2015 by the French translation team
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Social media presence On The Web (7.x-1.5)\n"
+"POT-Creation-Date: 2015-02-15 09:34+0000\n"
+"PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
+"Language-Team: French\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n>1);\n"
+
+msgid "Submit"
+msgstr "Soumettre"
+msgid "Weight"
+msgstr "Poids"
+msgid "Icon"
+msgstr "Icône"
+msgid "URL"
+msgstr "URL"
+msgid "Icons"
+msgstr "Icônes"
+msgid "Automatic"
+msgstr "Automatique"
