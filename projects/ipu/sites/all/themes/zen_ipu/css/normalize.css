@@ -192,7 +192,8 @@ a:hover {
 /* Set 1 unit of vertical rhythm on the top and bottom margin. */
 p,
 pre {
-  margin: 1.5em 0;
+  margin-bottom: 1.5em;
+  margin-top: 0px;
 }
 blockquote {
   /* Also indent the quote on both sides. */

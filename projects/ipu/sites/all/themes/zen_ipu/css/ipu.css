@@ -11,6 +11,10 @@ li{
     list-style: none;
 }
 
+#content {
+    margin-top: 20px;
+}
+
 #main{
     padding-top: 0px;
 }
@@ -19,8 +23,7 @@ li{
     font-size: 39px;
     color: #1493a6;
     line-height: 39px;
-    margin: 0px;
-    margin-bottom: 10px;
+    margin: 0px 0px 10px 0px;
     font-weight: 100;
 }
 
@@ -28,6 +31,60 @@ li{
     width: 25%;
     vertical-align: top;
     padding-right: 20px;
+    border: 1px solid red;
+}
+
+#homepage .content-item{
+    width: 25%;
+    vertical-align: top;
+    padding-right: 20px;
+    border: 1px solid red;
+    float: left;
+    box-sizing: border-box;
+}
+
+@media all and (min-width: 480px) and (max-width: 959px) {
+    #homepage .content-item{
+        width: 50%;
+    }
+    
+    #homepage .content-item.views-row-odd{
+        clear: left;
+    }
+}
+
+#homepage .more-link{
+    float: right;
+    clear: both;
+    width: 100%;
+    margin-top: 10px;
+}
+
+#homepage .more-link a{
+    width: 25%;
+    height: 33px;
+    line-height: 33px;
+    background-color: #2093a4;
+    color: #feffff;
+    font-size: 18px;
+    display: block;
+    text-align: center;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-size: 18px;
+    float: right;
+}
+
+#homepage .more-link a{
+    content: ' ››';
+}
+
+#homepage .more-link a:hover{
+    background-color: #033754;
+}
+
+#homepage .views-field img:hover{
+    opacity: 0.8;
 }
 
 #homepage .views-field-title a{
@@ -46,7 +103,7 @@ li{
 }
 
 #homepage .views-field-field-image{
-    height:140px;
+    height:180px;
     margin-bottom: 10px;
 }
 
@@ -60,14 +117,7 @@ li{
     margin-right: 20px;
 }
 
-#homepage .views-field-field-type{
-    font-size: 20px;
-    color: #1493a6;
-    text-transform: uppercase;
-    margin-bottom: 10px;
-}
-
-#homepage .views-field-field-theme{
+#homepage .views-field-field-type, #homepage .views-field-field-theme, #homepage .views-field-field-event-type, #homepage .views-field-field-publication-type{
     font-size: 20px;
     color: #1493a6;
     text-transform: uppercase;
@@ -95,6 +145,10 @@ li{
 
 #homepage .twitter-president h2{
     visibility: hidden;
+}
+
+#homepage blockquote.image-field-caption{
+    display: none;
 }
 
 .region-sidebar-first{
@@ -127,18 +181,6 @@ li{
     margin-bottom: 0px;
 }
 
-.navigation .menu a{
-    color: white;
-}
-
-.navigation .menu a.active, .navigation  .menu a:hover{
-    color: #00466e;
-}
-
-.navigation .menu li.is-expanded .menu a.active, .navigation  .menu li.is-expanded .menu a:hover{
-    color: #00a8b4;
-}
-
 .navigation .menu{
     margin:0px;
     padding: 0px;
@@ -150,18 +192,39 @@ li{
 }
 
 .navigation .menu li a{
+    color: white;
     text-decoration: none;
     padding-left: 10px;
-    display: inline-block;
+    display: block;
     padding-top: 10px;
     padding-bottom: 10px;
-    width: 90%;
+}
+
+.navigation .menu li a.active, .navigation  .menu li a:hover{
+    color: #00466e;
+    /*background-color: #19bad3;*/
+}
+
+.navigation .menu li.is-expanded .menu a.active, .navigation  .menu li.is-expanded .menu a:hover{
+    color: #00466e;
 }
 
 .navigation .menu li.is-expanded .menu{
     background: #00466e;
     border-top: 5px solid #0066a1;
+}
+
+
+.navigation .menu li.is-expanded .menu li a{
     padding-left: 20px;
+}
+
+.navigation .menu li.is-expanded .menu li a.active, .navigation .menu li.is-expanded .menu li a:hover{
+    color: #00a8b4;
+}
+
+.navigation .menu li.is-expanded .menu li .menu li a{
+    padding-left: 40px;
 }
 
 .region-sidebar-first #block-locale-language-content{
@@ -200,8 +263,40 @@ li{
     padding-right: 5px;
 }
 
+.region-sidebar-first .block-text-resize a{
+    float: right;
+    margin-top: 9px;
+    margin-right: 5px;
+    color: #ffffff;
+    font-weight: bold;
+    font-size: 18px !important;
+    color: #fff;
+    cursor: pointer;
+    line-height: 30px;
+    text-decoration: none;
+    outline: none;
+}
+
+.region-sidebar-first .block-text-resize a:hover{
+    color: #8ee6e1;
+}
+
+.region-sidebar-first .block-text-resize a#text_resize_decrease{
+    font-size: 14px !important;
+    margin-top: 12px;
+}
+
+.region-sidebar-first .block-text-resize a#text_resize_reset{
+    margin-top: 10px;
+
+}
+
+.region-sidebar-first .block-text-resize a#text_resize_increase{
+    font-size: 23px !important;
+}
+
 .region-sidebar-first .social-media{
-    background-color: #19bad3;
+    background-color: #0E5277;
     margin-bottom: 0px;
     text-align: center;
 }
@@ -213,7 +308,7 @@ li{
 }
 
 .region-sidebar-first .newsletter-subscription{
-    background-color: #19bad3;
+    background-color: #0E5277;
     margin-bottom: 0px;
 }
 
@@ -223,14 +318,13 @@ li{
 }
 
 .region-sidebar-first .newsletter-subscription .form-item .form-text{
-    border: 1px solid #033754;
+    border: none;
     padding-top: 5px;
     padding-bottom: 5px;
     text-align: center;
     background-image: url("../images/newsletter.png");
-    background-position: left;
+    background-position: 5px;
     background-repeat:no-repeat ;
-    background-size: contain;
 }
 
 .region-sidebar-first .newsletter-subscription .form-actions {
@@ -239,10 +333,10 @@ li{
 }
 
 .region-sidebar-first .newsletter-subscription .form-actions .form-submit{
-    border: 1px solid #033754;
+    border: none;
     padding-top: 5px;
     padding-bottom: 5px;
-    background-color: #033754;
+    background-color: #1493a6;
     color: white;
     width:100%;
     margin-bottom: 10px;
@@ -257,12 +351,14 @@ li{
 .responsive-menus .responsive-menus-simple{
     background-color: #1493a6 !important;
     margin-bottom: 0px !important;
+    box-shadow: none !important;
 }
 
 #footer{
     border-top: 1px solid #1493a6;
     margin-top: 10px;
     padding-top: 20px;
+    background-color: #E3E6E8;
 }
 
 #footer a{
@@ -297,4 +393,53 @@ li{
 }
 
 #footer .ipu-contact{
+}
+
+#page-title{
+    font-size: 30px;
+    color: #1493a6;
+    line-height: 39px;
+    margin: 0px;
+    margin-bottom: 10px;
+    font-weight: 100;
+}
+
+#content article .field-name-field-image{
+    clear: right;
+}
+#content article .field-name-field-image .field-items{
+    float: right;
+    padding-bottom: 10px;
+    position: relative;
+}
+#content article .field-name-field-image .field-items blockquote.image-field-caption{
+    margin: 0px;
+    position: absolute;
+    bottom: 17px;
+    width: 100%;
+    color: #ffffff;
+    padding: 5px;
+    box-sizing: border-box;
+    background-color: rgba(72, 72, 72, 0.7);
+}
+
+#content article .field-name-field-image .field-items blockquote.image-field-caption p{
+    margin: 0px;
+}
+
+#content article .field-name-field-location{
+    float: right;
+    padding-left: 10px;
+    padding-bottom: 10px;
+}
+
+#content article .field-name-field-share{
+    float: right;
+}
+
+#content .field-name-field-share .addthis_button_email .at-icon-wrapper{
+    background-color: #1493a6 !important;
+}
+#content .field-name-field-share .addthis_button_print .at-icon-wrapper{
+    background-color: #0E5277 !important;
 }
